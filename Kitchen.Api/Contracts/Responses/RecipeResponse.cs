@@ -1,9 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿namespace Kitchen.Api.Contracts.Responses;
 
-namespace Kitchen.Entities;
-
-[Table(nameof(Recipe))]
-public class Recipe
+public class RecipeResponse
 {
     public Guid Id { get; set; }
     public string Title { get; set; } = string.Empty;
@@ -16,5 +13,4 @@ public class Recipe
     public ICollection<PreparationStep> PreparationSteps { get; set; }
 
     public ICollection<IngredientRecipe> IngredientRecipes { get; set; }
-
 }

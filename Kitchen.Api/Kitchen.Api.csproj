@@ -17,10 +17,10 @@
 
   <ItemGroup>
     <Folder Include="Contracts\Requests\" />
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Kitchen.Core\Kitchen.Core.csproj" />
     <ProjectReference Include="..\Kitchen.Dal\Kitchen.Dal.csproj" />
   </ItemGroup>
 

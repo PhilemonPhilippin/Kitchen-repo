@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Kitchen.Dal\Kitchen.Dal.csproj" />
+  </ItemGroup>
+
 </Project>

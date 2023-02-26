@@ -4,6 +4,7 @@ using Kitchen.Dal.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kitchen.Dal.Migrations
 {
     [DbContext(typeof(KitchenContext))]
-    partial class KitchenContextModelSnapshot : ModelSnapshot
+    [Migration("20230226150740_NavigationPropertiesAdded")]
+    partial class NavigationPropertiesAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,84 +223,84 @@ namespace Kitchen.Dal.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("17894226-3453-4f7b-8595-7a1f8a4705b9"),
+                            Id = new Guid("b516d79d-687f-4066-9916-4110002452db"),
                             RecipeId = new Guid("00000000-0000-0000-0001-000000000000"),
                             Step = "Cook the eggs",
                             Title = "Cook eggs"
                         },
                         new
                         {
-                            Id = new Guid("b68a6568-638e-4c94-bf1f-3ba5c8bada37"),
+                            Id = new Guid("83b3dfc8-748e-4bc4-a076-1a9d92447a64"),
                             RecipeId = new Guid("00000000-0000-0000-0001-000000000000"),
                             Step = "Cook the bacon",
                             Title = "Cook bacon"
                         },
                         new
                         {
-                            Id = new Guid("ee56ba65-d6d2-4cd6-8ea2-440279e96aef"),
+                            Id = new Guid("91b2f40f-deb7-45e3-b349-aa47d9b25286"),
                             RecipeId = new Guid("00000000-0000-0000-0001-000000000000"),
                             Step = "Fry the bread",
                             Title = "Fry bread"
                         },
                         new
                         {
-                            Id = new Guid("24115123-84ac-4fe2-8ad6-445f00dc5c18"),
+                            Id = new Guid("0722f65b-9dc0-470f-9afb-c63123b2bb7d"),
                             RecipeId = new Guid("00000000-0000-0000-0002-000000000000"),
                             Step = "Cook the guanciale",
                             Title = "Cook guanciale"
                         },
                         new
                         {
-                            Id = new Guid("97372c90-7480-42aa-93b0-e129e85870a6"),
+                            Id = new Guid("a187d36d-3f26-4313-8b83-58266f91a787"),
                             RecipeId = new Guid("00000000-0000-0000-0002-000000000000"),
                             Step = "Cook the spaghetti",
                             Title = "Cook spaghetti"
                         },
                         new
                         {
-                            Id = new Guid("4168f5ba-6759-4e42-b8b6-f9faa3216573"),
+                            Id = new Guid("c11fa21c-eef8-482a-932d-60172151bf62"),
                             RecipeId = new Guid("00000000-0000-0000-0003-000000000000"),
                             Step = "Fry the bacon",
                             Title = "Fry bacon"
                         },
                         new
                         {
-                            Id = new Guid("74bcfb3d-f016-4317-909e-6300cc8da44d"),
+                            Id = new Guid("dea0707e-aa8e-4b89-ab4f-9b5360f1a2e4"),
                             RecipeId = new Guid("00000000-0000-0000-0003-000000000000"),
                             Step = "Cook the eggs",
                             Title = "Cook eggs"
                         },
                         new
                         {
-                            Id = new Guid("7c034664-9ed3-44c3-a3c6-4de1824bf6d9"),
+                            Id = new Guid("f30bf39b-fd76-43a9-b7a5-de6f31512490"),
                             RecipeId = new Guid("00000000-0000-0000-0004-000000000000"),
                             Step = "Cook the beef and the bacon",
                             Title = "Cook beef and bacon"
                         },
                         new
                         {
-                            Id = new Guid("7484bd7b-2ea1-47d4-aa2f-f64cffcc752e"),
+                            Id = new Guid("1ad399bd-1a39-40c8-a136-68852b575c3c"),
                             RecipeId = new Guid("00000000-0000-0000-0004-000000000000"),
                             Step = "Cook the spaghetti",
                             Title = "Cook spaghetti"
                         },
                         new
                         {
-                            Id = new Guid("bfd9fef8-ca01-4211-abb5-ed51bc771420"),
+                            Id = new Guid("c13aa542-b531-43d8-acd6-5965003ebfac"),
                             RecipeId = new Guid("00000000-0000-0000-0005-000000000000"),
                             Step = "Prepare the bolognese",
                             Title = "Prepare bolognese"
                         },
                         new
                         {
-                            Id = new Guid("8fe5eff8-5206-43ba-938c-9c6778e93f5a"),
+                            Id = new Guid("ea62ff61-ba4a-4f8e-804a-ff1c0b428d9f"),
                             RecipeId = new Guid("00000000-0000-0000-0005-000000000000"),
                             Step = "Prepare the bechamel",
                             Title = "Prepare bechamel"
                         },
                         new
                         {
-                            Id = new Guid("82682061-4d5d-4a81-af3d-4ad692b3692b"),
+                            Id = new Guid("fd567ddf-8bee-41fb-bec2-aa06b1e1a296"),
                             RecipeId = new Guid("00000000-0000-0000-0005-000000000000"),
                             Step = "Prepare the lasagna and place it in the oven.",
                             Title = "Prepare lasagna"
@@ -309,9 +312,6 @@ namespace Kitchen.Dal.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -333,7 +333,6 @@ namespace Kitchen.Dal.Migrations
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0001-000000000000"),
-                            CreatedOn = new DateTime(2023, 2, 26, 15, 28, 31, 203, DateTimeKind.Utc).AddTicks(9466),
                             Description = "Sometimes also called a 'fry-up', the full English breakfast consists of fried eggs, sausages, back bacon, tomatoes, mushrooms, fried bread and often a slice of white or black pudding (similar to bloodwurst). It is accompanied by tea or coffee and hot, buttered toast.",
                             RecipeCategoryId = new Guid("00000000-0000-0000-0000-000000000001"),
                             Title = "English breakfast"
@@ -341,7 +340,6 @@ namespace Kitchen.Dal.Migrations
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0002-000000000000"),
-                            CreatedOn = new DateTime(2023, 2, 26, 15, 28, 31, 203, DateTimeKind.Utc).AddTicks(9469),
                             Description = "Spaghetti alla carbonara is an Italian pasta dish made with eggs, pecorino romano, guanciale and black pepper.",
                             RecipeCategoryId = new Guid("00000000-0000-0000-0000-000000000002"),
                             Title = "Spaghetti carbonara"
@@ -349,7 +347,6 @@ namespace Kitchen.Dal.Migrations
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0003-000000000000"),
-                            CreatedOn = new DateTime(2023, 2, 26, 15, 28, 31, 203, DateTimeKind.Utc).AddTicks(9472),
                             Description = "A club sandwich, also called a clubhouse sandwich, is a sandwich consisting of bread (traditionally toasted), sliced cooked poultry, fried bacon, lettuce, tomato, and mayonnaise. It is often cut into quarters or halves and held together by cocktail sticks.",
                             RecipeCategoryId = new Guid("00000000-0000-0000-0000-000000000002"),
                             Title = "Club sandwich"
@@ -357,7 +354,6 @@ namespace Kitchen.Dal.Migrations
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0004-000000000000"),
-                            CreatedOn = new DateTime(2023, 2, 26, 15, 28, 31, 203, DateTimeKind.Utc).AddTicks(9475),
                             Description = "Spaghetti bolognese consists of spaghetti (long strings of pasta) with an Italian ragù (meat sauce) made with minced beef, bacon and tomatoes, served with Parmesan cheese. Spaghetti bolognese is one of the most popular pasta dishes eaten outside of Italy.",
                             RecipeCategoryId = new Guid("00000000-0000-0000-0000-000000000003"),
                             Title = "Spaghetti bolognese"
@@ -365,7 +361,6 @@ namespace Kitchen.Dal.Migrations
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0005-000000000000"),
-                            CreatedOn = new DateTime(2023, 2, 26, 15, 28, 31, 203, DateTimeKind.Utc).AddTicks(9478),
                             Description = "Lasagna Bolognese includes only fresh egg pasta, Bolognese ragù (slow-cooked meat sauce), creamy béchamel (white sauce) and plenty of grated Parmigiano cheese. The result is a melt in your mouth, creamy, decadent, and satisfying lasagna that is distinct to Italy.",
                             RecipeCategoryId = new Guid("00000000-0000-0000-0000-000000000003"),
                             Title = "Lasagna bolognese"

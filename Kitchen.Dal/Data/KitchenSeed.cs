@@ -36,35 +36,40 @@ public static class KitchenSeed
                     Id = new Guid("00000000-0000-0000-0001-000000000000"),
                     Title = "English breakfast",
                     Description = "Sometimes also called a 'fry-up', the full English breakfast consists of fried eggs, sausages, back bacon, tomatoes, mushrooms, fried bread and often a slice of white or black pudding (similar to bloodwurst). It is accompanied by tea or coffee and hot, buttered toast.",
-                    RecipeCategoryId = new Guid("00000000-0000-0000-0000-000000000001")
+                    RecipeCategoryId = new Guid("00000000-0000-0000-0000-000000000001"),
+                    CreatedOn = DateTime.UtcNow
                 },
                 new Recipe()
                 {
                     Id = new Guid("00000000-0000-0000-0002-000000000000"),
                     Title = "Spaghetti carbonara",
                     Description = "Spaghetti alla carbonara is an Italian pasta dish made with eggs, pecorino romano, guanciale and black pepper.",
-                    RecipeCategoryId = new Guid("00000000-0000-0000-0000-000000000002")
+                    RecipeCategoryId = new Guid("00000000-0000-0000-0000-000000000002"),
+                    CreatedOn = DateTime.UtcNow
                 },
                 new Recipe()
                 {
                     Id = new Guid("00000000-0000-0000-0003-000000000000"),
                     Title = "Club sandwich",
                     Description = "A club sandwich, also called a clubhouse sandwich, is a sandwich consisting of bread (traditionally toasted), sliced cooked poultry, fried bacon, lettuce, tomato, and mayonnaise. It is often cut into quarters or halves and held together by cocktail sticks.",
-                    RecipeCategoryId = new Guid("00000000-0000-0000-0000-000000000002")
+                    RecipeCategoryId = new Guid("00000000-0000-0000-0000-000000000002"),
+                    CreatedOn = DateTime.UtcNow
                 },
                 new Recipe()
                 {
                     Id = new Guid("00000000-0000-0000-0004-000000000000"),
                     Title = "Spaghetti bolognese",
                     Description = "Spaghetti bolognese consists of spaghetti (long strings of pasta) with an Italian ragù (meat sauce) made with minced beef, bacon and tomatoes, served with Parmesan cheese. Spaghetti bolognese is one of the most popular pasta dishes eaten outside of Italy.",
-                    RecipeCategoryId = new Guid("00000000-0000-0000-0000-000000000003")
+                    RecipeCategoryId = new Guid("00000000-0000-0000-0000-000000000003"),
+                    CreatedOn = DateTime.UtcNow
                 },
                 new Recipe()
                 {
                     Id = new Guid("00000000-0000-0000-0005-000000000000"),
                     Title = "Lasagna bolognese",
                     Description = "Lasagna Bolognese includes only fresh egg pasta, Bolognese ragù (slow-cooked meat sauce), creamy béchamel (white sauce) and plenty of grated Parmigiano cheese. The result is a melt in your mouth, creamy, decadent, and satisfying lasagna that is distinct to Italy.",
-                    RecipeCategoryId = new Guid("00000000-0000-0000-0000-000000000003")
+                    RecipeCategoryId = new Guid("00000000-0000-0000-0000-000000000003"),
+                    CreatedOn = DateTime.UtcNow
                 });
         #endregion
 
