@@ -13,8 +13,6 @@ public class Recipe
     public Guid RecipeCategoryId { get; set; }
     public RecipeCategory RecipeCategory { get; set; }
 
-    public ICollection<PreparationStep> PreparationSteps { get; set; }
-
     public ICollection<IngredientRecipe> IngredientRecipes { get; set; }
 
 }

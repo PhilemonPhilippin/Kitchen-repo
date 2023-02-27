@@ -9,7 +9,7 @@ public class RecipeRepo : IRecipeRepo
     }
     public async Task<List<Recipe>> GetRecipesAsync(int limit, DateTime fromDate)
     {
-        List<Recipe> recipes = await _context.Recipes.Where(r => r.CreatedOn >= fromDate).OrderBy(r => r.CreatedOn).Take(limit).ToListAsync();
+        List<Recipe> recipes = await _context.Recipes.Where(r => r.CreatedOn >= fromDate).Include(r => r.RecipeCategory).OrderBy(r => r.CreatedOn).Take(limit).ToListAsync();
 
         return recipes;
     }

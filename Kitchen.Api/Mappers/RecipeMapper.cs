@@ -2,7 +2,7 @@
 
 public static class RecipeMapper
 {
-    public static RecipeResponse Map(this Recipe recipe)
+    public static RecipeResponse MapRecipeResponse(this Recipe recipe)
     {
         return new RecipeResponse()
         {
@@ -10,10 +10,7 @@ public static class RecipeMapper
             Title = recipe.Title,
             Description = recipe.Description,
             CreatedOn = recipe.CreatedOn,
-            RecipeCategoryId = recipe.RecipeCategoryId,
             RecipeCategory = recipe.RecipeCategory,
-            PreparationSteps = recipe.PreparationSteps,
-            IngredientRecipes = recipe.IngredientRecipes
         };
     }
 }

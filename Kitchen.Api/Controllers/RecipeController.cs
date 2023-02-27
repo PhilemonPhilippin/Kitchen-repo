@@ -32,7 +32,7 @@ namespace Kitchen.Api.Controllers
                 return NotFound(response);
             }
             
-            response.Data = recipes.Select(r => r.Map()).ToList();
+            response.Data = recipes.Select(r => r.MapRecipeResponse()).ToList();
 
             return Ok(response);
         }
