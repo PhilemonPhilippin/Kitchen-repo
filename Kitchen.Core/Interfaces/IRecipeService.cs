@@ -3,4 +3,5 @@
 public interface IRecipeService
 {
     Task<List<Recipe>> GetRecipesAsync(int limit, DateTime fromDate);
+    Task<Recipe> GetRecipeByIdAsync(Guid id);
 }

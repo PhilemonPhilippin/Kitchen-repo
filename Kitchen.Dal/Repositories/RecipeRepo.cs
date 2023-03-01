@@ -13,4 +13,11 @@ public class RecipeRepo : IRecipeRepo
 
         return recipes;
     }
+
+    public async Task<Recipe> GetRecipeByIdAsync(Guid id)
+    {
+        Recipe recipe = await _context.Recipes.Include(r => r.RecipeCategory).SingleOrDefaultAsync(r => r.Id == id);
+
+        return recipe;
+    }
 }

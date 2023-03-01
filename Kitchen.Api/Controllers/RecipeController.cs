@@ -34,5 +34,24 @@ namespace Kitchen.Api.Controllers
 
             return Ok(response);
         }
+
+        [HttpGet("{id:Guid}")]
+        public async Task<IActionResult> GetRecipeById(Guid id)
+        {
+            Recipe recipe = await _recipeService.GetRecipeByIdAsync(id);
+            ApiResponse<RecipeResponse> response = new();
+
+            if (recipe is null)
+            {
+                response.Success = false;
+                response.Message = "Could not find this recipe.";
+
+                return NotFound(response);
+            }
+
+            response.Data = recipe.MapRecipeResponse();
+
+            return Ok(response);
+        }
     }
 }
