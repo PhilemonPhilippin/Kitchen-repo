@@ -16,10 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\Requests\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Kitchen.Core\Kitchen.Core.csproj" />
     <ProjectReference Include="..\Kitchen.Dal\Kitchen.Dal.csproj" />
   </ItemGroup>

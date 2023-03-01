@@ -20,4 +20,13 @@ public class RecipeRepo : IRecipeRepo
 
         return recipe;
     }
+
+    public async Task<bool> CreateRecipeAsync(Recipe recipe)
+    {
+        _context.Recipes.Add(recipe);
+
+        int created = await _context.SaveChangesAsync();
+
+        return created > 0;
+    }
 }

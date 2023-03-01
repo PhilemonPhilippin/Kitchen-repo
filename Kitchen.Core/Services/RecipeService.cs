@@ -1,4 +1,6 @@
-﻿namespace Kitchen.Core.Services;
+﻿using Kitchen.Core.Models;
+
+namespace Kitchen.Core.Services;
 
 public class RecipeService : IRecipeService
 {
@@ -24,6 +26,24 @@ public class RecipeService : IRecipeService
         Recipe recipe = await _recipeRepo.GetRecipeByIdAsync(id);
 
         return recipe;
+    }
 
+    public async Task<Recipe> CreateRecipe(CreateRecipeModel createRecipeModel)
+    {
+        Recipe recipe = new()
+        {
+            Id = Guid.NewGuid(),
+            Title = createRecipeModel.Title,
+            Description = createRecipeModel.Description,
+            RecipeCategoryId = createRecipeModel.RecipeCategoryId,
+            CreatedOn = DateTime.UtcNow
+        };
+
+        bool isCreated = await _recipeRepo.CreateRecipeAsync(recipe);
+
+        if (isCreated == false)
+            return null;
+        else
+            return recipe;
     }
 }

@@ -1,4 +1,5 @@
-﻿using Kitchen.Api.Mappers;
+﻿using Kitchen.Api.Contracts.Requests;
+using Kitchen.Api.Mappers;
 using Kitchen.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +30,7 @@ namespace Kitchen.Api.Controllers
 
                 return NotFound(response);
             }
-            
+
             response.Data = recipes.Select(r => r.MapRecipeResponse()).ToList();
 
             return Ok(response);
@@ -52,6 +53,27 @@ namespace Kitchen.Api.Controllers
             response.Data = recipe.MapRecipeResponse();
 
             return Ok(response);
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateRecipe(CreateRecipeRequest createRecipeRequest)
+        {
+            Recipe recipe = await _recipeService.CreateRecipe(createRecipeRequest.MapCreateRecipeModel());
+
+            if (recipe is null)
+            {
+                ApiResponse<RecipeResponse> apiResponse = new()
+                {
+                    Success = false,
+                    Message = "Could not create the recipe."
+                };
+
+                return BadRequest(apiResponse);
+            }
+
+            CreatedRecipeResponse recipeResponse = recipe.MapCreatedRecipeResponse();
+
+            return CreatedAtAction(nameof(GetRecipeById), new { id = recipe.Id }, recipeResponse);
+
         }
     }
 }
