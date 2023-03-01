@@ -1,4 +1,4 @@
-﻿namespace Kitchen.Api.Contracts;
+﻿namespace Kitchen.Api.Contracts.Responses;
 
 public class ApiResponse<T>
 {

@@ -1,6 +1,4 @@
-﻿using Kitchen.Api.Contracts;
-using Kitchen.Api.Contracts.Responses;
-using Kitchen.Api.Mappers;
+﻿using Kitchen.Api.Mappers;
 using Kitchen.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
