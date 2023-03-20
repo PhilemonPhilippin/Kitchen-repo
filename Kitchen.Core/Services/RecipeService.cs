@@ -5,10 +5,12 @@ namespace Kitchen.Core.Services;
 public class RecipeService : IRecipeService
 {
     private readonly IRecipeRepo _recipeRepo;
+    private readonly IRecipeCategoryRepo _recipeCategoryRepo;
 
-    public RecipeService(IRecipeRepo recipeRepo)
+    public RecipeService(IRecipeRepo recipeRepo, IRecipeCategoryRepo recipeCategoryRepo)
     {
         _recipeRepo = recipeRepo;
+        _recipeCategoryRepo = recipeCategoryRepo;
     }
 
     public async Task<List<Recipe>> GetRecipesAsync(int limit, DateTime fromDate)
@@ -42,8 +44,18 @@ public class RecipeService : IRecipeService
         bool isCreated = await _recipeRepo.CreateRecipeAsync(recipe);
 
         if (isCreated == false)
+        {
+            // TODO: Return something else than null to notify i did not create with success
             return null;
+        }
         else
+        {
+            // TODO: Check for null recipeCategory maybe?
+            RecipeCategory category = await _recipeCategoryRepo.GetRecipeCategoryByIdAsync(createRecipeModel.RecipeCategoryId);
+
+            recipe.RecipeCategory = category;
+
             return recipe;
+        }
     }
 }

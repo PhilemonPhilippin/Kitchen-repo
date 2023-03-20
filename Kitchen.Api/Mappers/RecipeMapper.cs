@@ -24,7 +24,7 @@ public static class RecipeMapper
             Title = recipe.Title,
             Description = recipe.Description,
             CreatedOn = recipe.CreatedOn,
-            RecipeCategory = recipe.RecipeCategory,
+            Category = recipe.RecipeCategory.Title,
         };
     }
 }

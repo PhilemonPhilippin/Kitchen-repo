@@ -16,6 +16,7 @@ public static class ServicesDependencyInjection
         services.AddSwaggerGen();
 
         services.AddScoped<IRecipeRepo, RecipeRepo>();
+        services.AddScoped<IRecipeCategoryRepo, RecipeCategoryRepo>();
         services.AddTransient<IRecipeService, RecipeService>();
 
         services.AddDbContext<KitchenContext>(options => options.UseSqlServer(configuration.GetConnectionString("Default")));
