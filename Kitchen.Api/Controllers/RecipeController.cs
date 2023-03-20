@@ -21,17 +21,13 @@ namespace Kitchen.Api.Controllers
         public async Task<IActionResult> GetRecipes(int limit, DateTime fromDate)
         {
             List<Recipe> recipes = await _recipeService.GetRecipesAsync(limit, fromDate);
-            ApiResponse<List<RecipeResponse>> response = new();
 
             if (recipes is null || recipes.Count == 0)
             {
-                response.Success = false;
-                response.Message = "Could not find any recipe.";
-
-                return NotFound(response);
+                return NotFound();
             }
 
-            response.Data = recipes.Select(r => r.MapRecipeResponse()).ToList();
+            var response = recipes.Select(r => r.MapToRecipeDto()).ToList();
 
             return Ok(response);
         }
@@ -40,19 +36,14 @@ namespace Kitchen.Api.Controllers
         public async Task<IActionResult> GetRecipeById(Guid id)
         {
             Recipe recipe = await _recipeService.GetRecipeByIdAsync(id);
-            ApiResponse<RecipeResponse> response = new();
 
             if (recipe is null)
             {
-                response.Success = false;
-                response.Message = "Could not find this recipe.";
-
-                return NotFound(response);
+                return NotFound();
             }
 
-            response.Data = recipe.MapRecipeResponse();
 
-            return Ok(response);
+            return Ok(recipe.MapToRecipeDto());
         }
         [HttpPost]
         public async Task<IActionResult> CreateRecipe(CreateRecipeRequest createRecipeRequest)
@@ -61,18 +52,12 @@ namespace Kitchen.Api.Controllers
 
             if (recipe is null)
             {
-                ApiResponse<RecipeResponse> apiResponse = new()
-                {
-                    Success = false,
-                    Message = "Could not create the recipe."
-                };
-
-                return BadRequest(apiResponse);
+                return BadRequest();
             }
 
-            CreatedRecipeResponse recipeResponse = recipe.MapCreatedRecipeResponse();
+            var response = recipe.MapToRecipeDto();
 
-            return CreatedAtAction(nameof(GetRecipeById), new { id = recipe.Id }, recipeResponse);
+            return CreatedAtAction(nameof(GetRecipeById), new { id = recipe.Id }, response);
 
         }
     }

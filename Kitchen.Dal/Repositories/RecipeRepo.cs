@@ -16,7 +16,7 @@ public class RecipeRepo : IRecipeRepo
 
     public async Task<Recipe> GetRecipeByIdAsync(Guid id)
     {
-        Recipe recipe = await _context.Recipes.Include(r => r.RecipeCategory).SingleOrDefaultAsync(r => r.Id == id);
+        Recipe recipe = await _context.Recipes.Include(r => r.RecipeCategory).FirstOrDefaultAsync(r => r.Id == id);
 
         return recipe;
     }

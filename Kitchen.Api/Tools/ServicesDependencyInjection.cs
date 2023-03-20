@@ -7,18 +7,18 @@ public static class ServicesDependencyInjection
     public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration)
     {
         services
-            .AddControllers()
+            .AddControllers();
             // Prevent json from cycling to infinite
-            .AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-            });
+            //.AddJsonOptions(options =>
+            //{
+            //    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            //});
 
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
 
         services.AddScoped<IRecipeRepo, RecipeRepo>();
-        services.AddScoped<IRecipeService, RecipeService>();
+        services.AddTransient<IRecipeService, RecipeService>();
 
         services.AddDbContext<KitchenContext>(options => options.UseSqlServer(configuration.GetConnectionString("Default")));
 
