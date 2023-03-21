@@ -68,5 +68,13 @@ namespace Kitchen.Api.Controllers
 
             return isUpdated ? NoContent() : NotFound();
         }
+
+        [HttpDelete("{id:Guid}")]
+        public async Task<IActionResult> DeleteRecipe(Guid id)
+        {
+            bool isDeleted = await _recipeService.DeleteRecipeAsync(id);
+
+            return isDeleted ? NoContent() : NotFound();
+        }
     }
 }

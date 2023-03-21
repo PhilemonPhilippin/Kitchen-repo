@@ -47,4 +47,18 @@ public class RecipeRepo : IRecipeRepo
 
         return updated > 0;
     }
+
+    public async Task<bool> DeleteRecipeAsync(Guid id)
+    {
+        Recipe recipe = await _context.Recipes.FirstOrDefaultAsync(r => r.Id == id);
+
+        if (recipe == null)
+        {
+            return false;
+        }
+
+        _context.Recipes.Remove(recipe);
+        await _context.SaveChangesAsync();
+        return true;
+    }
 }

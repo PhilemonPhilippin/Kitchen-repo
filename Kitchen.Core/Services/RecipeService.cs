@@ -58,6 +58,7 @@ public class RecipeService : IRecipeService
             return recipe;
         }
     }
+
     public async Task<bool> UpdateRecipeAsync(Guid id, UpdateRecipeModel updateRecipeModel)
     {
         Recipe recipe = new()
@@ -70,5 +71,10 @@ public class RecipeService : IRecipeService
         bool isUpdated = await _recipeRepo.UpdateRecipeAsync(id, recipe);
 
         return isUpdated;
+    }
+
+    public async Task<bool> DeleteRecipeAsync(Guid id)
+    {
+        return await _recipeRepo.DeleteRecipeAsync(id);
     }
 }
