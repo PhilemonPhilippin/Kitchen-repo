@@ -30,7 +30,7 @@ public class RecipeService : IRecipeService
         return recipe;
     }
 
-    public async Task<Recipe> CreateRecipe(CreateRecipeModel createRecipeModel)
+    public async Task<Recipe> CreateRecipeAsync(CreateRecipeModel createRecipeModel)
     {
         Recipe recipe = new()
         {
@@ -57,5 +57,18 @@ public class RecipeService : IRecipeService
 
             return recipe;
         }
+    }
+    public async Task<bool> UpdateRecipeAsync(Guid id, UpdateRecipeModel updateRecipeModel)
+    {
+        Recipe recipe = new()
+        {
+            Title = updateRecipeModel.Title,
+            Description = updateRecipeModel.Description,
+            RecipeCategoryId = updateRecipeModel.RecipeCategoryId,
+        };
+
+        bool isUpdated = await _recipeRepo.UpdateRecipeAsync(id, recipe);
+
+        return isUpdated;
     }
 }

@@ -1,4 +1,5 @@
-﻿using Kitchen.Api.Contracts.Requests;
+﻿using Kitchen.Api.Contracts.Dtos;
+using Kitchen.Api.Contracts.Requests;
 using Kitchen.Api.Mappers;
 using Kitchen.Entities;
 using Microsoft.AspNetCore.Http;
@@ -27,7 +28,7 @@ namespace Kitchen.Api.Controllers
                 return NotFound();
             }
 
-            var response = recipes.Select(r => r.MapToRecipeDto()).ToList();
+            List<RecipeDto> response = recipes.Select(r => r.MapToRecipeDto()).ToList();
 
             return Ok(response);
         }
@@ -48,17 +49,24 @@ namespace Kitchen.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateRecipe(CreateRecipeRequest createRecipeRequest)
         {
-            Recipe recipe = await _recipeService.CreateRecipe(createRecipeRequest.MapCreateRecipeModel());
+            Recipe recipe = await _recipeService.CreateRecipeAsync(createRecipeRequest.MapCreateRecipeModel());
 
             if (recipe is null)
             {
                 return BadRequest();
             }
 
-            var response = recipe.MapToRecipeDto();
+            RecipeDto response = recipe.MapToRecipeDto();
 
             return CreatedAtAction(nameof(GetRecipeById), new { id = recipe.Id }, response);
+        }
 
+        [HttpPut("{id:Guid}")]
+        public async Task<IActionResult> UpdateRecipe(Guid id, UpdateRecipeRequest updateRecipeRequest)
+        {
+            bool isUpdated = await _recipeService.UpdateRecipeAsync(id, updateRecipeRequest.MapUpdateRecipeModel());
+
+            return isUpdated ? NoContent() : NotFound();
         }
     }
 }

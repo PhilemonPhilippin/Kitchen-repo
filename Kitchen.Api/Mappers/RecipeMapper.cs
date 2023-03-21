@@ -16,6 +16,15 @@ public static class RecipeMapper
         };
     }
 
+    public static UpdateRecipeModel MapUpdateRecipeModel(this UpdateRecipeRequest recipe)
+    {
+        return new UpdateRecipeModel()
+        {
+            Title = recipe.Title,
+            Description = recipe.Description,
+            RecipeCategoryId = recipe.RecipeCategoryId
+        };
+    }
     public static RecipeDto MapToRecipeDto(this Recipe recipe)
     {
         return new RecipeDto()

@@ -29,4 +29,22 @@ public class RecipeRepo : IRecipeRepo
 
         return created > 0;
     }
+
+    public async Task<bool> UpdateRecipeAsync(Guid id, Recipe recipe)
+    {
+        Recipe recipeToUpdate = await _context.Recipes.FirstOrDefaultAsync(r => r.Id == id);
+
+        if (recipeToUpdate == null)
+        {
+            return false;
+        }
+
+        recipeToUpdate.Title = recipe.Title;
+        recipeToUpdate.Description = recipe.Description;
+        recipeToUpdate.RecipeCategoryId = recipe.RecipeCategoryId;
+
+        int updated = await _context.SaveChangesAsync();
+
+        return updated > 0;
+    }
 }
