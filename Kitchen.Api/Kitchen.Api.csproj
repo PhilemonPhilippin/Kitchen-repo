@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Kitchen.Contracts\Kitchen.Contracts.csproj" />
     <ProjectReference Include="..\Kitchen.Core\Kitchen.Core.csproj" />
     <ProjectReference Include="..\Kitchen.Dal\Kitchen.Dal.csproj" />
   </ItemGroup>

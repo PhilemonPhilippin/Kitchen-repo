@@ -1,4 +1,4 @@
-﻿namespace Kitchen.Api.Contracts.Dtos;
+﻿namespace Kitchen.Contracts.Dtos;
 
 public class RecipeDto
 {

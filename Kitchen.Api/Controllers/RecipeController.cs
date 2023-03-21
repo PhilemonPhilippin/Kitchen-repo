@@ -1,5 +1,5 @@
-﻿using Kitchen.Api.Contracts.Dtos;
-using Kitchen.Api.Contracts.Requests;
+﻿using Kitchen.Contracts.Dtos;
+using Kitchen.Contracts.Requests;
 using Kitchen.Api.Mappers;
 using Kitchen.Entities;
 using Microsoft.AspNetCore.Http;
@@ -49,7 +49,7 @@ namespace Kitchen.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateRecipe(CreateRecipeRequest createRecipeRequest)
         {
-            Recipe recipe = await _recipeService.CreateRecipeAsync(createRecipeRequest.MapCreateRecipeModel());
+            Recipe recipe = await _recipeService.CreateRecipeAsync(createRecipeRequest);
 
             if (recipe is null)
             {
@@ -64,7 +64,7 @@ namespace Kitchen.Api.Controllers
         [HttpPut("{id:Guid}")]
         public async Task<IActionResult> UpdateRecipe(Guid id, UpdateRecipeRequest updateRecipeRequest)
         {
-            bool isUpdated = await _recipeService.UpdateRecipeAsync(id, updateRecipeRequest.MapUpdateRecipeModel());
+            bool isUpdated = await _recipeService.UpdateRecipeAsync(id, updateRecipeRequest);
 
             return isUpdated ? NoContent() : NotFound();
         }

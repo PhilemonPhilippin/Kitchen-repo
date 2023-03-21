@@ -1,4 +1,4 @@
-﻿using Kitchen.Core.Models;
+﻿using Kitchen.Contracts.Requests;
 
 namespace Kitchen.Core.Services;
 
@@ -30,14 +30,14 @@ public class RecipeService : IRecipeService
         return recipe;
     }
 
-    public async Task<Recipe> CreateRecipeAsync(CreateRecipeModel createRecipeModel)
+    public async Task<Recipe> CreateRecipeAsync(CreateRecipeRequest createRecipeRequest)
     {
         Recipe recipe = new()
         {
             Id = Guid.NewGuid(),
-            Title = createRecipeModel.Title,
-            Description = createRecipeModel.Description,
-            RecipeCategoryId = createRecipeModel.RecipeCategoryId,
+            Title = createRecipeRequest.Title,
+            Description = createRecipeRequest.Description,
+            RecipeCategoryId = createRecipeRequest.RecipeCategoryId,
             CreatedOn = DateTime.UtcNow
         };
 
@@ -51,7 +51,7 @@ public class RecipeService : IRecipeService
         else
         {
             // TODO: Check for null recipeCategory maybe?
-            RecipeCategory category = await _recipeCategoryRepo.GetRecipeCategoryByIdAsync(createRecipeModel.RecipeCategoryId);
+            RecipeCategory category = await _recipeCategoryRepo.GetRecipeCategoryByIdAsync(createRecipeRequest.RecipeCategoryId);
 
             recipe.RecipeCategory = category;
 
@@ -59,13 +59,13 @@ public class RecipeService : IRecipeService
         }
     }
 
-    public async Task<bool> UpdateRecipeAsync(Guid id, UpdateRecipeModel updateRecipeModel)
+    public async Task<bool> UpdateRecipeAsync(Guid id, UpdateRecipeRequest updateRecipeRequest)
     {
         Recipe recipe = new()
         {
-            Title = updateRecipeModel.Title,
-            Description = updateRecipeModel.Description,
-            RecipeCategoryId = updateRecipeModel.RecipeCategoryId,
+            Title = updateRecipeRequest.Title,
+            Description = updateRecipeRequest.Description,
+            RecipeCategoryId = updateRecipeRequest.RecipeCategoryId,
         };
 
         bool isUpdated = await _recipeRepo.UpdateRecipeAsync(id, recipe);

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Kitchen.Api.Contracts.Requests
+namespace Kitchen.Contracts.Requests
 {
     public class UpdateRecipeRequest
     {
