@@ -17,60 +17,95 @@ namespace Kitchen.Api.Controllers
         [HttpGet("{limit:int}/{fromDate:DateTime}")]
         public async Task<IActionResult> GetRecipes(int limit, DateTime fromDate)
         {
-            List<Recipe> recipes = await _recipeService.GetRecipesAsync(limit, fromDate);
-
-            if (recipes is null || recipes.Count == 0)
+            try
             {
-                return NotFound();
+                List<Recipe> recipes = await _recipeService.GetRecipesAsync(limit, fromDate);
+
+                if (recipes is null || recipes.Count == 0)
+                {
+                    return NotFound();
+                }
+
+                List<RecipeDto> response = recipes.Select(r => r.MapToRecipeDto()).ToList();
+
+                return Ok(response);
             }
-
-            List<RecipeDto> response = recipes.Select(r => r.MapToRecipeDto()).ToList();
-
-            return Ok(response);
+            catch (Exception ex)
+            {
+                return StatusCode(500, "A problem occured while handling the request.");
+            }
         }
 
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> GetRecipeById(Guid id)
         {
-            Recipe recipe = await _recipeService.GetRecipeByIdAsync(id);
-
-            if (recipe is null)
+            try
             {
-                return NotFound();
+                Recipe recipe = await _recipeService.GetRecipeByIdAsync(id);
+
+                if (recipe is null)
+                {
+                    return NotFound();
+                }
+
+
+                return Ok(recipe.MapToRecipeDto());
             }
-
-
-            return Ok(recipe.MapToRecipeDto());
+            catch (Exception ex)
+            {
+                return StatusCode(500, "A problem occured while handling the request.");
+            }
         }
         [HttpPost]
         public async Task<IActionResult> CreateRecipe(CreateRecipeRequest createRecipeRequest)
         {
-            Recipe recipe = await _recipeService.CreateRecipeAsync(createRecipeRequest);
-
-            if (recipe is null)
+            try
             {
-                return BadRequest();
+                Recipe recipe = await _recipeService.CreateRecipeAsync(createRecipeRequest);
+
+                if (recipe is null)
+                {
+                    return BadRequest();
+                }
+
+                RecipeDto response = recipe.MapToRecipeDto();
+
+                return CreatedAtAction(nameof(GetRecipeById), new { id = recipe.Id }, response);
             }
-
-            RecipeDto response = recipe.MapToRecipeDto();
-
-            return CreatedAtAction(nameof(GetRecipeById), new { id = recipe.Id }, response);
+            catch (Exception ex) 
+            {
+                return StatusCode(500, "A problem occured while handling the request.");
+            }
         }
 
         [HttpPut("{id:Guid}")]
         public async Task<IActionResult> UpdateRecipe(Guid id, UpdateRecipeRequest updateRecipeRequest)
         {
-            bool isUpdated = await _recipeService.UpdateRecipeAsync(id, updateRecipeRequest);
+            try
+            {
+                bool isUpdated = await _recipeService.UpdateRecipeAsync(id, updateRecipeRequest);
 
-            return isUpdated ? NoContent() : NotFound();
+                return isUpdated ? NoContent() : NotFound();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "A problem occured while handling the request.");
+            }
         }
 
         [HttpDelete("{id:Guid}")]
         public async Task<IActionResult> DeleteRecipe(Guid id)
         {
-            bool isDeleted = await _recipeService.DeleteRecipeAsync(id);
+            try
+            {
+                bool isDeleted = await _recipeService.DeleteRecipeAsync(id);
 
-            return isDeleted ? NoContent() : NotFound();
+                return isDeleted ? NoContent() : NotFound();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "A problem occured while handling the request.");
+            }
         }
     }
 }
