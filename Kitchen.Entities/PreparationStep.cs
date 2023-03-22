@@ -1,24 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Kitchen.Entities;
+﻿namespace Kitchen.Entities;
 
 [Table(nameof(PreparationStep))]
 public class PreparationStep
 {
     [Key]
     public Guid Id { get; set; }
-    public string Title { get; set; }
-    public string Step { get; set; }
+    [Required]
+    [MaxLength(50)]
+    public string Title { get; set; } = string.Empty;
+    [Required]
+    [MaxLength(500)]
+    public string Step { get; set; } = string.Empty;
 
     [ForeignKey("RecipeId")]
     public Recipe Recipe { get; set; }
     public Guid RecipeId { get; set; }
-
-    public PreparationStep(string title, string step)
-    {
-        Title = title;
-        Step = step;
-    }
 
 }

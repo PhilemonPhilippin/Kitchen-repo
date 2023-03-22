@@ -1,14 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Kitchen.Entities;
+﻿namespace Kitchen.Entities;
 
 [Table(nameof(Recipe))]
 public class Recipe
 {
     [Key]
     public Guid Id { get; set; }
-    public string Title { get; set; }
+    [Required]
+    [MaxLength(50)]
+    public string Title { get; set; } = string.Empty;
+    [MaxLength(500)]
     public string? Description { get; set; }
     public DateTime CreatedOn { get; set; }
 
@@ -17,10 +17,5 @@ public class Recipe
     public Guid RecipeCategoryId { get; set; }
 
     public ICollection<IngredientRecipe> IngredientRecipes { get; set; } = new List<IngredientRecipe>();
-
-    public Recipe(string title)
-    {
-        Title = title;
-    }
 
 }

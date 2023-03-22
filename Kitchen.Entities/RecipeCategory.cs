@@ -1,18 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Kitchen.Entities;
+﻿namespace Kitchen.Entities;
 
 [Table(nameof(RecipeCategory))]
 public class RecipeCategory
 {
     [Key]
     public Guid Id { get; set; }
-    public string Title { get; set; }
+    [Required]
+    [MaxLength(50)]
+    public string Title { get; set; } = string.Empty;
+    [MaxLength(500)]
     public string? Description { get; set; }
-
-    public RecipeCategory(string title)
-    {
-        Title = title;
-    }
 }

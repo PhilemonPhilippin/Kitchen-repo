@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Kitchen.Entities;
+﻿namespace Kitchen.Entities;
 
 [Table(nameof(IngredientRecipe))]
 public class IngredientRecipe
