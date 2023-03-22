@@ -1,6 +1,4 @@
-﻿using Kitchen.Contracts.Requests;
-
-namespace Kitchen.Core.Interfaces;
+﻿namespace Kitchen.Core.Interfaces;
 
 public interface IRecipeService
 {

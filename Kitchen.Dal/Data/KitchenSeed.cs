@@ -1,6 +1,4 @@
-﻿using Kitchen.Entities;
-
-namespace Kitchen.Dal.Data;
+﻿namespace Kitchen.Dal.Data;
 
 public static class KitchenSeed
 {

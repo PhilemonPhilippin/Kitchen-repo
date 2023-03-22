@@ -1,8 +1,4 @@
-﻿using Kitchen.Contracts.Dtos;
-using Kitchen.Contracts.Requests;
-using Kitchen.Api.Mappers;
-using Kitchen.Entities;
-using Microsoft.AspNetCore.Http;
+﻿using Kitchen.Api.Mappers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kitchen.Api.Controllers

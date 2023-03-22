@@ -1,11 +1,10 @@
-﻿using Kitchen.Contracts.Requests;
-
-namespace Kitchen.Core.Services;
+﻿namespace Kitchen.Core.Services;
 
 public class RecipeService : IRecipeService
 {
     private readonly IRecipeRepo _recipeRepo;
     private readonly IRecipeCategoryRepo _recipeCategoryRepo;
+    const int maxLimit = 25;
 
     public RecipeService(IRecipeRepo recipeRepo, IRecipeCategoryRepo recipeCategoryRepo)
     {
@@ -15,8 +14,8 @@ public class RecipeService : IRecipeService
 
     public async Task<List<Recipe>> GetRecipesAsync(int limit, DateTime fromDate)
     {
-        if (limit > 25)
-            limit = 25;
+        if (limit > maxLimit)
+            limit = maxLimit;
 
         List<Recipe> recipes = await _recipeRepo.GetRecipesAsync(limit, fromDate);
 
