@@ -8,10 +8,12 @@ namespace Kitchen.Api.Controllers
     public class RecipesController : ControllerBase
     {
         private readonly IRecipeService _recipeService;
+        private readonly ILogger<RecipesController> _logger;
 
-        public RecipesController(IRecipeService recipeService)
+        public RecipesController(ILogger<RecipesController> logger, IRecipeService recipeService)
         {
             _recipeService = recipeService;
+            _logger = logger;
         }
 
         [HttpGet("{limit:int}/{fromDate:DateTime}")]
@@ -32,6 +34,7 @@ namespace Kitchen.Api.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogCritical(ex.ToString());
                 return StatusCode(500, "A problem occured while handling the request.");
             }
         }
@@ -48,11 +51,11 @@ namespace Kitchen.Api.Controllers
                     return NotFound();
                 }
 
-
                 return Ok(recipe.MapToRecipeDto());
             }
             catch (Exception ex)
             {
+                _logger.LogCritical($"While getting a recipe, for recipe id = {id}, error = {ex}");
                 return StatusCode(500, "A problem occured while handling the request.");
             }
         }
@@ -74,6 +77,7 @@ namespace Kitchen.Api.Controllers
             }
             catch (Exception ex) 
             {
+                _logger.LogCritical($"While creating a recipe, for recipe title = {createRecipeRequest.Title}, error = {ex}");
                 return StatusCode(500, "A problem occured while handling the request.");
             }
         }
@@ -89,6 +93,7 @@ namespace Kitchen.Api.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogCritical($"While updating a recipe, for recipe id = {id}, error = {ex}");
                 return StatusCode(500, "A problem occured while handling the request.");
             }
         }
@@ -104,6 +109,7 @@ namespace Kitchen.Api.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogCritical($"While deleting a recipe, for recipe id = {id}, error = {ex}");
                 return StatusCode(500, "A problem occured while handling the request.");
             }
         }
