@@ -17,7 +17,7 @@ namespace Kitchen.Api.Controllers
         }
 
         [HttpGet("{limit:int}/{fromDate:DateTime}")]
-        public async Task<IActionResult> GetRecipes(int limit, DateTime fromDate)
+        public async Task<ActionResult<IEnumerable<RecipeDto>>> GetRecipes(int limit, DateTime fromDate)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace Kitchen.Api.Controllers
         }
 
         [HttpGet("{id:Guid}")]
-        public async Task<IActionResult> GetRecipeById(Guid id)
+        public async Task<ActionResult<RecipeDto>> GetRecipeById(Guid id)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace Kitchen.Api.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> CreateRecipe(CreateRecipeRequest createRecipeRequest)
+        public async Task<ActionResult<RecipeDto>> CreateRecipe(CreateRecipeRequest createRecipeRequest)
         {
             try
             {

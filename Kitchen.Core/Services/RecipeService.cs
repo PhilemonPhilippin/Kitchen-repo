@@ -24,7 +24,7 @@ public class RecipeService : IRecipeService
 
     public async Task<Recipe?> GetRecipeByIdAsync(Guid id)
     {
-        Recipe recipe = await _recipeRepo.GetRecipeByIdAsync(id);
+        Recipe? recipe = await _recipeRepo.GetRecipeByIdAsync(id);
 
         return recipe;
     }
@@ -44,7 +44,7 @@ public class RecipeService : IRecipeService
 
         if (isCreated == false)
         {
-            // TODO: Return something else than null to notify i did not create with success
+            // TODO: Return something else than null to notify i did not create with success?
             return null;
         }
         else
