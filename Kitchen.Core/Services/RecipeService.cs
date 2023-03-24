@@ -12,24 +12,24 @@ public class RecipeService : IRecipeService
         _recipeCategoryRepo = recipeCategoryRepo;
     }
 
-    public async Task<List<Recipe>> GetRecipesAsync(int limit, DateTime fromDate)
+    public async Task<IEnumerable<Recipe>> GetRecipesAsync(int limit, DateTime fromDate)
     {
         if (limit > maxLimit)
             limit = maxLimit;
 
-        List<Recipe> recipes = await _recipeRepo.GetRecipesAsync(limit, fromDate);
+        IEnumerable<Recipe> recipes = await _recipeRepo.GetRecipesAsync(limit, fromDate);
 
         return recipes;
     }
 
-    public async Task<Recipe> GetRecipeByIdAsync(Guid id)
+    public async Task<Recipe?> GetRecipeByIdAsync(Guid id)
     {
         Recipe recipe = await _recipeRepo.GetRecipeByIdAsync(id);
 
         return recipe;
     }
 
-    public async Task<Recipe> CreateRecipeAsync(CreateRecipeRequest createRecipeRequest)
+    public async Task<Recipe?> CreateRecipeAsync(CreateRecipeRequest createRecipeRequest)
     {
         Recipe recipe = new()
         {
@@ -50,7 +50,7 @@ public class RecipeService : IRecipeService
         else
         {
             // TODO: Check for null recipeCategory maybe?
-            RecipeCategory category = await _recipeCategoryRepo.GetRecipeCategoryByIdAsync(createRecipeRequest.RecipeCategoryId);
+            RecipeCategory? category = await _recipeCategoryRepo.GetRecipeCategoryByIdAsync(createRecipeRequest.RecipeCategoryId);
 
             recipe.RecipeCategory = category;
 

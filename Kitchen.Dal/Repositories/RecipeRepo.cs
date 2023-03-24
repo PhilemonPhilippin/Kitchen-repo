@@ -7,16 +7,16 @@ public class RecipeRepo : IRecipeRepo
     {
         _context = context;
     }
-    public async Task<List<Recipe>> GetRecipesAsync(int limit, DateTime fromDate)
+    public async Task<IEnumerable<Recipe>> GetRecipesAsync(int limit, DateTime fromDate)
     {
-        List<Recipe> recipes = await _context.Recipes.Where(r => r.CreatedOn >= fromDate).Include(r => r.RecipeCategory).OrderBy(r => r.CreatedOn).Take(limit).ToListAsync();
+        IEnumerable<Recipe> recipes = await _context.Recipes.Where(r => r.CreatedOn >= fromDate).Include(r => r.RecipeCategory).OrderBy(r => r.CreatedOn).Take(limit).ToListAsync();
 
         return recipes;
     }
 
-    public async Task<Recipe> GetRecipeByIdAsync(Guid id)
+    public async Task<Recipe?> GetRecipeByIdAsync(Guid id)
     {
-        Recipe recipe = await _context.Recipes.Include(r => r.RecipeCategory).FirstOrDefaultAsync(r => r.Id == id);
+        Recipe recipe = await _context.Recipes.Include(r => r.RecipeCategory).Where(r => r.Id == id).FirstOrDefaultAsync();
 
         return recipe;
     }

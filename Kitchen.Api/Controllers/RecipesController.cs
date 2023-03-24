@@ -21,14 +21,14 @@ namespace Kitchen.Api.Controllers
         {
             try
             {
-                List<Recipe> recipes = await _recipeService.GetRecipesAsync(limit, fromDate);
+                IEnumerable<Recipe> recipes = await _recipeService.GetRecipesAsync(limit, fromDate);
 
-                if (recipes is null || recipes.Count == 0)
+                if (recipes is null || recipes.Count() == 0)
                 {
                     return NotFound();
                 }
 
-                List<RecipeDto> response = recipes.Select(r => r.MapToRecipeDto()).ToList();
+                IEnumerable<RecipeDto> response = recipes.Select(r => r.MapToRecipeDto());
 
                 return Ok(response);
             }
@@ -44,7 +44,7 @@ namespace Kitchen.Api.Controllers
         {
             try
             {
-                Recipe recipe = await _recipeService.GetRecipeByIdAsync(id);
+                Recipe? recipe = await _recipeService.GetRecipeByIdAsync(id);
 
                 if (recipe is null)
                 {
@@ -64,7 +64,7 @@ namespace Kitchen.Api.Controllers
         {
             try
             {
-                Recipe recipe = await _recipeService.CreateRecipeAsync(createRecipeRequest);
+                Recipe? recipe = await _recipeService.CreateRecipeAsync(createRecipeRequest);
 
                 if (recipe is null)
                 {
@@ -75,7 +75,7 @@ namespace Kitchen.Api.Controllers
 
                 return CreatedAtAction(nameof(GetRecipeById), new { id = recipe.Id }, response);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 _logger.LogCritical($"While creating a recipe, for recipe title = {createRecipeRequest.Title}, error = {ex}");
                 return StatusCode(500, "A problem occured while handling the request.");

@@ -9,9 +9,9 @@ public class RecipeCategoryRepo : IRecipeCategoryRepo
         _context = context;
     }
 
-    public async Task<RecipeCategory> GetRecipeCategoryByIdAsync(Guid id)
+    public async Task<RecipeCategory?> GetRecipeCategoryByIdAsync(Guid id)
     {
-        RecipeCategory category = await _context.RecipeCategories.FirstOrDefaultAsync(rc => rc.Id == id);
+        RecipeCategory? category = await _context.RecipeCategories.Where(rc => rc.Id == id).FirstOrDefaultAsync();
 
         return category;
     }

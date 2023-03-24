@@ -2,5 +2,5 @@
 
 public interface IRecipeCategoryRepo
 {
-    Task<RecipeCategory> GetRecipeCategoryByIdAsync(Guid id);
+    Task<RecipeCategory?> GetRecipeCategoryByIdAsync(Guid id);
 }
