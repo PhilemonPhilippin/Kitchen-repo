@@ -17,11 +17,12 @@ namespace Kitchen.Api.Controllers
         }
 
         [HttpGet("{limit:int}/{fromDate:DateTime}")]
-        public async Task<ActionResult<IEnumerable<RecipeDto>>> GetRecipes(int limit, DateTime fromDate)
+        public async Task<ActionResult<IEnumerable<RecipeDto>>> GetRecipes(
+            int limit, DateTime fromDate, [FromQuery] string? title)
         {
             try
             {
-                IEnumerable<Recipe> recipes = await _recipeService.GetRecipesAsync(limit, fromDate);
+                IEnumerable<Recipe> recipes = await _recipeService.GetRecipesAsync(limit, fromDate, title);
 
                 if (recipes == null || recipes.Count() == 0)
                 {

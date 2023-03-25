@@ -14,6 +14,13 @@ public class RecipeRepo : IRecipeRepo
         return recipes;
     }
 
+    public async Task<IEnumerable<Recipe>> GetRecipesAsync(int limit, DateTime fromDate, string title)
+    {
+        IEnumerable<Recipe> recipes = await _context.Recipes.Where(r => r.Title == title && r.CreatedOn >= fromDate).Include(r => r.RecipeCategory).OrderBy(r => r.CreatedOn).Take(limit).ToListAsync();
+
+        return recipes;
+    }
+
     public async Task<Recipe?> GetRecipeByIdAsync(Guid id)
     {
         Recipe? recipe = await _context.Recipes.Include(r => r.RecipeCategory).Where(r => r.Id == id).FirstOrDefaultAsync();
