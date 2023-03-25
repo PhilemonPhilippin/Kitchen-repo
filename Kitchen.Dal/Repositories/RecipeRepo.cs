@@ -9,14 +9,56 @@ public class RecipeRepo : IRecipeRepo
     }
     public async Task<IEnumerable<Recipe>> GetRecipesAsync(int limit, DateTime fromDate)
     {
-        IEnumerable<Recipe> recipes = await _context.Recipes.Where(r => r.CreatedOn >= fromDate).Include(r => r.RecipeCategory).OrderBy(r => r.CreatedOn).Take(limit).ToListAsync();
+        IEnumerable<Recipe> recipes = await _context.Recipes
+            .Where(r => r.CreatedOn >= fromDate)
+            .Include(r => r.RecipeCategory)
+            .OrderBy(r => r.CreatedOn)
+            .Take(limit)
+            .ToListAsync();
 
         return recipes;
     }
 
-    public async Task<IEnumerable<Recipe>> GetRecipesAsync(int limit, DateTime fromDate, string title)
+    public async Task<IEnumerable<Recipe>> GetRecipesWithFilterAsync(
+        int limit, DateTime fromDate, string title)
     {
-        IEnumerable<Recipe> recipes = await _context.Recipes.Where(r => r.Title == title && r.CreatedOn >= fromDate).Include(r => r.RecipeCategory).OrderBy(r => r.CreatedOn).Take(limit).ToListAsync();
+        IEnumerable<Recipe> recipes = await _context.Recipes
+            .Where(r => r.Title == title && r.CreatedOn >= fromDate)
+            .Include(r => r.RecipeCategory)
+            .OrderBy(r => r.CreatedOn)
+            .Take(limit)
+            .ToListAsync();
+
+        return recipes;
+    }
+
+    public async Task<IEnumerable<Recipe>> GetRecipesWithSearchAsync(
+        int limit, DateTime fromDate, string searchQuery)
+    {
+        IEnumerable<Recipe> recipes = await _context.Recipes
+        .Where(r =>
+        (r.Title.Contains(searchQuery) || (r.Description != null && r.Description.Contains(searchQuery))) 
+        && r.CreatedOn >= fromDate)
+        .Include(r => r.RecipeCategory)
+        .OrderBy(r => r.CreatedOn)
+        .Take(limit)
+        .ToListAsync();
+
+        return recipes;
+    }
+
+    public async Task<IEnumerable<Recipe>> GetRecipesWithFilterAndSearchAsync(
+        int limit, DateTime fromDate, string title, string searchQuery)
+    {
+        IEnumerable<Recipe> recipes = await _context.Recipes
+            .Where(r =>
+            (r.Title.Contains(searchQuery) || (r.Description != null && r.Description.Contains(searchQuery)))
+            && r.Title == title
+            && r.CreatedOn >= fromDate)
+            .Include(r => r.RecipeCategory)
+            .OrderBy(r => r.CreatedOn)
+            .Take(limit)
+            .ToListAsync();
 
         return recipes;
     }

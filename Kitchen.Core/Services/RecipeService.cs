@@ -22,21 +22,31 @@ public class RecipeService : IRecipeService
         return recipes;
     }
 
-    public async Task<IEnumerable<Recipe>> GetRecipesAsync(int limit, DateTime fromDate, string? title)
+    public async Task<IEnumerable<Recipe>> GetRecipesAsync(int limit, DateTime fromDate, string? title, string? searchQuery)
     {
-        if (string.IsNullOrEmpty(title))
-        {
-            return await GetRecipesAsync(limit, fromDate);
-        }
-
-        title = title.Trim();
-
         if (limit > maxLimit)
             limit = maxLimit;
 
-        IEnumerable<Recipe> recipes = await _recipeRepo.GetRecipesAsync(limit, fromDate, title);
-
-        return recipes;
+        if (string.IsNullOrEmpty(title) == false && string.IsNullOrEmpty(searchQuery) == false)
+        {
+            title = title.Trim();
+            searchQuery = searchQuery.Trim();
+            return await _recipeRepo.GetRecipesWithFilterAndSearchAsync(limit, fromDate, title, searchQuery);
+        }
+        else if (string.IsNullOrEmpty(title) == false)
+        {
+            title = title.Trim();
+            return await _recipeRepo.GetRecipesWithFilterAsync(limit, fromDate, title);
+        }
+        else if (string.IsNullOrEmpty(searchQuery) == false)
+        {
+            searchQuery = searchQuery.Trim();
+            return await _recipeRepo.GetRecipesWithSearchAsync(limit, fromDate, searchQuery);
+        }
+        else
+        {
+            return await GetRecipesAsync(limit, fromDate);
+        }
     }
 
     public async Task<Recipe?> GetRecipeByIdAsync(Guid id)
