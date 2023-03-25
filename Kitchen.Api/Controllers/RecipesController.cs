@@ -23,7 +23,7 @@ namespace Kitchen.Api.Controllers
             {
                 IEnumerable<Recipe> recipes = await _recipeService.GetRecipesAsync(limit, fromDate);
 
-                if (recipes is null || recipes.Count() == 0)
+                if (recipes == null || recipes.Count() == 0)
                 {
                     return NotFound();
                 }
@@ -46,7 +46,7 @@ namespace Kitchen.Api.Controllers
             {
                 Recipe? recipe = await _recipeService.GetRecipeByIdAsync(id);
 
-                if (recipe is null)
+                if (recipe == null)
                 {
                     return NotFound();
                 }
@@ -66,7 +66,7 @@ namespace Kitchen.Api.Controllers
             {
                 Recipe? recipe = await _recipeService.CreateRecipeAsync(createRecipeRequest);
 
-                if (recipe is null)
+                if (recipe == null)
                 {
                     return BadRequest();
                 }
@@ -83,7 +83,7 @@ namespace Kitchen.Api.Controllers
         }
 
         [HttpPut("{id:Guid}")]
-        public async Task<IActionResult> UpdateRecipe(Guid id, UpdateRecipeRequest updateRecipeRequest)
+        public async Task<ActionResult> UpdateRecipe(Guid id, UpdateRecipeRequest updateRecipeRequest)
         {
             try
             {
@@ -99,7 +99,7 @@ namespace Kitchen.Api.Controllers
         }
 
         [HttpDelete("{id:Guid}")]
-        public async Task<IActionResult> DeleteRecipe(Guid id)
+        public async Task<ActionResult> DeleteRecipe(Guid id)
         {
             try
             {

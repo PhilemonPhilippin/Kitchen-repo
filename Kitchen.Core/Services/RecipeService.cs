@@ -40,18 +40,21 @@ public class RecipeService : IRecipeService
             CreatedOn = DateTime.UtcNow
         };
 
+        RecipeCategory? category = await _recipeCategoryRepo.GetRecipeCategoryByIdAsync(createRecipeRequest.RecipeCategoryId);
+        
+        if (category == null)
+        {
+            return null;
+        }
+
         bool isCreated = await _recipeRepo.CreateRecipeAsync(recipe);
 
         if (isCreated == false)
         {
-            // TODO: Return something else than null to notify i did not create with success?
             return null;
         }
         else
         {
-            // TODO: Check for null recipeCategory maybe?
-            RecipeCategory? category = await _recipeCategoryRepo.GetRecipeCategoryByIdAsync(createRecipeRequest.RecipeCategoryId);
-
             recipe.RecipeCategory = category;
 
             return recipe;
