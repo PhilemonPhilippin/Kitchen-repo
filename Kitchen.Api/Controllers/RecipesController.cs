@@ -47,7 +47,7 @@ namespace Kitchen.Api.Controllers
         }
 
         [HttpGet("{id:Guid}")]
-        public async Task<ActionResult<RecipeDto>> GetRecipeById(Guid id)
+        public async Task<ActionResult<RecipeDto>> GetRecipeById([FromRoute]Guid id)
         {
             try
             {
@@ -90,7 +90,8 @@ namespace Kitchen.Api.Controllers
         }
 
         [HttpPut("{id:Guid}")]
-        public async Task<ActionResult> UpdateRecipe(Guid id, UpdateRecipeRequest updateRecipeRequest)
+        public async Task<ActionResult> UpdateRecipe(
+            [FromRoute]Guid id, [FromBody]UpdateRecipeRequest updateRecipeRequest)
         {
             try
             {
@@ -106,7 +107,7 @@ namespace Kitchen.Api.Controllers
         }
 
         [HttpDelete("{id:Guid}")]
-        public async Task<ActionResult> DeleteRecipe(Guid id)
+        public async Task<ActionResult> DeleteRecipe([FromRoute]Guid id)
         {
             try
             {
