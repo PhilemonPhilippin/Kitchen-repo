@@ -1,4 +1,6 @@
-﻿namespace Kitchen.Core.Services;
+﻿using Kitchen.Models;
+
+namespace Kitchen.Core.Services;
 
 public class RecipeService : IRecipeService
 {
@@ -12,17 +14,15 @@ public class RecipeService : IRecipeService
         _recipeCategoryRepo = recipeCategoryRepo;
     }
 
-    public async Task<IEnumerable<Recipe>> GetRecipesAsync(int pageNumber, int pageSize)
+    public async Task<(IEnumerable<Recipe>, PaginationMetadata)> GetRecipesAsync(int pageNumber, int pageSize)
     {
         if (pageSize > _maxPageSize)
             pageSize = _maxPageSize;
 
-        IEnumerable<Recipe> recipes = await _recipeRepo.GetRecipesAsync(pageNumber, pageSize);
-
-        return recipes;
+        return await _recipeRepo.GetRecipesAsync(pageNumber, pageSize);
     }
 
-    public async Task<IEnumerable<Recipe>> GetRecipesAsync(int pageNumber, int pageSize, string? title, string? searchQuery)
+    public async Task<(IEnumerable<Recipe>, PaginationMetadata)> GetRecipesAsync(int pageNumber, int pageSize, string? title, string? searchQuery)
     {
         if (pageSize > _maxPageSize)
             pageSize = _maxPageSize;

@@ -1,5 +1,7 @@
 ﻿using Kitchen.Api.Mappers;
+using Kitchen.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace Kitchen.Api.Controllers
 {
@@ -21,7 +23,10 @@ namespace Kitchen.Api.Controllers
         {
             try
             {
-                IEnumerable<Recipe> recipes = await _recipeService.GetRecipesAsync(pageNumber, pageSize, title, searchQuery);
+                var recipesTuple = await _recipeService.GetRecipesAsync(pageNumber, pageSize, title, searchQuery);
+                
+                IEnumerable<Recipe> recipes = recipesTuple.Item1;
+                PaginationMetadata metadata = recipesTuple.Item2;
 
                 if (recipes == null || recipes.Count() == 0)
                 {
@@ -29,6 +34,8 @@ namespace Kitchen.Api.Controllers
                 }
 
                 IEnumerable<RecipeDto> response = recipes.Select(r => r.MapToRecipeDto());
+
+                Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metadata));
 
                 return Ok(response);
             }

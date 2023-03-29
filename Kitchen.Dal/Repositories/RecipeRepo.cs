@@ -7,7 +7,7 @@ public class RecipeRepo : IRecipeRepo
     {
         _context = context;
     }
-    public async Task<IEnumerable<Recipe>> GetRecipesAsync(int pageNumber, int pageSize)
+    public async Task<(IEnumerable<Recipe>, PaginationMetadata)> GetRecipesAsync(int pageNumber, int pageSize)
     {
         IEnumerable<Recipe> recipes = await _context.Recipes
             .Include(r => r.RecipeCategory)
@@ -16,10 +16,14 @@ public class RecipeRepo : IRecipeRepo
             .Take(pageSize)
             .ToListAsync();
 
-        return recipes;
+        int totalItemCount = await _context.Recipes.CountAsync();
+
+        PaginationMetadata metadata = new(pageNumber, pageSize, totalItemCount);
+
+        return (recipes, metadata);
     }
 
-    public async Task<IEnumerable<Recipe>> GetRecipesWithFilterAsync(
+    public async Task<(IEnumerable<Recipe>, PaginationMetadata)> GetRecipesWithFilterAsync(
         int pageNumber, int pageSize, string title)
     {
         IEnumerable<Recipe> recipes = await _context.Recipes
@@ -30,38 +34,54 @@ public class RecipeRepo : IRecipeRepo
             .Take(pageSize)
             .ToListAsync();
 
-        return recipes;
+        int totalItemCount = await _context.Recipes.Where(r => r.Title == title).CountAsync();
+
+        PaginationMetadata metadata = new(pageNumber, pageSize, totalItemCount);
+
+        return (recipes, metadata);
     }
 
-    public async Task<IEnumerable<Recipe>> GetRecipesWithSearchAsync(
+    public async Task<(IEnumerable<Recipe>, PaginationMetadata)> GetRecipesWithSearchAsync(
         int pageNumber, int pageSize, string searchQuery)
     {
-        IEnumerable<Recipe> recipes = await _context.Recipes
-        .Where(r =>
-        r.Title.Contains(searchQuery) || (r.Description != null && r.Description.Contains(searchQuery)))
-        .Include(r => r.RecipeCategory)
+        IQueryable<Recipe> collection = _context.Recipes;
+
+        collection = collection.Where(r =>
+            r.Title.Contains(searchQuery) || (r.Description != null && r.Description.Contains(searchQuery)));
+
+        int totalItemCount = await collection.CountAsync();
+
+        PaginationMetadata metadata = new(pageNumber, pageSize, totalItemCount);
+
+        IEnumerable<Recipe> recipes = await collection.Include(r => r.RecipeCategory)
         .OrderBy(r => r.Title)
         .Skip(pageSize * (pageNumber - 1))
         .Take(pageSize)
         .ToListAsync();
 
-        return recipes;
+        return (recipes, metadata);
     }
 
-    public async Task<IEnumerable<Recipe>> GetRecipesWithFilterAndSearchAsync(
+    public async Task<(IEnumerable<Recipe>, PaginationMetadata)> GetRecipesWithFilterAndSearchAsync(
         int pageNumber, int pageSize, string title, string searchQuery)
     {
-        IEnumerable<Recipe> recipes = await _context.Recipes
-            .Where(r =>
+        IQueryable<Recipe> collection = _context.Recipes;
+
+        collection = collection.Where(r =>
             (r.Title.Contains(searchQuery) || (r.Description != null && r.Description.Contains(searchQuery)))
-            && r.Title == title)
-            .Include(r => r.RecipeCategory)
+            && r.Title == title);
+
+        int totalItemCount = await collection.CountAsync();
+
+        PaginationMetadata metadata = new(pageNumber, pageSize, totalItemCount);
+
+        IEnumerable<Recipe> recipes = await _context.Recipes.Include(r => r.RecipeCategory)
             .OrderBy(r => r.Title)
             .Skip(pageSize * (pageNumber - 1))
             .Take(pageSize)
             .ToListAsync();
 
-        return recipes;
+        return (recipes, metadata);
     }
 
     public async Task<Recipe?> GetRecipeByIdAsync(Guid id)
