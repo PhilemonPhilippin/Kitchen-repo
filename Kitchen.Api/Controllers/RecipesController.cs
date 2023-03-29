@@ -16,9 +16,8 @@ namespace Kitchen.Api.Controllers
             _logger = logger;
         }
 
-        [HttpGet("{limit:int}/{fromDate:DateTime}")]
-        public async Task<ActionResult<IEnumerable<RecipeDto>>> GetRecipes(
-            int limit, DateTime fromDate, [FromQuery]string? title, [FromQuery]string? searchQuery)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<RecipeDto>>> GetRecipes([FromQuery]string? title, [FromQuery]string? searchQuery, [FromQuery]int limit, [FromQuery]DateTime fromDate)
         {
             try
             {
