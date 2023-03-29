@@ -4,7 +4,7 @@ public class RecipeService : IRecipeService
 {
     private readonly IRecipeRepo _recipeRepo;
     private readonly IRecipeCategoryRepo _recipeCategoryRepo;
-    const int maxLimit = 25;
+    private const int _maxPageSize = 20;
 
     public RecipeService(IRecipeRepo recipeRepo, IRecipeCategoryRepo recipeCategoryRepo)
     {
@@ -12,40 +12,40 @@ public class RecipeService : IRecipeService
         _recipeCategoryRepo = recipeCategoryRepo;
     }
 
-    public async Task<IEnumerable<Recipe>> GetRecipesAsync(int limit, DateTime fromDate)
+    public async Task<IEnumerable<Recipe>> GetRecipesAsync(int pageNumber, int pageSize)
     {
-        if (limit > maxLimit)
-            limit = maxLimit;
+        if (pageSize > _maxPageSize)
+            pageSize = _maxPageSize;
 
-        IEnumerable<Recipe> recipes = await _recipeRepo.GetRecipesAsync(limit, fromDate);
+        IEnumerable<Recipe> recipes = await _recipeRepo.GetRecipesAsync(pageNumber, pageSize);
 
         return recipes;
     }
 
-    public async Task<IEnumerable<Recipe>> GetRecipesAsync(int limit, DateTime fromDate, string? title, string? searchQuery)
+    public async Task<IEnumerable<Recipe>> GetRecipesAsync(int pageNumber, int pageSize, string? title, string? searchQuery)
     {
-        if (limit > maxLimit)
-            limit = maxLimit;
+        if (pageSize > _maxPageSize)
+            pageSize = _maxPageSize;
 
         if (string.IsNullOrEmpty(title) == false && string.IsNullOrEmpty(searchQuery) == false)
         {
             title = title.Trim();
             searchQuery = searchQuery.Trim();
-            return await _recipeRepo.GetRecipesWithFilterAndSearchAsync(limit, fromDate, title, searchQuery);
+            return await _recipeRepo.GetRecipesWithFilterAndSearchAsync(pageNumber, pageSize, title, searchQuery);
         }
         else if (string.IsNullOrEmpty(title) == false)
         {
             title = title.Trim();
-            return await _recipeRepo.GetRecipesWithFilterAsync(limit, fromDate, title);
+            return await _recipeRepo.GetRecipesWithFilterAsync(pageNumber, pageSize, title);
         }
         else if (string.IsNullOrEmpty(searchQuery) == false)
         {
             searchQuery = searchQuery.Trim();
-            return await _recipeRepo.GetRecipesWithSearchAsync(limit, fromDate, searchQuery);
+            return await _recipeRepo.GetRecipesWithSearchAsync(pageNumber, pageSize, searchQuery);
         }
         else
         {
-            return await GetRecipesAsync(limit, fromDate);
+            return await GetRecipesAsync(pageNumber, pageSize);
         }
     }
 

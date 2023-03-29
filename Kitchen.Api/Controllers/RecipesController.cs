@@ -17,11 +17,11 @@ namespace Kitchen.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RecipeDto>>> GetRecipes([FromQuery]string? title, [FromQuery]string? searchQuery, [FromQuery]int limit, [FromQuery]DateTime fromDate)
+        public async Task<ActionResult<IEnumerable<RecipeDto>>> GetRecipes([FromQuery]int pageNumber, [FromQuery]int pageSize, [FromQuery]string? title, [FromQuery]string? searchQuery)
         {
             try
             {
-                IEnumerable<Recipe> recipes = await _recipeService.GetRecipesAsync(limit, fromDate, title, searchQuery);
+                IEnumerable<Recipe> recipes = await _recipeService.GetRecipesAsync(pageNumber, pageSize, title, searchQuery);
 
                 if (recipes == null || recipes.Count() == 0)
                 {

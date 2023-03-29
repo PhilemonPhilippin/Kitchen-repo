@@ -7,57 +7,58 @@ public class RecipeRepo : IRecipeRepo
     {
         _context = context;
     }
-    public async Task<IEnumerable<Recipe>> GetRecipesAsync(int limit, DateTime fromDate)
+    public async Task<IEnumerable<Recipe>> GetRecipesAsync(int pageNumber, int pageSize)
     {
         IEnumerable<Recipe> recipes = await _context.Recipes
-            .Where(r => r.CreatedOn >= fromDate)
             .Include(r => r.RecipeCategory)
-            .OrderBy(r => r.CreatedOn)
-            .Take(limit)
+            .OrderBy(r => r.Title)
+            .Skip(pageSize * (pageNumber - 1))
+            .Take(pageSize)
             .ToListAsync();
 
         return recipes;
     }
 
     public async Task<IEnumerable<Recipe>> GetRecipesWithFilterAsync(
-        int limit, DateTime fromDate, string title)
+        int pageNumber, int pageSize, string title)
     {
         IEnumerable<Recipe> recipes = await _context.Recipes
-            .Where(r => r.Title == title && r.CreatedOn >= fromDate)
+            .Where(r => r.Title == title)
             .Include(r => r.RecipeCategory)
-            .OrderBy(r => r.CreatedOn)
-            .Take(limit)
+            .OrderBy(r => r.Title)
+            .Skip(pageSize * (pageNumber - 1))
+            .Take(pageSize)
             .ToListAsync();
 
         return recipes;
     }
 
     public async Task<IEnumerable<Recipe>> GetRecipesWithSearchAsync(
-        int limit, DateTime fromDate, string searchQuery)
+        int pageNumber, int pageSize, string searchQuery)
     {
         IEnumerable<Recipe> recipes = await _context.Recipes
         .Where(r =>
-        (r.Title.Contains(searchQuery) || (r.Description != null && r.Description.Contains(searchQuery))) 
-        && r.CreatedOn >= fromDate)
+        r.Title.Contains(searchQuery) || (r.Description != null && r.Description.Contains(searchQuery)))
         .Include(r => r.RecipeCategory)
-        .OrderBy(r => r.CreatedOn)
-        .Take(limit)
+        .OrderBy(r => r.Title)
+        .Skip(pageSize * (pageNumber - 1))
+        .Take(pageSize)
         .ToListAsync();
 
         return recipes;
     }
 
     public async Task<IEnumerable<Recipe>> GetRecipesWithFilterAndSearchAsync(
-        int limit, DateTime fromDate, string title, string searchQuery)
+        int pageNumber, int pageSize, string title, string searchQuery)
     {
         IEnumerable<Recipe> recipes = await _context.Recipes
             .Where(r =>
             (r.Title.Contains(searchQuery) || (r.Description != null && r.Description.Contains(searchQuery)))
-            && r.Title == title
-            && r.CreatedOn >= fromDate)
+            && r.Title == title)
             .Include(r => r.RecipeCategory)
-            .OrderBy(r => r.CreatedOn)
-            .Take(limit)
+            .OrderBy(r => r.Title)
+            .Skip(pageSize * (pageNumber - 1))
+            .Take(pageSize)
             .ToListAsync();
 
         return recipes;
