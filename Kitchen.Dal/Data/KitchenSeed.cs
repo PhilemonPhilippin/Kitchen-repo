@@ -223,84 +223,96 @@ public static class KitchenSeed
                     Id = Guid.NewGuid(),
                     Title = "Cook eggs",
                     Step = "Cook the eggs",
-                    RecipeId = new Guid("00000000-0000-0000-0001-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0001-000000000000"),
+                    StepNumber = 1
                 },
                 new PreparationStep()
                 {
                     Id = Guid.NewGuid(),
                     Title = "Cook bacon",
                     Step = "Cook the bacon",
-                    RecipeId = new Guid("00000000-0000-0000-0001-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0001-000000000000"),
+                    StepNumber = 2
                 },
                 new PreparationStep()
                 {
                     Id = Guid.NewGuid(),
                     Title = "Fry bread",
                     Step = "Fry the bread",
-                    RecipeId = new Guid("00000000-0000-0000-0001-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0001-000000000000"),
+                    StepNumber = 3
                 },
                 new PreparationStep()
                 {
                     Id = Guid.NewGuid(),
                     Title = "Cook guanciale",
                     Step = "Cook the guanciale",
-                    RecipeId = new Guid("00000000-0000-0000-0002-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0002-000000000000"),
+                    StepNumber = 1
                 },
                 new PreparationStep()
                 {
                     Id = Guid.NewGuid(),
                     Title = "Cook spaghetti",
                     Step = "Cook the spaghetti",
-                    RecipeId = new Guid("00000000-0000-0000-0002-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0002-000000000000"),
+                    StepNumber = 2
                 },
                 new PreparationStep()
                 {
                     Id = Guid.NewGuid(),
                     Title = "Fry bacon",
                     Step = "Fry the bacon",
-                    RecipeId = new Guid("00000000-0000-0000-0003-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0003-000000000000"),
+                    StepNumber = 1
                 },
                 new PreparationStep()
                 {
                     Id = Guid.NewGuid(),
                     Title = "Cook eggs",
                     Step = "Cook the eggs",
-                    RecipeId = new Guid("00000000-0000-0000-0003-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0003-000000000000"),
+                    StepNumber = 2
                 },
                 new PreparationStep()
                 {
                     Id = Guid.NewGuid(),
                     Title = "Cook beef and bacon",
                     Step = "Cook the beef and the bacon",
-                    RecipeId = new Guid("00000000-0000-0000-0004-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0004-000000000000"),
+                    StepNumber = 1
                 },
                 new PreparationStep()
                 {
                     Id = Guid.NewGuid(),
                     Title = "Cook spaghetti",
                     Step = "Cook the spaghetti",
-                    RecipeId = new Guid("00000000-0000-0000-0004-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0004-000000000000"),
+                    StepNumber = 2
                 },
                 new PreparationStep()
                 {
                     Id = Guid.NewGuid(),
                     Title = "Prepare bolognese",
                     Step = "Prepare the bolognese",
-                    RecipeId = new Guid("00000000-0000-0000-0005-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0005-000000000000"),
+                    StepNumber = 1
                 },
                 new PreparationStep()
                 {
                     Id = Guid.NewGuid(),
                     Title = "Prepare bechamel",
                     Step = "Prepare the bechamel",
-                    RecipeId = new Guid("00000000-0000-0000-0005-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0005-000000000000"),
+                    StepNumber = 2
                 },
                 new PreparationStep()
                 {
                     Id = Guid.NewGuid(),
                     Title = "Prepare lasagna",
                     Step = "Prepare the lasagna and place it in the oven.",
-                    RecipeId = new Guid("00000000-0000-0000-0005-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0005-000000000000"),
+                    StepNumber = 3
                 });
         #endregion
     }

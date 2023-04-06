@@ -1,0 +1,21 @@
+﻿
+namespace Kitchen.Dal.Repositories;
+
+public class PreparationStepRepo : IPreparationStepRepo
+{
+    private readonly KitchenContext _context;
+
+    public PreparationStepRepo(KitchenContext context)
+    {
+        _context = context;
+    }
+    public async Task<IEnumerable<PreparationStep>> GetPreparationStepsAsync(Guid recipeId)
+    {
+        IEnumerable<PreparationStep> preparationSteps = await _context.PreparationSteps
+            .Where(p => p.RecipeId == recipeId)
+            .OrderBy(p => p.StepNumber)
+            .ToListAsync();
+
+        return preparationSteps;
+    }
+}
