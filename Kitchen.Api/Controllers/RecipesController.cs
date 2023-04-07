@@ -23,12 +23,12 @@ namespace Kitchen.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RecipeDto>>> GetRecipes([FromQuery]int pageNumber, [FromQuery]int pageSize, [FromQuery]string? title, [FromQuery]string? searchQuery)
+        public async Task<ActionResult<IEnumerable<RecipeDto>>> GetRecipes([FromQuery] int pageNumber, [FromQuery] int pageSize, [FromQuery] string? title, [FromQuery] string? searchQuery)
         {
             try
             {
                 var recipesTuple = await _recipeService.GetRecipesAsync(pageNumber, pageSize, title, searchQuery);
-                
+
                 IEnumerable<Recipe> recipes = recipesTuple.Item1;
                 PaginationMetadata metadata = recipesTuple.Item2;
 
@@ -53,7 +53,7 @@ namespace Kitchen.Api.Controllers
         }
 
         [HttpGet("{id:Guid}")]
-        public async Task<ActionResult<RecipeDto>> GetRecipeById([FromRoute]Guid id)
+        public async Task<ActionResult<RecipeDto>> GetRecipeById([FromRoute] Guid id)
         {
             try
             {
@@ -99,7 +99,7 @@ namespace Kitchen.Api.Controllers
 
         [HttpPut("{id:Guid}")]
         public async Task<ActionResult> UpdateRecipe(
-            [FromRoute]Guid id, [FromBody]UpdateRecipeRequest updateRecipeRequest)
+            [FromRoute] Guid id, [FromBody] UpdateRecipeRequest updateRecipeRequest)
         {
             try
             {
@@ -120,7 +120,7 @@ namespace Kitchen.Api.Controllers
         }
 
         [HttpDelete("{id:Guid}")]
-        public async Task<ActionResult> DeleteRecipe([FromRoute]Guid id)
+        public async Task<ActionResult> DeleteRecipe([FromRoute] Guid id)
         {
             try
             {

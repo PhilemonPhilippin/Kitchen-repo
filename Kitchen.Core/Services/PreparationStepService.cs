@@ -13,4 +13,10 @@ public class PreparationStepService : IPreparationStepService
     {
         return await _preparationStepRepo.GetPreparationStepsAsync(recipeId);
     }
+
+    public async Task<PreparationStep?> GetPreparationStepAsync(Guid recipeId, Guid preparationStepId)
+    {
+        return await _preparationStepRepo.GetPreparationStepAsync(recipeId, preparationStepId);
+    }
+
 }
