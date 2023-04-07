@@ -5,4 +5,5 @@ public interface IPreparationStepService
 {
     Task<IEnumerable<PreparationStep>> GetPreparationStepsAsync(Guid recipeId);
     Task<PreparationStep?> GetPreparationStepAsync(Guid recipeId, Guid preparationStepId);
+    Task<PreparationStep?> CreatePreparationStepAsync(Guid recipeId, CreatePreparationStepRequest createPreparationStepRequest);
 }

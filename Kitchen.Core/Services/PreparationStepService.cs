@@ -4,10 +4,12 @@ namespace Kitchen.Core.Services;
 public class PreparationStepService : IPreparationStepService
 {
     private readonly IPreparationStepRepo _preparationStepRepo;
+    private readonly IRecipeRepo _recipeRepo;
 
-    public PreparationStepService(IPreparationStepRepo preparationStepRepo)
+    public PreparationStepService(IPreparationStepRepo preparationStepRepo, IRecipeRepo recipeRepo)
     {
         _preparationStepRepo = preparationStepRepo;
+        _recipeRepo = recipeRepo;
     }
     public async Task<IEnumerable<PreparationStep>> GetPreparationStepsAsync(Guid recipeId)
     {
@@ -19,4 +21,34 @@ public class PreparationStepService : IPreparationStepService
         return await _preparationStepRepo.GetPreparationStepAsync(recipeId, preparationStepId);
     }
 
+    public async Task<PreparationStep?> CreatePreparationStepAsync(Guid recipeId, CreatePreparationStepRequest createPreparationStepRequest)
+    {
+        PreparationStep preparationStep = new()
+        {
+            Id = Guid.NewGuid(),
+            Title = createPreparationStepRequest.Title,
+            Step = createPreparationStepRequest.Step,
+            StepNumber = createPreparationStepRequest.StepNumber,
+            RecipeId = recipeId
+        };
+
+        Recipe? recipe = await _recipeRepo.GetRecipeByIdAsync(recipeId);
+
+        if (recipe == null)
+        {
+            return null;
+        }
+
+        bool isCreated = await _preparationStepRepo.CreatePreparationStepAsync(preparationStep);
+
+        if (isCreated == false)
+        {
+            return null;
+        }
+        else
+        {
+            preparationStep.Recipe = recipe;
+            return preparationStep;
+        }
+    }
 }

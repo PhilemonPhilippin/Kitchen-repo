@@ -74,7 +74,7 @@ namespace Kitchen.Api.Controllers
             }
         }
         [HttpPost]
-        public async Task<ActionResult<RecipeDto>> CreateRecipe(CreateRecipeRequest createRecipeRequest)
+        public async Task<ActionResult<RecipeDto>> CreateRecipe([FromBody] CreateRecipeRequest createRecipeRequest)
         {
             try
             {
@@ -88,7 +88,11 @@ namespace Kitchen.Api.Controllers
 
                 RecipeDto response = _mapper.Map<RecipeDto>(recipe);
 
-                return CreatedAtAction(nameof(GetRecipeById), new { id = recipe.Id }, response);
+                return CreatedAtAction(
+                    nameof(GetRecipeById),
+                    new 
+                    { id = recipe.Id }, 
+                    response);
             }
             catch (Exception ex)
             {

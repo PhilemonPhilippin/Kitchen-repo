@@ -27,4 +27,13 @@ public class PreparationStepRepo : IPreparationStepRepo
 
         return preparationStep;
     }
+
+    public async Task<bool> CreatePreparationStepAsync(PreparationStep preparationStep)
+    {
+        _context.PreparationSteps.Add(preparationStep);
+
+        int created = await _context.SaveChangesAsync();
+
+        return created > 0;
+    }
 }

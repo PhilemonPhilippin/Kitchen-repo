@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Kitchen.Contracts.Requests;
+using Kitchen.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,7 +48,8 @@ public class PreparationStepsController : ControllerBase
     }
 
     [HttpGet("{preparationStepId:Guid}")]
-    public async Task<ActionResult<PreparationStepDto>> GetPreparationStep(Guid recipeId, Guid preparationStepId)
+    public async Task<ActionResult<PreparationStepDto>> GetPreparationStep(
+        [FromRoute] Guid recipeId, [FromRoute] Guid preparationStepId)
     {
         try
         {
@@ -71,6 +74,43 @@ public class PreparationStepsController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogCritical($"While getting a preparation step, for recipe id = {recipeId} and preparation step id = {preparationStepId}, error = {ex}");
+            return StatusCode(500, "A problem occured while handling the request.");
+        }
+    }
+    [HttpPost]
+    public async Task<ActionResult<PreparationStepDto>> CreatePreparationStep(
+        [FromRoute] Guid recipeId, [FromBody] CreatePreparationStepRequest createPreparationStepRequest)
+    {
+        try
+        {
+            bool recipeExists = await _recipeService.RecipeExistsAsync(recipeId);
+
+            if (recipeExists == false)
+            {
+                _logger.LogInformation($"Recipe with id {recipeId} was not found when creating Preparation step.");
+                return NotFound();
+            }
+            PreparationStep? preparationStep = await _preparationStepService.CreatePreparationStepAsync(recipeId, createPreparationStepRequest);
+
+            if (preparationStep == null)
+            {
+                _logger.LogInformation($"Could no create the preparation step with title = {createPreparationStepRequest.Title}");
+                return BadRequest();
+            }
+
+            PreparationStepDto response = _mapper.Map<PreparationStepDto>(preparationStep);
+            return CreatedAtAction(
+                nameof(GetPreparationStep), 
+                new 
+                { 
+                    recipeId = recipeId,
+                    preparationStepId = preparationStep.Id 
+                },
+                response);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical($"While creating a preparation step, for recipe id = {recipeId} and preparation step title = {createPreparationStepRequest.Title}, error = {ex}");
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
