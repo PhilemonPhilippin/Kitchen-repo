@@ -131,4 +131,9 @@ public class RecipeRepo : IRecipeRepo
         await _context.SaveChangesAsync();
         return true;
     }
+
+    public async Task<bool> RecipeExistsAsync(Guid id)
+    {
+        return await _context.Recipes.AnyAsync(r => r.Id == id);
+    }
 }

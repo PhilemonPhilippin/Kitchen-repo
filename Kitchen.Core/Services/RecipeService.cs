@@ -106,4 +106,9 @@ public class RecipeService : IRecipeService
     {
         return await _recipeRepo.DeleteRecipeAsync(id);
     }
+
+    public async Task<bool> RecipeExistsAsync(Guid id)
+    {
+        return await _recipeRepo.RecipeExistsAsync(id);
+    }
 }

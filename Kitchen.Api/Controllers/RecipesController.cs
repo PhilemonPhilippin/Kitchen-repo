@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Kitchen.Api.Mappers;
+using Kitchen.Entities;
 using Kitchen.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
@@ -14,11 +15,11 @@ namespace Kitchen.Api.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<RecipesController> _logger;
 
-        public RecipesController(ILogger<RecipesController> logger, IRecipeService recipeService, IMapper mapper)
+        public RecipesController(ILogger<RecipesController> logger, IMapper mapper, IRecipeService recipeService)
         {
-            _recipeService = recipeService;
             _mapper = mapper;
             _logger = logger;
+            _recipeService = recipeService;
         }
 
         [HttpGet]
@@ -33,10 +34,10 @@ namespace Kitchen.Api.Controllers
 
                 if (recipes == null || recipes.Count() == 0)
                 {
+                    _logger.LogInformation($"Recipes were not found.");
                     return NotFound();
                 }
 
-                //IEnumerable<RecipeDto> response = recipes.Select(r => r.MapToRecipeDto());
                 IEnumerable<RecipeDto> response = _mapper.Map<IEnumerable<RecipeDto>>(recipes);
 
 
@@ -60,6 +61,7 @@ namespace Kitchen.Api.Controllers
 
                 if (recipe == null)
                 {
+                    _logger.LogInformation($"Recipe with id {id} was not found.");
                     return NotFound();
                 }
 
@@ -80,6 +82,7 @@ namespace Kitchen.Api.Controllers
 
                 if (recipe == null)
                 {
+                    _logger.LogInformation($"Could no create the recipe with title = {createRecipeRequest.Title}");
                     return BadRequest();
                 }
 
@@ -102,7 +105,12 @@ namespace Kitchen.Api.Controllers
             {
                 bool isUpdated = await _recipeService.UpdateRecipeAsync(id, updateRecipeRequest);
 
-                return isUpdated ? NoContent() : NotFound();
+                if (isUpdated == false)
+                {
+                    _logger.LogInformation($"Recipe with id {id} could not be updated.");
+                    return NotFound();
+                }
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -118,7 +126,13 @@ namespace Kitchen.Api.Controllers
             {
                 bool isDeleted = await _recipeService.DeleteRecipeAsync(id);
 
-                return isDeleted ? NoContent() : NotFound();
+                if (isDeleted == false)
+                {
+                    _logger.LogInformation($"Recipe with id {id} could not be deleted.");
+                    return NotFound();
+                }
+
+                return NoContent();
             }
             catch (Exception ex)
             {

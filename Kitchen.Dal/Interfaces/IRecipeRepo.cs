@@ -13,4 +13,5 @@ public interface IRecipeRepo
     Task<bool> CreateRecipeAsync(Recipe recipe);
     Task<bool> UpdateRecipeAsync(Guid id, Recipe recipe);
     Task<bool> DeleteRecipeAsync(Guid id);
+    Task<bool> RecipeExistsAsync(Guid id);
 }
