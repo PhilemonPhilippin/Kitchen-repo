@@ -55,4 +55,18 @@ public class PreparationStepRepo : IPreparationStepRepo
 
         return updated > 0;
     }
+
+    public async Task<bool> DeletePreparationStepAsync(Guid recipeId, Guid preparationStepId)
+    {
+        PreparationStep? preparationStep = await GetPreparationStepAsync(recipeId, preparationStepId);
+
+        if (preparationStep == null)
+        {
+            return false;
+        }
+
+        _context.PreparationSteps.Remove(preparationStep);
+        await _context.SaveChangesAsync();
+        return true;
+    }
 }

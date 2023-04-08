@@ -65,4 +65,9 @@ public class PreparationStepService : IPreparationStepService
         bool isUpdated = await _preparationStepRepo.UpdatePreparationStepAsync(recipeId, preparationStepId, preparationStep);
         return isUpdated;
     }
+
+    public async Task<bool> DeletePreparationStepAsync(Guid recipeId, Guid preparationStepId)
+    {
+        return await _preparationStepRepo.DeletePreparationStepAsync(recipeId, preparationStepId);
+    }
 }

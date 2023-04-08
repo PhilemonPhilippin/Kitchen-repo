@@ -6,4 +6,5 @@ public interface IPreparationStepRepo
     Task<PreparationStep?> GetPreparationStepAsync(Guid recipeId, Guid preparationStepId);
     Task<bool> CreatePreparationStepAsync(PreparationStep preparationStep);
     Task<bool> UpdatePreparationStepAsync(Guid recipeId, Guid preparationStepId, PreparationStep preparationStep);
+    Task<bool> DeletePreparationStepAsync(Guid recipeId, Guid preparationStepId);
 }
