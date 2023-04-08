@@ -51,4 +51,18 @@ public class PreparationStepService : IPreparationStepService
             return preparationStep;
         }
     }
+
+    public async Task<bool> UpdatePreparationStepAsync(
+        Guid recipeId, Guid preparationStepId, UpdatePreparationStepRequest updatePreparationStepRequest)
+    {
+        PreparationStep preparationStep = new()
+        {
+            Title = updatePreparationStepRequest.Title,
+            Step = updatePreparationStepRequest.Step,
+            StepNumber= updatePreparationStepRequest.StepNumber
+        };
+
+        bool isUpdated = await _preparationStepRepo.UpdatePreparationStepAsync(recipeId, preparationStepId, preparationStep);
+        return isUpdated;
+    }
 }

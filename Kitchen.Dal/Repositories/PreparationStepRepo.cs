@@ -36,4 +36,23 @@ public class PreparationStepRepo : IPreparationStepRepo
 
         return created > 0;
     }
+
+    public async Task<bool> UpdatePreparationStepAsync(Guid recipeId, Guid preparationStepId, PreparationStep preparationStep)
+    {
+        PreparationStep? preparationStepToUpdate = await GetPreparationStepAsync(recipeId, preparationStepId);
+
+        if (preparationStepToUpdate == null)
+        {
+            return false;
+        }
+
+        preparationStepToUpdate.Title = preparationStep.Title;
+        preparationStepToUpdate.Step = preparationStep.Step;
+        preparationStepToUpdate.StepNumber = preparationStep.StepNumber;
+        preparationStepToUpdate.RecipeId = recipeId;
+
+        int updated = await _context.SaveChangesAsync();
+
+        return updated > 0;
+    }
 }

@@ -47,7 +47,7 @@ public class PreparationStepsController : ControllerBase
         }
     }
 
-    [HttpGet("{preparationStepId:Guid}")]
+    [HttpGet("{preparationstepid:Guid}")]
     public async Task<ActionResult<PreparationStepDto>> GetPreparationStep(
         [FromRoute] Guid recipeId, [FromRoute] Guid preparationStepId)
     {
@@ -111,6 +111,38 @@ public class PreparationStepsController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogCritical($"While creating a preparation step, for recipe id = {recipeId} and preparation step title = {createPreparationStepRequest.Title}, error = {ex}");
+            return StatusCode(500, "A problem occured while handling the request.");
+        }
+    }
+    [HttpPut("{preparationstepid:Guid}")]
+    public async Task<ActionResult> UpdatePreparationStep(
+        [FromRoute] Guid recipeId, [FromRoute] Guid preparationStepId, 
+        [FromBody] UpdatePreparationStepRequest updatePreparationStepRequest)
+    {
+        try
+        {
+            bool recipeExists = await _recipeService.RecipeExistsAsync(recipeId);
+
+            if (recipeExists == false)
+            {
+                _logger.LogInformation($"Recipe with id {recipeId} was not found when updating Preparation step.");
+                return NotFound();
+            }
+
+            bool isUpdated = await _preparationStepService
+                .UpdatePreparationStepAsync(recipeId, preparationStepId, updatePreparationStepRequest);
+
+            if (isUpdated == false)
+            {
+                _logger.LogInformation($"Preparation step with id {preparationStepId} could not be updated.");
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical($"While updating a preparation step, for recipe id = {recipeId} and preparation step title = {updatePreparationStepRequest.Title}, error = {ex}");
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
