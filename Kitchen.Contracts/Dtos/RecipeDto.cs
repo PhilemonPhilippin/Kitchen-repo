@@ -1,4 +1,6 @@
-﻿namespace Kitchen.Contracts.Dtos;
+﻿using Kitchen.Entities;
+
+namespace Kitchen.Contracts.Dtos;
 
 public class RecipeDto
 {
@@ -6,5 +8,5 @@ public class RecipeDto
     public string Title { get; set; } = string.Empty;
     public string? Description { get; set; }
     public DateTime CreatedOn { get; set; }
-    public string Category { get; set; } = string.Empty;
+    public RecipeCategory RecipeCategory { get; set; }
 }
