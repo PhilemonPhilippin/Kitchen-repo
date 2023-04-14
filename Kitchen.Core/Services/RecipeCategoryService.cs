@@ -9,6 +9,8 @@ public class RecipeCategoryService : IRecipeCategoryService
     {
         _recipeCategoryRepo = recipeCategoryRepo;
     }
+
+   
     public async Task<IEnumerable<RecipeCategory>> GetRecipeCategoriesAsync()
     {
         IEnumerable<RecipeCategory> recipeCategories = await _recipeCategoryRepo.GetRecipeCategoriesAsync();
@@ -22,4 +24,24 @@ public class RecipeCategoryService : IRecipeCategoryService
 
         return recipeCategory;
     }
+
+    public async Task<RecipeCategory?> CreateRecipeCategoryAsync(CreateRecipeCategoryRequest createRecipeCategoryRequest)
+    {
+        RecipeCategory recipeCategory = new()
+        {
+            Id = Guid.NewGuid(),
+            Title = createRecipeCategoryRequest.Title,
+            Description = createRecipeCategoryRequest.Description,
+        };
+
+        bool isCreated = await _recipeCategoryRepo.CreateRecipeCategoryAsync(recipeCategory);
+
+        if (isCreated == false)
+        {
+            return null;
+        }
+
+        return recipeCategory;
+    }
+
 }

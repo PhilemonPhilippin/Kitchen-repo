@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Kitchen.Contracts.Requests;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -61,6 +62,34 @@ public class RecipeCategoriesController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogCritical($"While getting the recipe category with id = {id}, error = {ex}");
+            return StatusCode(500, "A problem occured while handling the request.");
+        }
+    }
+    [HttpPost]
+    public async Task<ActionResult<RecipeCategoryDto>> CreateRecipeCategory(
+        [FromBody] CreateRecipeCategoryRequest createRecipeCategoryRequest)
+    {
+        try
+        {
+            RecipeCategory? recipeCategory = await _recipeCategoryService.CreateRecipeCategoryAsync(createRecipeCategoryRequest);
+
+            if (recipeCategory == null)
+            {
+                _logger.LogInformation($"Could no create the recipe category with title = {createRecipeCategoryRequest.Title}");
+                return BadRequest();
+            }
+
+            RecipeCategoryDto response = _mapper.Map<RecipeCategoryDto>(recipeCategory);
+
+            return CreatedAtAction(
+                    nameof(GetRecipeCategoryById),
+                    new {id = recipeCategory.Id},
+                    response
+                );
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical($"While creating the recipe category with title = {createRecipeCategoryRequest.Title}, error = {ex}");
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }

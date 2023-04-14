@@ -4,4 +4,5 @@ public interface IRecipeCategoryRepo
 {
     Task<IEnumerable<RecipeCategory>> GetRecipeCategoriesAsync();
     Task<RecipeCategory?> GetRecipeCategoryByIdAsync(Guid id);
+    Task<bool> CreateRecipeCategoryAsync(RecipeCategory recipeCategory);
 }

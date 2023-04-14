@@ -9,6 +9,7 @@ public class RecipeCategoryRepo : IRecipeCategoryRepo
         _context = context;
     }
 
+
     public async Task<IEnumerable<RecipeCategory>> GetRecipeCategoriesAsync()
     {
         IEnumerable<RecipeCategory> recipeCategories = await _context.RecipeCategories.OrderBy(rc => rc.Title).ToListAsync();
@@ -21,5 +22,14 @@ public class RecipeCategoryRepo : IRecipeCategoryRepo
         RecipeCategory? recipeCategory = await _context.RecipeCategories.Where(rc => rc.Id == id).FirstOrDefaultAsync();
 
         return recipeCategory;
+    }
+
+    public async Task<bool> CreateRecipeCategoryAsync(RecipeCategory recipeCategory)
+    {
+        _context.RecipeCategories.Add(recipeCategory);
+
+        int created = await _context.SaveChangesAsync();
+
+        return created > 0;
     }
 }
