@@ -23,7 +23,8 @@ namespace Kitchen.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RecipeDto>>> GetRecipes([FromQuery] int pageNumber, [FromQuery] int pageSize, [FromQuery] string? title, [FromQuery] string? searchQuery)
+        public async Task<ActionResult<IEnumerable<RecipeDto>>> GetRecipes(
+            [FromQuery] int pageNumber, [FromQuery] int pageSize, [FromQuery] string? title, [FromQuery] string? searchQuery)
         {
             try
             {
@@ -40,14 +41,13 @@ namespace Kitchen.Api.Controllers
 
                 IEnumerable<RecipeDto> response = _mapper.Map<IEnumerable<RecipeDto>>(recipes);
 
-
                 Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metadata));
 
                 return Ok(response);
             }
             catch (Exception ex)
             {
-                _logger.LogCritical(ex.ToString());
+                _logger.LogCritical($"While getting the recipes, error = {ex}");
                 return StatusCode(500, "A problem occured while handling the request.");
             }
         }

@@ -9,6 +9,13 @@ public class RecipeCategoryRepo : IRecipeCategoryRepo
         _context = context;
     }
 
+    public async Task<IEnumerable<RecipeCategory>> GetRecipeCategoriesAsync()
+    {
+        IEnumerable<RecipeCategory> recipeCategories = await _context.RecipeCategories.OrderBy(rc => rc.Title).ToListAsync();
+
+        return recipeCategories;
+    }
+
     public async Task<RecipeCategory?> GetRecipeCategoryByIdAsync(Guid id)
     {
         RecipeCategory? category = await _context.RecipeCategories.Where(rc => rc.Id == id).FirstOrDefaultAsync();
