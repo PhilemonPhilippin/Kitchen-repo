@@ -42,4 +42,26 @@ public class RecipeCategoriesController : ControllerBase
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
+
+    [HttpGet("{id:Guid}")]
+    public async Task<ActionResult<RecipeCategoryDto>> GetRecipeCategoryById([FromRoute] Guid id)
+    {
+        try
+        {
+            RecipeCategory? recipeCategory = await _recipeCategoryService.GetRecipeCategoryByIdAsync(id);
+
+            if (recipeCategory == null) 
+            {
+                _logger.LogInformation($"Recipe category with id {id} was not found.");
+                return NotFound();
+            }
+
+            return Ok(_mapper.Map<RecipeCategoryDto>(recipeCategory));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical($"While getting the recipe category with id = {id}, error = {ex}");
+            return StatusCode(500, "A problem occured while handling the request.");
+        }
+    }
 }

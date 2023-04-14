@@ -11,6 +11,15 @@ public class RecipeCategoryService : IRecipeCategoryService
     }
     public async Task<IEnumerable<RecipeCategory>> GetRecipeCategoriesAsync()
     {
-        return await _recipeCategoryRepo.GetRecipeCategoriesAsync();
+        IEnumerable<RecipeCategory> recipeCategories = await _recipeCategoryRepo.GetRecipeCategoriesAsync();
+
+        return recipeCategories;
+    }
+
+    public async Task<RecipeCategory?> GetRecipeCategoryByIdAsync(Guid id)
+    {
+        RecipeCategory? recipeCategory = await _recipeCategoryRepo.GetRecipeCategoryByIdAsync(id);
+
+        return recipeCategory;
     }
 }
