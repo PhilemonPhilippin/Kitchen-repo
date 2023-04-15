@@ -16,6 +16,6 @@ public class Recipe
     public RecipeCategory RecipeCategory { get; set; }
     public Guid RecipeCategoryId { get; set; }
 
-    public ICollection<RecipeIngredients> RecipeIngredients { get; set; } = new List<RecipeIngredients>();
+    public ICollection<RecipeIngredient> RecipeIngredients { get; set; } = new List<RecipeIngredient>();
 
 }

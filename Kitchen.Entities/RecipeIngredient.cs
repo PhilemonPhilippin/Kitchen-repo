@@ -1,7 +1,7 @@
 ﻿namespace Kitchen.Entities;
 
-[Table(nameof(RecipeIngredients))]
-public class RecipeIngredients
+[Table(nameof(RecipeIngredient))]
+public class RecipeIngredient
 {
     public Guid IngredientId { get; set; }
     public Ingredient Ingredient { get; set; }
