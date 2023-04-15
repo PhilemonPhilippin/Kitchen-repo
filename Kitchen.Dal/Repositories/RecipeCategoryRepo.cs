@@ -32,4 +32,21 @@ public class RecipeCategoryRepo : IRecipeCategoryRepo
 
         return created > 0;
     }
+
+    public async Task<bool> UpdateRecipeCategoryAsync(Guid id, RecipeCategory recipeCategory)
+    {
+        RecipeCategory? recipeCategoryToUpdate = await GetRecipeCategoryByIdAsync(id);
+
+        if (recipeCategoryToUpdate == null)
+        {
+            return false;
+        }
+
+        recipeCategoryToUpdate.Title = recipeCategory.Title;
+        recipeCategoryToUpdate.Description = recipeCategory.Description;
+
+        int updated = await _context.SaveChangesAsync();
+
+        return updated > 0;
+    }
 }

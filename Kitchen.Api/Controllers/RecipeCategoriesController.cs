@@ -93,4 +93,26 @@ public class RecipeCategoriesController : ControllerBase
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
+    [HttpPut("{id:Guid}")]
+    public async Task<ActionResult> UpdateRecipeCategory(
+        [FromRoute] Guid id, [FromBody] UpdateRecipeCategoryRequest updateRecipeCategoryRequest)
+    {
+        try
+        {
+            bool isUpdated = await _recipeCategoryService.UpdateRecipeCategoryAsync(id, updateRecipeCategoryRequest);
+
+            if (isUpdated == false)
+            {
+                _logger.LogInformation($"Recipe category with id {id} could not be updated.");
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical($"While updating the recipe category with id = {id}, error = {ex}");
+            return StatusCode(500, "A problem occured while handling the request.");
+        }
+    }
 }

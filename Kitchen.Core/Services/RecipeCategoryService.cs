@@ -44,4 +44,16 @@ public class RecipeCategoryService : IRecipeCategoryService
         return recipeCategory;
     }
 
+    public async Task<bool> UpdateRecipeCategoryAsync(Guid id, UpdateRecipeCategoryRequest updateRecipeCategoryRequest)
+    {
+        RecipeCategory recipeCategory = new()
+        {
+            Title = updateRecipeCategoryRequest.Title,
+            Description = updateRecipeCategoryRequest.Description
+        };
+
+        bool isUpdated = await _recipeCategoryRepo.UpdateRecipeCategoryAsync(id, recipeCategory);
+
+        return isUpdated;
+    }
 }
