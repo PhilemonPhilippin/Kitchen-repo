@@ -53,7 +53,12 @@ public class RecipeCategoryService : IRecipeCategoryService
         };
 
         bool isUpdated = await _recipeCategoryRepo.UpdateRecipeCategoryAsync(id, recipeCategory);
-
         return isUpdated;
+    }
+
+    public async Task<bool> DeleteRecipeCategoryAsync(Guid id)
+    {
+        bool isDeleted = await _recipeCategoryRepo.DeleteRecipeCategoryAsync(id);
+        return isDeleted;
     }
 }

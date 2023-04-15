@@ -115,4 +115,25 @@ public class RecipeCategoriesController : ControllerBase
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
+    [HttpDelete("{id:Guid}")]
+    public async Task<ActionResult> DeleteRecipeCategory([FromRoute] Guid id)
+    {
+        try
+        {
+            bool isDeleted = await _recipeCategoryService.DeleteRecipeCategoryAsync(id);
+
+            if (isDeleted == false)
+            {
+                _logger.LogInformation($"Recipe category with id {id} could not be deleted.");
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical($"While deleting the recipe category with id = {id}, error = {ex}");
+            return StatusCode(500, "A problem occured while handling the request.");
+        }
+    }
 }

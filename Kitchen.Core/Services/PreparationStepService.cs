@@ -68,6 +68,7 @@ public class PreparationStepService : IPreparationStepService
 
     public async Task<bool> DeletePreparationStepAsync(Guid recipeId, Guid preparationStepId)
     {
-        return await _preparationStepRepo.DeletePreparationStepAsync(recipeId, preparationStepId);
+        bool isDeleted = await _preparationStepRepo.DeletePreparationStepAsync(recipeId, preparationStepId);
+        return isDeleted;
     }
 }

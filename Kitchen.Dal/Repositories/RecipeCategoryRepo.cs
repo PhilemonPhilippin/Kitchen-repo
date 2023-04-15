@@ -49,4 +49,18 @@ public class RecipeCategoryRepo : IRecipeCategoryRepo
 
         return updated > 0;
     }
+    
+    public async Task<bool> DeleteRecipeCategoryAsync(Guid id)
+    {
+        RecipeCategory? recipeCategory = await GetRecipeCategoryByIdAsync(id);
+
+        if (recipeCategory == null)
+        {
+            return false;
+        }
+
+        _context.RecipeCategories.Remove(recipeCategory);
+        await _context.SaveChangesAsync();
+        return true;
+    }
 }

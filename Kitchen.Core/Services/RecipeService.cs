@@ -97,13 +97,13 @@ public class RecipeService : IRecipeService
         };
 
         bool isUpdated = await _recipeRepo.UpdateRecipeAsync(id, recipe);
-
         return isUpdated;
     }
 
     public async Task<bool> DeleteRecipeAsync(Guid id)
     {
-        return await _recipeRepo.DeleteRecipeAsync(id);
+        bool isDeleted = await _recipeRepo.DeleteRecipeAsync(id);
+        return isDeleted;
     }
 
     public async Task<bool> RecipeExistsAsync(Guid id)
