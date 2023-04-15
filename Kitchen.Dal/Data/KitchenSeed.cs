@@ -121,94 +121,94 @@ public static class KitchenSeed
                 );
         #endregion
 
-        #region SeedIngredientRecipes
-        modelBuilder.Entity<IngredientRecipe>().HasData(
-                new IngredientRecipe()
+        #region SeedRecipeIngredients
+        modelBuilder.Entity<RecipeIngredients>().HasData(
+                new RecipeIngredients()
                 {
                     IngredientId = new Guid("00000000-0000-0001-0000-000000000000"),
                     RecipeId = new Guid("00000000-0000-0000-0001-000000000000")
                 },
-                new IngredientRecipe()
+                new RecipeIngredients()
                 {
                     IngredientId = new Guid("00000000-0000-0002-0000-000000000000"),
                     RecipeId = new Guid("00000000-0000-0000-0001-000000000000")
                 },
-                new IngredientRecipe()
+                new RecipeIngredients()
                 {
                     IngredientId = new Guid("00000000-0000-0003-0000-000000000000"),
                     RecipeId = new Guid("00000000-0000-0000-0001-000000000000")
                 },
-                new IngredientRecipe()
+                new RecipeIngredients()
                 {
                     IngredientId = new Guid("00000000-0000-0007-0000-000000000000"),
                     RecipeId = new Guid("00000000-0000-0000-0001-000000000000")
                 },
-                new IngredientRecipe()
+                new RecipeIngredients()
                 {
                     IngredientId = new Guid("00000000-0000-0001-0000-000000000000"),
                     RecipeId = new Guid("00000000-0000-0000-0002-000000000000")
                 },
-                new IngredientRecipe()
+                new RecipeIngredients()
                 {
                     IngredientId = new Guid("00000000-0000-0004-0000-000000000000"),
                     RecipeId = new Guid("00000000-0000-0000-0002-000000000000")
                 },
-                new IngredientRecipe()
+                new RecipeIngredients()
                 {
                     IngredientId = new Guid("00000000-0000-0005-0000-000000000000"),
                     RecipeId = new Guid("00000000-0000-0000-0002-000000000000")
                 },
-                new IngredientRecipe()
+                new RecipeIngredients()
                 {
                     IngredientId = new Guid("00000000-0000-0006-0000-000000000000"),
                     RecipeId = new Guid("00000000-0000-0000-0002-000000000000")
                 },
-                new IngredientRecipe()
+                new RecipeIngredients()
                 {
                     IngredientId = new Guid("00000000-0000-0002-0000-000000000000"),
                     RecipeId = new Guid("00000000-0000-0000-0003-000000000000")
                  },
-                new IngredientRecipe()
+                new RecipeIngredients()
                 {
                     IngredientId = new Guid("00000000-0000-0003-0000-000000000000"),
                     RecipeId = new Guid("00000000-0000-0000-0003-000000000000")
                  },
-                new IngredientRecipe()
+                new RecipeIngredients()
                 {
                     IngredientId = new Guid("00000000-0000-0007-0000-000000000000"),
                     RecipeId = new Guid("00000000-0000-0000-0003-000000000000")
                 },
-                new IngredientRecipe()
+                new RecipeIngredients()
                 {
                     IngredientId = new Guid("00000000-0000-0004-0000-000000000000"),
                     RecipeId = new Guid("00000000-0000-0000-0004-000000000000")
                 },
-                new IngredientRecipe()
+                new RecipeIngredients()
                 {
                     IngredientId = new Guid("00000000-0000-0002-0000-000000000000"),
                     RecipeId = new Guid("00000000-0000-0000-0004-000000000000")
                 },
-                new IngredientRecipe()
+                new RecipeIngredients()
                 {
                     IngredientId = new Guid("00000000-0000-0007-0000-000000000000"),
                     RecipeId = new Guid("00000000-0000-0000-0004-000000000000")
                 },
-                new IngredientRecipe()
+                new RecipeIngredients()
                 {
                     IngredientId = new Guid("00000000-0000-0008-0000-000000000000"),
                     RecipeId = new Guid("00000000-0000-0000-0004-000000000000")
                 },
-                 new IngredientRecipe()
+                 new RecipeIngredients()
                  {
                     IngredientId = new Guid("00000000-0000-0007-0000-000000000000"),
                     RecipeId = new Guid("00000000-0000-0000-0005-000000000000")
                  },
-                 new IngredientRecipe()
+                 new RecipeIngredients()
                  {
                      IngredientId = new Guid("00000000-0000-0008-0000-000000000000"),
                      RecipeId = new Guid("00000000-0000-0000-0005-000000000000")
                  },
-                 new IngredientRecipe()
+                 new RecipeIngredients()
                  {
                      IngredientId = new Guid("00000000-0000-0009-0000-000000000000"),
                      RecipeId = new Guid("00000000-0000-0000-0005-000000000000")

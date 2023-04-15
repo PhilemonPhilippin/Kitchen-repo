@@ -11,5 +11,5 @@ public class Ingredient
     [MaxLength(500)]
     public string? Description { get; set; }
 
-    public ICollection<IngredientRecipe> IngredientRecipes { get; set; } = new List<IngredientRecipe>();
+    public ICollection<RecipeIngredients> RecipeIngredients { get; set; } = new List<RecipeIngredients>();
 }
