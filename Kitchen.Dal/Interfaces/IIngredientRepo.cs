@@ -8,5 +8,5 @@ public interface IIngredientRepo
     Task<Ingredient?> GetIngredientByIdAsync(Guid id);
     Task<bool> CreateIngredientAsync(Ingredient ingredient);
     Task<bool> UpdateIngredientAsync(Guid id, Ingredient ingredient);
-
+    Task<bool> DeleteIngredientAsync(Guid id);
 }

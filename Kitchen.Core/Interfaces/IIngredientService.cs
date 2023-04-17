@@ -8,4 +8,5 @@ public interface IIngredientService
     Task<Ingredient?> GetIngredientByIdAsync(Guid id);
     Task<Ingredient?> CreateIngredientAsync(CreateIngredientRequest createIngredientRequest);
     Task<bool> UpdateIngredientAsync(Guid id, UpdateIngredientRequest updateIngredientRequest);
+    Task<bool> DeleteIngredientAsync(Guid id);
 }

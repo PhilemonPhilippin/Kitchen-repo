@@ -56,4 +56,18 @@ public class IngredientRepo : IIngredientRepo
         int updated = await _context.SaveChangesAsync();
         return updated > 0;
     }
+
+    public async Task<bool> DeleteIngredientAsync(Guid id)
+    {
+        Ingredient? ingredient = await GetIngredientByIdAsync(id);
+
+        if (ingredient == null)
+        {
+            return false;
+        }
+
+        _context.Ingredients.Remove(ingredient);
+        await _context.SaveChangesAsync();
+        return true;
+    }
 }

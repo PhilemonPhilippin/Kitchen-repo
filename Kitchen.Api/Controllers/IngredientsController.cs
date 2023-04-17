@@ -120,4 +120,26 @@ public class IngredientsController : ControllerBase
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
+
+    [HttpDelete("{id:Guid}")]
+    public async Task<ActionResult> DeleteIngredient([FromRoute] Guid id)
+    {
+        try
+        {
+            bool isDeleted = await _ingredientService.DeleteIngredientAsync(id);
+
+            if (isDeleted == false)
+            {
+                _logger.LogInformation($"Ingredient with id {id} could not be deleted.");
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical($"While deleting ingredient, for ingredient id = {id}, error = {ex}");
+            return StatusCode(500, "A problem occured while handling the request.");
+        }
+    }
 }
