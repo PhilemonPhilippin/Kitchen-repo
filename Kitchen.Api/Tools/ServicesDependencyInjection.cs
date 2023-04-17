@@ -18,9 +18,11 @@ public static class ServicesDependencyInjection
         services.AddScoped<IRecipeRepo, RecipeRepo>();
         services.AddScoped<IRecipeCategoryRepo, RecipeCategoryRepo>();
         services.AddScoped<IPreparationStepRepo, PreparationStepRepo>();
+        services.AddScoped<IRecipeIngredientRepo, RecipeIngredientRepo>();
         services.AddTransient<IRecipeService, RecipeService>();
         services.AddTransient<IPreparationStepService, PreparationStepService>();
         services.AddTransient<IRecipeCategoryService, RecipeCategoryService>();
+        services.AddTransient<IRecipeIngredientService, RecipeIngredientService>();
 
         services.AddDbContext<KitchenContext>(options => options.UseSqlServer(configuration.GetConnectionString("Default")));
 
