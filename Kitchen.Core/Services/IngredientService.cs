@@ -15,8 +15,15 @@ public class IngredientService : IIngredientService
     public async Task<(IEnumerable<Ingredient>, PaginationMetadata)> GetIngredientsAsync(int pageNumber, int pageSize)
     {
         if (pageSize > _maxPageSize)
-            pageSize= _maxPageSize;
+            pageSize = _maxPageSize;
 
         return await _ingredientRepo.GetIngredientsAsync(pageNumber, pageSize);
+    }
+
+    public async Task<Ingredient?> GetIngredientByIdAsync(Guid id)
+    {
+        Ingredient? ingredient = await _ingredientRepo.GetIngredientByIdAsync(id);
+
+        return ingredient;
     }
 }

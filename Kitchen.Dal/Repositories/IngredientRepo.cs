@@ -23,4 +23,11 @@ public class IngredientRepo : IIngredientRepo
 
         return (ingredients, metadata);
     }
+
+    public async Task<Ingredient?> GetIngredientByIdAsync(Guid id)
+    {
+        Ingredient? ingredient = await _context.Ingredients.Where(i => i.Id == id).FirstOrDefaultAsync();
+
+        return ingredient;
+    }
 }

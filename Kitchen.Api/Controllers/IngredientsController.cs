@@ -49,4 +49,26 @@ public class IngredientsController : ControllerBase
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
+
+    [HttpGet("{id:Guid}")]
+    public async Task<ActionResult<IngredientDto>> GetIngredientById([FromRoute] Guid id)
+    {
+        try
+        {
+            Ingredient? ingredient = await _ingredientService.GetIngredientByIdAsync(id); 
+
+            if (ingredient == null)
+            {
+                _logger.LogInformation($"Ingredient with id {id} was not found.");
+                return NotFound();
+            }
+
+            return Ok(_mapper.Map<IngredientDto>(ingredient));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical($"While getting ingredient, for id = {id}, error = {ex}");
+            return StatusCode(500, "A problem occured while handling the request.");
+        }
+    }
 }
