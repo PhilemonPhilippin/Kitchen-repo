@@ -82,7 +82,7 @@ public class RecipesController : ControllerBase
 
             if (recipe == null)
             {
-                _logger.LogInformation($"Could no create the recipe with title = {createRecipeRequest.Title}");
+                _logger.LogInformation($"Could not create the recipe with title = {createRecipeRequest.Title}");
                 return BadRequest();
             }
 
@@ -90,8 +90,7 @@ public class RecipesController : ControllerBase
 
             return CreatedAtAction(
                 nameof(GetRecipeById),
-                new 
-                { id = recipe.Id }, 
+                new { id = recipe.Id }, 
                 response);
         }
         catch (Exception ex)

@@ -26,4 +26,23 @@ public class IngredientService : IIngredientService
 
         return ingredient;
     }
+
+    public async Task<Ingredient?> CreateIngredientAsync(CreateIngredientRequest createIngredientRequest)
+    {
+        Ingredient ingredient = new()
+        {
+            Id = Guid.NewGuid(),
+            Name = createIngredientRequest.Name,
+            Description = createIngredientRequest.Description,
+        };
+
+        bool isCreated = await _ingredientRepo.CreateIngredientAsync(ingredient);
+
+        if (isCreated == false)
+        {
+            return null;
+        }
+
+        return ingredient;
+    }
 }

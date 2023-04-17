@@ -55,7 +55,7 @@ public class IngredientsController : ControllerBase
     {
         try
         {
-            Ingredient? ingredient = await _ingredientService.GetIngredientByIdAsync(id); 
+            Ingredient? ingredient = await _ingredientService.GetIngredientByIdAsync(id);
 
             if (ingredient == null)
             {
@@ -68,6 +68,33 @@ public class IngredientsController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogCritical($"While getting ingredient, for id = {id}, error = {ex}");
+            return StatusCode(500, "A problem occured while handling the request.");
+        }
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<IngredientDto>> CreateIngredient([FromBody] CreateIngredientRequest createIngredientRequest)
+    {
+        try
+        {
+            Ingredient? ingredient = await _ingredientService.CreateIngredientAsync(createIngredientRequest);
+
+            if (ingredient == null)
+            {
+                _logger.LogInformation($"Could not create the ingredient with name = {createIngredientRequest.Name}");
+                return BadRequest();
+            }
+
+            IngredientDto response = _mapper.Map<IngredientDto>(ingredient);
+
+            return CreatedAtAction(
+                nameof(GetIngredientById),
+                new { id = ingredient.Id },
+                response);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical($"While creating ingredient, for ingredient name = {createIngredientRequest.Name}, error = {ex}");
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }

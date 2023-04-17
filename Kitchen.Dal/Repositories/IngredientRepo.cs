@@ -30,4 +30,13 @@ public class IngredientRepo : IIngredientRepo
 
         return ingredient;
     }
+
+    public async Task<bool> CreateIngredientAsync(Ingredient ingredient)
+    {
+        _context.Ingredients.Add(ingredient);
+
+        int created = await _context.SaveChangesAsync();
+
+        return created > 0;
+    }
 }
