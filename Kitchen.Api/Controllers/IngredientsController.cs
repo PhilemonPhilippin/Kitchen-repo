@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Kitchen.Contracts.Requests;
 using Kitchen.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -95,6 +96,27 @@ public class IngredientsController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogCritical($"While creating ingredient, for ingredient name = {createIngredientRequest.Name}, error = {ex}");
+            return StatusCode(500, "A problem occured while handling the request.");
+        }
+    }
+    [HttpPut("{id:GUid}")]
+    public async Task<ActionResult> UpdateIngredient([FromRoute] Guid id, [FromBody] UpdateIngredientRequest updateIngredientRequest)
+    {
+        try
+        {
+            bool isUpdated = await _ingredientService.UpdateIngredientAsync(id, updateIngredientRequest);
+
+            if (isUpdated == false)
+            {
+                _logger.LogInformation($"Ingredient with id {id} could not be updated.");
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical($"While updating ingredient, for ingredient id = {id}, error = {ex}");
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }

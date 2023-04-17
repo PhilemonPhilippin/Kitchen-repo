@@ -114,7 +114,6 @@ public class RecipeRepo : IRecipeRepo
         recipeToUpdate.RecipeCategoryId = recipe.RecipeCategoryId;
 
         int updated = await _context.SaveChangesAsync();
-
         return updated > 0;
     }
 

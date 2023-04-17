@@ -113,6 +113,7 @@ public class RecipesController : ControllerBase
                 _logger.LogInformation($"Recipe with id {id} could not be updated.");
                 return NotFound();
             }
+
             return NoContent();
         }
         catch (Exception ex)

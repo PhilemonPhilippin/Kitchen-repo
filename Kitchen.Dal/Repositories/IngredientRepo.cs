@@ -39,4 +39,21 @@ public class IngredientRepo : IIngredientRepo
 
         return created > 0;
     }
+
+    public async Task<bool> UpdateIngredientAsync(Guid id, Ingredient ingredient)
+    {
+        Ingredient? ingredientToUpdate = await GetIngredientByIdAsync(id);
+
+        if (ingredientToUpdate == null)
+        {
+            return false;
+        }
+        
+
+        ingredientToUpdate.Name = ingredient.Name;
+        ingredientToUpdate.Description = ingredient.Description;
+
+        int updated = await _context.SaveChangesAsync();
+        return updated > 0;
+    }
 }

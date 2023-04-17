@@ -45,4 +45,16 @@ public class IngredientService : IIngredientService
 
         return ingredient;
     }
+
+    public async Task<bool> UpdateIngredientAsync(Guid id, UpdateIngredientRequest updateIngredientRequest)
+    {
+        Ingredient ingredient = new()
+        {
+            Name = updateIngredientRequest.Name,
+            Description= updateIngredientRequest.Description
+        };
+
+        bool isUpdated = await _ingredientRepo.UpdateIngredientAsync(id, ingredient);
+        return isUpdated;
+    }
 }
