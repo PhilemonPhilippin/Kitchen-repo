@@ -35,7 +35,7 @@ public class RecipesController : ControllerBase
 
             if (recipes == null || recipes.Count() == 0)
             {
-                _logger.LogInformation($"Recipes were not found.");
+                _logger.LogInformation("Recipes were not found.");
                 return NotFound();
             }
 
