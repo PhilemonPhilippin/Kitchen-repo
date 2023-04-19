@@ -126,92 +126,110 @@ public static class KitchenSeed
                 new RecipeIngredient()
                 {
                     IngredientId = new Guid("00000000-0000-0001-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0001-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0001-000000000000"),
+                    IngredientQuantity = "2 whole"
                 },
                 new RecipeIngredient()
                 {
                     IngredientId = new Guid("00000000-0000-0002-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0001-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0001-000000000000"),
+                    IngredientQuantity = "100 g."
                 },
                 new RecipeIngredient()
                 {
                     IngredientId = new Guid("00000000-0000-0003-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0001-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0001-000000000000"),
+                    IngredientQuantity = "2 slices"
                 },
                 new RecipeIngredient()
                 {
                     IngredientId = new Guid("00000000-0000-0007-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0001-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0001-000000000000"),
+                    IngredientQuantity = "1 whole"
                 },
                 new RecipeIngredient()
                 {
                     IngredientId = new Guid("00000000-0000-0001-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0002-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0002-000000000000"),
+                    IngredientQuantity = "1 whole"
                 },
                 new RecipeIngredient()
                 {
                     IngredientId = new Guid("00000000-0000-0004-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0002-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0002-000000000000"),
+                    IngredientQuantity = "500 g."
                 },
                 new RecipeIngredient()
                 {
                     IngredientId = new Guid("00000000-0000-0005-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0002-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0002-000000000000"),
+                    IngredientQuantity = "200 g."
                 },
                 new RecipeIngredient()
                 {
                     IngredientId = new Guid("00000000-0000-0006-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0002-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0002-000000000000"),
+                    IngredientQuantity = "50 g."
                 },
                 new RecipeIngredient()
                 {
                     IngredientId = new Guid("00000000-0000-0002-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0003-000000000000")
-                 },
+                    RecipeId = new Guid("00000000-0000-0000-0003-000000000000"),
+                    IngredientQuantity = "75 g."
+                },
                 new RecipeIngredient()
                 {
                     IngredientId = new Guid("00000000-0000-0003-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0003-000000000000")
-                 },
+                    RecipeId = new Guid("00000000-0000-0000-0003-000000000000"),
+                    IngredientQuantity = "4 slices"
+                },
                 new RecipeIngredient()
                 {
                     IngredientId = new Guid("00000000-0000-0007-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0003-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0003-000000000000"),
+                    IngredientQuantity = "1 whole"
                 },
                 new RecipeIngredient()
                 {
                     IngredientId = new Guid("00000000-0000-0004-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0004-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0004-000000000000"),
+                    IngredientQuantity = "500 g."
                 },
                 new RecipeIngredient()
                 {
                     IngredientId = new Guid("00000000-0000-0002-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0004-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0004-000000000000"),
+                    IngredientQuantity = "100 g."
                 },
                 new RecipeIngredient()
                 {
                     IngredientId = new Guid("00000000-0000-0007-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0004-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0004-000000000000"),
+                    IngredientQuantity = "3 tins of crushed tomatoes"
                 },
                 new RecipeIngredient()
                 {
                     IngredientId = new Guid("00000000-0000-0008-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0004-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0004-000000000000"),
+                    IngredientQuantity = "250 g."
                 },
                  new RecipeIngredient()
                  {
                     IngredientId = new Guid("00000000-0000-0007-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0005-000000000000")
+                    RecipeId = new Guid("00000000-0000-0000-0005-000000000000"),
+                     IngredientQuantity = "2 tins of crushed tomatoes"
                  },
                  new RecipeIngredient()
                  {
                      IngredientId = new Guid("00000000-0000-0008-0000-000000000000"),
-                     RecipeId = new Guid("00000000-0000-0000-0005-000000000000")
+                     RecipeId = new Guid("00000000-0000-0000-0005-000000000000"),
+                     IngredientQuantity = "300 g."
                  },
                  new RecipeIngredient()
                  {
                      IngredientId = new Guid("00000000-0000-0009-0000-000000000000"),
-                     RecipeId = new Guid("00000000-0000-0000-0005-000000000000")
+                     RecipeId = new Guid("00000000-0000-0000-0005-000000000000"),
+                     IngredientQuantity = "250 g."
                  }
                  );
         #endregion
