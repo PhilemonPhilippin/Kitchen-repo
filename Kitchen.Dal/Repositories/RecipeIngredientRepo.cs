@@ -1,5 +1,4 @@
-﻿
-namespace Kitchen.Dal.Repositories;
+﻿namespace Kitchen.Dal.Repositories;
 
 public class RecipeIngredientRepo : IRecipeIngredientRepo
 {
@@ -10,5 +9,13 @@ public class RecipeIngredientRepo : IRecipeIngredientRepo
         _context = context;
     }
 
+    public async Task<IEnumerable<RecipeIngredient>> GetRecipeIngredientsAsync(Guid recipeId)
+    {
+        IEnumerable<RecipeIngredient> recipeIngredients = await _context.RecipeIngredients
+            .Where(ri => ri.RecipeId == recipeId)
+            .Include(ri => ri.Ingredient)
+            .ToListAsync();
 
+        return recipeIngredients;
+    }
 }

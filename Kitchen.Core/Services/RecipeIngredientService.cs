@@ -1,5 +1,4 @@
-﻿
-namespace Kitchen.Core.Services;
+﻿namespace Kitchen.Core.Services;
 
 public class RecipeIngredientService : IRecipeIngredientService
 {
@@ -8,5 +7,10 @@ public class RecipeIngredientService : IRecipeIngredientService
     public RecipeIngredientService(IRecipeIngredientRepo recipeIngredientRepo)
     {
         _recipeIngredientRepo = recipeIngredientRepo;
+    }
+
+    public async Task<IEnumerable<RecipeIngredient>> GetRecipeIngredientAsync(Guid recipeId)
+    {
+        return await _recipeIngredientRepo.GetRecipeIngredientsAsync(recipeId);
     }
 }
