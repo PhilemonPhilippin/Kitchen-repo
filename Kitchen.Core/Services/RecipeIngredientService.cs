@@ -21,6 +21,11 @@ public class RecipeIngredientService : IRecipeIngredientService
 
     public async Task<bool> CreateRecipeIngredientAsync(Guid recipeId, CreateRecipeIngredientRequest createRecipeIngredientRequest)
     {
+        // This method either
+        // creates a new ingredient if it does not receive an ingredient id
+        // OR
+        // uses the existing ingredient without modifying it
+        // AND THEN, in any case, creates the assocation between the ingredient and the recipe
         bool isCreated;
 
         if (createRecipeIngredientRequest.Id == null)
