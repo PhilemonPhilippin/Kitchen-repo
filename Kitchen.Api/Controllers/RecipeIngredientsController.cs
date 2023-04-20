@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Kitchen.Api.Mappers.Customs;
+using Kitchen.Contracts.Requests;
 using Kitchen.Core.Interfaces;
 using Kitchen.Entities;
 using Microsoft.AspNetCore.Http;
@@ -42,12 +43,43 @@ public class RecipeIngredientsController : ControllerBase
             IEnumerable<IngredientForSpecificRecipeDto> ingredients = recipeIngredients.Select(ri => ri.MapForSpecificRecipeDto());
 
             return Ok(ingredients);
-
         }
         catch (Exception ex)
         {
             _logger.LogCritical($"While getting recipe ingredients, for recipe id = {recipeId}, error = {ex}");
             return StatusCode(500, "A problem occured while handling the request.");
         }
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> CreateRecipeIngredient(
+        [FromRoute] Guid recipeId, [FromBody] CreateRecipeIngredientRequest createRecipeIngredientRequest)
+    {
+        try
+        {
+            bool recipeExists = await _recipeService.RecipeExistsAsync(recipeId);
+
+            if (recipeExists == false)
+            {
+                _logger.LogInformation($"Recipe with id {recipeId} was not found when associating an ingredient with the recipe.");
+                return NotFound();
+            }
+
+            bool isCreated = await _recipeIngredientService.CreateRecipeIngredientAsync(recipeId, createRecipeIngredientRequest);
+
+            if (isCreated == false)
+            {
+                _logger.LogInformation($"Could not create the association between recipe with id = {recipeId} and ingredient with name = {createRecipeIngredientRequest.Name}.");
+                return BadRequest();
+            }
+
+            return NoContent();
+        }
+        catch (Exception ex) 
+        {
+            _logger.LogCritical($"While associating an ingredient with a recipe, for recipe id = {recipeId} and ingredient name = {createRecipeIngredientRequest.Name}, error = {ex}");
+            return StatusCode(500, "A problem occured while handling the request.");
+        }
+        
     }
 }

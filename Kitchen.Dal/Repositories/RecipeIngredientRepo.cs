@@ -18,4 +18,19 @@ public class RecipeIngredientRepo : IRecipeIngredientRepo
 
         return recipeIngredients;
     }
+
+    public async Task<bool> CreateRecipeIngredientAsync(RecipeIngredient recipeIngredient)
+    { 
+        _context.RecipeIngredients.Add(recipeIngredient);
+
+        int created = await _context.SaveChangesAsync();
+
+        return created > 0;
+    }
+
+    public async Task<bool> RecipeIngredientExistsAsync(RecipeIngredient recipeIngredient)
+    {
+        return await _context.RecipeIngredients.AnyAsync(
+            ri => ri.IngredientId == recipeIngredient.IngredientId && ri.RecipeId == recipeIngredient.RecipeId);
+    }
 }

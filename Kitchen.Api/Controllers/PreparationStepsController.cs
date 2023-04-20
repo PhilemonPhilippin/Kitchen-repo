@@ -94,7 +94,7 @@ public class PreparationStepsController : ControllerBase
 
             if (preparationStep == null)
             {
-                _logger.LogInformation($"Could no create the preparation step with title = {createPreparationStepRequest.Title}");
+                _logger.LogInformation($"Could not create the preparation step with title = {createPreparationStepRequest.Title}");
                 return BadRequest();
             }
 
