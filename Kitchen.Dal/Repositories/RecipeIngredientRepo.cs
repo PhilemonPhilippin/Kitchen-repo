@@ -33,4 +33,23 @@ public class RecipeIngredientRepo : IRecipeIngredientRepo
         return await _context.RecipeIngredients.AnyAsync(
             ri => ri.IngredientId == recipeIngredient.IngredientId && ri.RecipeId == recipeIngredient.RecipeId);
     }
+
+    public async Task<bool> UpdateRecipeIngredientAsync(RecipeIngredient recipeIngredient)
+    {
+        RecipeIngredient? recipeIngredientToUpdate = await _context.RecipeIngredients
+            .Where(ri => ri.IngredientId == recipeIngredient.IngredientId && ri.RecipeId == recipeIngredient.RecipeId)
+            .FirstOrDefaultAsync();
+
+        if (recipeIngredientToUpdate == null)
+        {
+            return false;
+        }
+
+        recipeIngredientToUpdate.IngredientQuantity = recipeIngredient.IngredientQuantity;
+
+        int updated = await _context.SaveChangesAsync();
+
+        return updated > 0;
+
+    }
 }

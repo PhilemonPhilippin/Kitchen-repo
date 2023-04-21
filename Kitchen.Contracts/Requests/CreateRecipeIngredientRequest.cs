@@ -4,7 +4,7 @@ namespace Kitchen.Contracts.Requests;
 
 public class CreateRecipeIngredientRequest
 {
-    public Guid? Id { get; set; }
+    public Guid? IngredientId { get; set; }
     [Required]
     [MaxLength(50)]
     public string Name { get; set; }

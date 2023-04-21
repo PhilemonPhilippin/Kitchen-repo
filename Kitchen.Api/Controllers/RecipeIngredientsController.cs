@@ -80,6 +80,36 @@ public class RecipeIngredientsController : ControllerBase
             _logger.LogCritical($"While associating an ingredient with a recipe, for recipe id = {recipeId} and ingredient name = {createRecipeIngredientRequest.Name}, error = {ex}");
             return StatusCode(500, "A problem occured while handling the request.");
         }
-        
+    }
+
+    [HttpPut("{ingredientId:Guid}")]
+    public async Task<ActionResult> UpdateRecipeIngredient([FromRoute] Guid recipeId, [FromRoute] Guid ingredientId, [FromBody] UpdateRecipeIngredientRequest updateRecipeIngredientRequest)
+    {
+        try
+        {
+            bool recipeExists = await _recipeService.RecipeExistsAsync(recipeId);
+
+            if (recipeExists == false)
+            {
+                _logger.LogInformation($"Recipe with id {recipeId} was not found when updating association between the ingredient and the recipe.");
+                return NotFound();
+            }
+
+            bool isUpdated = await _recipeIngredientService.UpdateRecipeIngredientAsync(
+                recipeId, ingredientId, updateRecipeIngredientRequest.IngredientQuantity);
+
+            if (isUpdated == false)
+            {
+                _logger.LogInformation($"Association between recipe with recipeId = {recipeId} and ingredient with ingredientId = {ingredientId} could not be updated.");
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical($"While updating the association between the recipe id = {recipeId} and ingredient id = {ingredientId}, error = {ex}");
+            return StatusCode(500, "A problem occured while handling the request.");
+        }
     }
 }

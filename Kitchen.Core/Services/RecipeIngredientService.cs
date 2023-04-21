@@ -28,7 +28,7 @@ public class RecipeIngredientService : IRecipeIngredientService
         // AND THEN, in any case, creates the assocation between the ingredient and the recipe
         bool isCreated;
 
-        if (createRecipeIngredientRequest.Id == null)
+        if (createRecipeIngredientRequest.IngredientId == null)
         {
             isCreated = await CreateIngredientAndRecipeIngredientAsync(recipeId, createRecipeIngredientRequest);
         }
@@ -74,7 +74,7 @@ public class RecipeIngredientService : IRecipeIngredientService
         RecipeIngredient recipeIngredient = new()
         {
             RecipeId = recipeId,
-            IngredientId = (Guid)createRecipeIngredientRequest.Id,
+            IngredientId = (Guid)createRecipeIngredientRequest.IngredientId,
             IngredientQuantity = createRecipeIngredientRequest.IngredientQuantity
         };
 
@@ -87,5 +87,18 @@ public class RecipeIngredientService : IRecipeIngredientService
 
         bool isCreated = await _recipeIngredientRepo.CreateRecipeIngredientAsync(recipeIngredient);
         return isCreated;
+    }
+
+    public async Task<bool> UpdateRecipeIngredientAsync(Guid recipeId, Guid ingredientId, string ingredientQuantity)
+    {
+        RecipeIngredient recipeIngredient = new()
+        {
+            IngredientId = ingredientId,
+            RecipeId = recipeId,
+            IngredientQuantity = ingredientQuantity
+        };
+
+        bool isUpdated = await _recipeIngredientRepo.UpdateRecipeIngredientAsync(recipeIngredient);
+        return isUpdated;
     }
 }
