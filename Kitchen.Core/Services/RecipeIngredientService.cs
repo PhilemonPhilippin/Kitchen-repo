@@ -101,4 +101,10 @@ public class RecipeIngredientService : IRecipeIngredientService
         bool isUpdated = await _recipeIngredientRepo.UpdateRecipeIngredientAsync(recipeIngredient);
         return isUpdated;
     }
+
+    public async Task<bool> DeleteRecipeIngredientAsync(Guid recipeId, Guid ingredientId)
+    {
+        bool isDeleted = await _recipeIngredientRepo.DeleteRecipeIngredientAsync(recipeId, ingredientId);
+        return isDeleted;
+    }
 }

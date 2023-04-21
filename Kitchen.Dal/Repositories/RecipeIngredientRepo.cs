@@ -36,9 +36,7 @@ public class RecipeIngredientRepo : IRecipeIngredientRepo
 
     public async Task<bool> UpdateRecipeIngredientAsync(RecipeIngredient recipeIngredient)
     {
-        RecipeIngredient? recipeIngredientToUpdate = await _context.RecipeIngredients
-            .Where(ri => ri.IngredientId == recipeIngredient.IngredientId && ri.RecipeId == recipeIngredient.RecipeId)
-            .FirstOrDefaultAsync();
+        RecipeIngredient? recipeIngredientToUpdate = await GetRecipeIngredientByIdAsync(recipeIngredient.RecipeId, recipeIngredient.IngredientId);
 
         if (recipeIngredientToUpdate == null)
         {
@@ -50,6 +48,28 @@ public class RecipeIngredientRepo : IRecipeIngredientRepo
         int updated = await _context.SaveChangesAsync();
 
         return updated > 0;
+    }
 
+    public async Task<bool> DeleteRecipeIngredientAsync(Guid recipeId, Guid ingredientId)
+    {
+        RecipeIngredient? recipeIngredient = await GetRecipeIngredientByIdAsync(recipeId, ingredientId);
+
+        if (recipeIngredient == null)
+        {
+            return false;
+        }
+
+        _context.RecipeIngredients.Remove(recipeIngredient);
+        await _context.SaveChangesAsync();
+        return true;
+    }
+
+    private async Task<RecipeIngredient?> GetRecipeIngredientByIdAsync(Guid recipeId, Guid ingredientId)
+    {
+        RecipeIngredient? recipeIngredient = await _context.RecipeIngredients
+            .Where(ri => ri.IngredientId == ingredientId && ri.RecipeId == recipeId)
+            .FirstOrDefaultAsync();
+
+        return recipeIngredient;
     }
 }

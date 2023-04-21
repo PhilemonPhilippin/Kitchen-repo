@@ -7,4 +7,5 @@ public interface IRecipeIngredientRepo
     Task<bool> CreateRecipeIngredientAsync(RecipeIngredient recipeIngredient);
     Task<bool> RecipeIngredientExistsAsync(RecipeIngredient recipeIngredient);
     Task<bool> UpdateRecipeIngredientAsync(RecipeIngredient recipeIngredient);
+    Task<bool> DeleteRecipeIngredientAsync(Guid recipeId, Guid ingredientId);
 }

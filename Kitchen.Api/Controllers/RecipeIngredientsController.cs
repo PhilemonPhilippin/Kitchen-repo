@@ -112,4 +112,34 @@ public class RecipeIngredientsController : ControllerBase
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
+
+    [HttpDelete("{ingredientId:Guid}")]
+    public async Task<ActionResult> DeleteRecipeIngredient([FromRoute] Guid recipeId, [FromRoute] Guid ingredientId)
+    {
+        try
+        {
+            bool recipeExists = await _recipeService.RecipeExistsAsync(recipeId);
+
+            if (recipeExists == false)
+            {
+                _logger.LogInformation($"Recipe with id {recipeId} was not found when deleting association between the ingredient and the recipe.");
+                return NotFound();
+            }
+
+            bool isDeleted = await _recipeIngredientService.DeleteRecipeIngredientAsync(recipeId, ingredientId);
+
+            if (isDeleted == false)
+            {
+                _logger.LogInformation($"Recipe ingredient with recipe id = {recipeId} and ingredient id = {ingredientId} could not be deleted.");
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical($"While deleting the association between the recipe with id = {recipeId} and ingredient with id = {ingredientId}, error = {ex}");
+            return StatusCode(500, "A problem occured while handling the request.");
+        }
+    }
 }
