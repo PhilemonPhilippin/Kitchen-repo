@@ -13,17 +13,17 @@ namespace Kitchen.Api.Controllers;
 public class RecipeIngredientsController : ControllerBase
 {
     private readonly ILogger<RecipeIngredientsController> _logger;
-    private readonly IMapper _mapper;
     private readonly IRecipeIngredientService _recipeIngredientService;
     private readonly IRecipeService _recipeService;
+    private readonly IIngredientService _ingredientService;
 
     public RecipeIngredientsController(
-        ILogger<RecipeIngredientsController> logger, IMapper mapper, IRecipeIngredientService recipeIngredientService, IRecipeService recipeService)
+        ILogger<RecipeIngredientsController> logger, IRecipeIngredientService recipeIngredientService, IRecipeService recipeService, IIngredientService ingredientService)
     {
         _logger = logger;
-        _mapper = mapper;
         _recipeIngredientService = recipeIngredientService;
         _recipeService = recipeService;
+        _ingredientService = ingredientService;
     }
 
     [HttpGet]
@@ -58,10 +58,16 @@ public class RecipeIngredientsController : ControllerBase
         try
         {
             bool recipeExists = await _recipeService.RecipeExistsAsync(recipeId);
-
             if (recipeExists == false)
             {
-                _logger.LogInformation($"Recipe with id {recipeId} was not found when associating an ingredient with the recipe.");
+                _logger.LogInformation($"Recipe with id = {recipeId} was not found when associating an ingredient with the recipe.");
+                return NotFound();
+            }
+
+            bool ingredientExists = await _ingredientService.IngredientExistsAsync(createRecipeIngredientRequest.IngredientId);
+            if (ingredientExists == false)
+            {
+                _logger.LogInformation($"Ingredient with id = {createRecipeIngredientRequest.IngredientId} was not found when associating this ingredient with the recipe.");
                 return NotFound();
             }
 
@@ -69,7 +75,7 @@ public class RecipeIngredientsController : ControllerBase
 
             if (isCreated == false)
             {
-                _logger.LogInformation($"Could not create the association between recipe with id = {recipeId} and ingredient with name = {createRecipeIngredientRequest.Name}.");
+                _logger.LogInformation($"Could not create the association between recipe with id = {recipeId} and ingredient with id = {createRecipeIngredientRequest.IngredientId}.");
                 return BadRequest();
             }
 
@@ -77,7 +83,7 @@ public class RecipeIngredientsController : ControllerBase
         }
         catch (Exception ex) 
         {
-            _logger.LogCritical($"While associating an ingredient with a recipe, for recipe id = {recipeId} and ingredient name = {createRecipeIngredientRequest.Name}, error = {ex}");
+            _logger.LogCritical($"While associating an ingredient with a recipe, for recipe id = {recipeId} and ingredient name = {createRecipeIngredientRequest.IngredientId}, error = {ex}");
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }

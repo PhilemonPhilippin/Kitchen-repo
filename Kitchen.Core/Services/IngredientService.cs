@@ -66,4 +66,9 @@ public class IngredientService : IIngredientService
         bool isDeleted = await _ingredientRepo.DeleteIngredientAsync(id);
         return isDeleted;
     }
+
+    public async Task<bool> IngredientExistsAsync(Guid id)
+    {
+        return await _ingredientRepo.IngredientExistsAsync(id);
+    }
 }

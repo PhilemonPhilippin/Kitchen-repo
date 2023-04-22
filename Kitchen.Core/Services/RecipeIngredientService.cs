@@ -6,12 +6,10 @@ namespace Kitchen.Core.Services;
 public class RecipeIngredientService : IRecipeIngredientService
 {
     private readonly IRecipeIngredientRepo _recipeIngredientRepo;
-    private readonly IIngredientRepo _ingredientRepo;
 
-    public RecipeIngredientService(IRecipeIngredientRepo recipeIngredientRepo, IIngredientRepo ingredientRepo)
+    public RecipeIngredientService(IRecipeIngredientRepo recipeIngredientRepo)
     {
         _recipeIngredientRepo = recipeIngredientRepo;
-        _ingredientRepo = ingredientRepo;
     }
 
     public async Task<IEnumerable<RecipeIngredient>> GetRecipeIngredientAsync(Guid recipeId)
@@ -21,64 +19,10 @@ public class RecipeIngredientService : IRecipeIngredientService
 
     public async Task<bool> CreateRecipeIngredientAsync(Guid recipeId, CreateRecipeIngredientRequest createRecipeIngredientRequest)
     {
-        // This method either
-        // creates a new ingredient if it does not receive an ingredient id
-        // OR
-        // uses the existing ingredient without modifying it
-        // AND THEN, in any case, creates the assocation between the ingredient and the recipe
-        bool isCreated;
-
-        if (createRecipeIngredientRequest.IngredientId == null)
-        {
-            isCreated = await CreateIngredientAndRecipeIngredientAsync(recipeId, createRecipeIngredientRequest);
-        }
-        else
-        {
-            isCreated = await CreateOnlyRecipeIngredientAsync(recipeId, createRecipeIngredientRequest);
-        }
-
-        return isCreated;
-    }
-
-    private async Task<bool> CreateIngredientAndRecipeIngredientAsync(
-        Guid recipeId, CreateRecipeIngredientRequest createRecipeIngredientRequest)
-    {
-        Ingredient ingredient = new()
-        {
-            Id = Guid.NewGuid(),
-            Name = createRecipeIngredientRequest.Name,
-            Description = createRecipeIngredientRequest.Description,
-            CreatedOn = DateTime.UtcNow,
-            ModifiedOn = DateTime.UtcNow
-        };
-
-        bool isIngredientCreated = await _ingredientRepo.CreateIngredientAsync(ingredient);
-
-        if (isIngredientCreated == false)
-        {
-            return false;
-        }
-
         RecipeIngredient recipeIngredient = new()
         {
             RecipeId = recipeId,
-            IngredientId = ingredient.Id,
-            IngredientQuantity = createRecipeIngredientRequest.IngredientQuantity,
-            CreatedOn = DateTime.UtcNow,
-            ModifiedOn = DateTime.UtcNow
-        };
-
-        bool isCreated = await _recipeIngredientRepo.CreateRecipeIngredientAsync(recipeIngredient);
-        return isCreated;
-    }
-
-    private async Task<bool> CreateOnlyRecipeIngredientAsync(
-        Guid recipeId, CreateRecipeIngredientRequest createRecipeIngredientRequest)
-    {
-        RecipeIngredient recipeIngredient = new()
-        {
-            RecipeId = recipeId,
-            IngredientId = (Guid)createRecipeIngredientRequest.IngredientId,
+            IngredientId = createRecipeIngredientRequest.IngredientId,
             IngredientQuantity = createRecipeIngredientRequest.IngredientQuantity,
             CreatedOn = DateTime.UtcNow,
             ModifiedOn = DateTime.UtcNow

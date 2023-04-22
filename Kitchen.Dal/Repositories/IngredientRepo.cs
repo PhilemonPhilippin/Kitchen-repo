@@ -71,4 +71,9 @@ public class IngredientRepo : IIngredientRepo
         await _context.SaveChangesAsync();
         return true;
     }
+
+    public async Task<bool> IngredientExistsAsync(Guid id)
+    {
+        return await _context.Ingredients.AnyAsync(i => i.Id == id);
+    }
 }
