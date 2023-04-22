@@ -34,6 +34,8 @@ public class IngredientService : IIngredientService
             Id = Guid.NewGuid(),
             Name = createIngredientRequest.Name,
             Description = createIngredientRequest.Description,
+            CreatedOn = DateTime.UtcNow,
+            ModifiedOn = DateTime.UtcNow
         };
 
         bool isCreated = await _ingredientRepo.CreateIngredientAsync(ingredient);
@@ -51,7 +53,8 @@ public class IngredientService : IIngredientService
         Ingredient ingredient = new()
         {
             Name = updateIngredientRequest.Name,
-            Description= updateIngredientRequest.Description
+            Description= updateIngredientRequest.Description,
+            ModifiedOn = DateTime.UtcNow
         };
 
         bool isUpdated = await _ingredientRepo.UpdateIngredientAsync(id, ingredient);

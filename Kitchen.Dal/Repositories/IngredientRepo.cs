@@ -52,6 +52,7 @@ public class IngredientRepo : IIngredientRepo
 
         ingredientToUpdate.Name = ingredient.Name;
         ingredientToUpdate.Description = ingredient.Description;
+        ingredientToUpdate.ModifiedOn = ingredient.ModifiedOn;
 
         int updated = await _context.SaveChangesAsync();
         return updated > 0;
