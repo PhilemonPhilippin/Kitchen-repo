@@ -11,6 +11,7 @@ public class Recipe
     [MaxLength(500)]
     public string? Description { get; set; }
     public DateTime CreatedOn { get; set; }
+    public DateTime ModifiedOn { get; set; }
 
     [ForeignKey("RecipeCategoryId")]
     public RecipeCategory RecipeCategory { get; set; }

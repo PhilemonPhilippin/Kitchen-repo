@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Kitchen.Api.Mappers;
+using Kitchen.Api.Mappers.Customs;
 using Kitchen.Entities;
 using Kitchen.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -12,12 +13,10 @@ namespace Kitchen.Api.Controllers;
 public class RecipesController : ControllerBase
 {
     private readonly IRecipeService _recipeService;
-    private readonly IMapper _mapper;
     private readonly ILogger<RecipesController> _logger;
 
-    public RecipesController(ILogger<RecipesController> logger, IMapper mapper, IRecipeService recipeService)
+    public RecipesController(ILogger<RecipesController> logger, IRecipeService recipeService)
     {
-        _mapper = mapper;
         _logger = logger;
         _recipeService = recipeService;
     }
@@ -39,7 +38,7 @@ public class RecipesController : ControllerBase
                 return NotFound();
             }
 
-            IEnumerable<RecipeDto> response = _mapper.Map<IEnumerable<RecipeDto>>(recipes);
+            IEnumerable<RecipeDto> response = recipes.Select(r => r.MapToRecipeDto());
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metadata));
 
@@ -65,7 +64,7 @@ public class RecipesController : ControllerBase
                 return NotFound();
             }
 
-            return Ok(_mapper.Map<RecipeDto>(recipe));
+            return Ok(recipe.MapToRecipeDto());
         }
         catch (Exception ex)
         {
@@ -86,7 +85,7 @@ public class RecipesController : ControllerBase
                 return BadRequest();
             }
 
-            RecipeDto response = _mapper.Map<RecipeDto>(recipe);
+            RecipeDto response = recipe.MapToRecipeDto();
 
             return CreatedAtAction(
                 nameof(GetRecipeById),

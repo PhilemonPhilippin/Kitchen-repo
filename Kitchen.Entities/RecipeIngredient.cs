@@ -10,4 +10,6 @@ public class RecipeIngredient
     [Required]
     [MaxLength(50)]
     public string IngredientQuantity { get; set; }
+    public DateTime CreatedOn { get; set; }
+    public DateTime ModifiedOn { get; set; }
 }

@@ -14,6 +14,8 @@ public class PreparationStep
     [Required]
     [MaxLength(500)]
     public string Step { get; set; } = string.Empty;
+    public DateTime CreatedOn { get; set; }
+    public DateTime ModifiedOn { get; set; }
 
     [ForeignKey("RecipeId")]
     public Recipe Recipe { get; set; }

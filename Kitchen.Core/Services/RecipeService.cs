@@ -64,7 +64,8 @@ public class RecipeService : IRecipeService
             Title = createRecipeRequest.Title,
             Description = createRecipeRequest.Description,
             RecipeCategoryId = createRecipeRequest.RecipeCategoryId,
-            CreatedOn = DateTime.UtcNow
+            CreatedOn = DateTime.UtcNow,
+            ModifiedOn = DateTime.UtcNow
         };
 
         RecipeCategory? category = await _recipeCategoryRepo.GetRecipeCategoryByIdAsync(createRecipeRequest.RecipeCategoryId);
