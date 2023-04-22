@@ -44,6 +44,7 @@ public class RecipeIngredientRepo : IRecipeIngredientRepo
         }
 
         recipeIngredientToUpdate.IngredientQuantity = recipeIngredient.IngredientQuantity;
+        recipeIngredientToUpdate.ModifiedOn = recipeIngredient.ModifiedOn;
 
         int updated = await _context.SaveChangesAsync();
 

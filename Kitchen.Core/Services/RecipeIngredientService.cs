@@ -47,7 +47,9 @@ public class RecipeIngredientService : IRecipeIngredientService
         {
             Id = Guid.NewGuid(),
             Name = createRecipeIngredientRequest.Name,
-            Description = createRecipeIngredientRequest.Description
+            Description = createRecipeIngredientRequest.Description,
+            CreatedOn = DateTime.UtcNow,
+            ModifiedOn = DateTime.UtcNow
         };
 
         bool isIngredientCreated = await _ingredientRepo.CreateIngredientAsync(ingredient);
@@ -61,7 +63,9 @@ public class RecipeIngredientService : IRecipeIngredientService
         {
             RecipeId = recipeId,
             IngredientId = ingredient.Id,
-            IngredientQuantity = createRecipeIngredientRequest.IngredientQuantity
+            IngredientQuantity = createRecipeIngredientRequest.IngredientQuantity,
+            CreatedOn = DateTime.UtcNow,
+            ModifiedOn = DateTime.UtcNow
         };
 
         bool isCreated = await _recipeIngredientRepo.CreateRecipeIngredientAsync(recipeIngredient);
@@ -75,7 +79,9 @@ public class RecipeIngredientService : IRecipeIngredientService
         {
             RecipeId = recipeId,
             IngredientId = (Guid)createRecipeIngredientRequest.IngredientId,
-            IngredientQuantity = createRecipeIngredientRequest.IngredientQuantity
+            IngredientQuantity = createRecipeIngredientRequest.IngredientQuantity,
+            CreatedOn = DateTime.UtcNow,
+            ModifiedOn = DateTime.UtcNow
         };
 
         bool recipeIngredientExists = await _recipeIngredientRepo.RecipeIngredientExistsAsync(recipeIngredient);
@@ -95,7 +101,8 @@ public class RecipeIngredientService : IRecipeIngredientService
         {
             IngredientId = ingredientId,
             RecipeId = recipeId,
-            IngredientQuantity = ingredientQuantity
+            IngredientQuantity = ingredientQuantity,
+            ModifiedOn = DateTime.UtcNow
         };
 
         bool isUpdated = await _recipeIngredientRepo.UpdateRecipeIngredientAsync(recipeIngredient);
