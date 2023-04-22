@@ -44,6 +44,7 @@ public class RecipeCategoryRepo : IRecipeCategoryRepo
 
         recipeCategoryToUpdate.Title = recipeCategory.Title;
         recipeCategoryToUpdate.Description = recipeCategory.Description;
+        recipeCategoryToUpdate.ModifiedOn = DateTime.UtcNow;
 
         int updated = await _context.SaveChangesAsync();
 
