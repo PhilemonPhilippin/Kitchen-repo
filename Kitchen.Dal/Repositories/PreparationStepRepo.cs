@@ -50,6 +50,7 @@ public class PreparationStepRepo : IPreparationStepRepo
         preparationStepToUpdate.Step = preparationStep.Step;
         preparationStepToUpdate.StepNumber = preparationStep.StepNumber;
         preparationStepToUpdate.RecipeId = recipeId;
+        preparationStepToUpdate.ModifiedOn = preparationStep.ModifiedOn;
 
         int updated = await _context.SaveChangesAsync();
 

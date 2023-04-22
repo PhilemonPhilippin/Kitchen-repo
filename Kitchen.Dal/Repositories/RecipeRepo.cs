@@ -112,7 +112,7 @@ public class RecipeRepo : IRecipeRepo
         recipeToUpdate.Title = recipe.Title;
         recipeToUpdate.Description = recipe.Description;
         recipeToUpdate.RecipeCategoryId = recipe.RecipeCategoryId;
-        recipeToUpdate.ModifiedOn = DateTime.UtcNow;
+        recipeToUpdate.ModifiedOn = recipe.ModifiedOn;
 
         int updated = await _context.SaveChangesAsync();
         return updated > 0;

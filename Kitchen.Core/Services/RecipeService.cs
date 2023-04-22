@@ -95,6 +95,7 @@ public class RecipeService : IRecipeService
             Title = updateRecipeRequest.Title,
             Description = updateRecipeRequest.Description,
             RecipeCategoryId = updateRecipeRequest.RecipeCategoryId,
+            ModifiedOn = DateTime.UtcNow
         };
 
         bool isUpdated = await _recipeRepo.UpdateRecipeAsync(id, recipe);

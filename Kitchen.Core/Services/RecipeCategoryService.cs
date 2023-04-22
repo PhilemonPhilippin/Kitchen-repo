@@ -51,7 +51,8 @@ public class RecipeCategoryService : IRecipeCategoryService
         RecipeCategory recipeCategory = new()
         {
             Title = updateRecipeCategoryRequest.Title,
-            Description = updateRecipeCategoryRequest.Description
+            Description = updateRecipeCategoryRequest.Description,
+            ModifiedOn = DateTime.UtcNow
         };
 
         bool isUpdated = await _recipeCategoryRepo.UpdateRecipeCategoryAsync(id, recipeCategory);

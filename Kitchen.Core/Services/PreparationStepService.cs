@@ -29,7 +29,9 @@ public class PreparationStepService : IPreparationStepService
             Title = createPreparationStepRequest.Title,
             Step = createPreparationStepRequest.Step,
             StepNumber = createPreparationStepRequest.StepNumber,
-            RecipeId = recipeId
+            RecipeId = recipeId,
+            CreatedOn = DateTime.UtcNow,
+            ModifiedOn = DateTime.UtcNow
         };
 
         Recipe? recipe = await _recipeRepo.GetRecipeByIdAsync(recipeId);
@@ -59,7 +61,8 @@ public class PreparationStepService : IPreparationStepService
         {
             Title = updatePreparationStepRequest.Title,
             Step = updatePreparationStepRequest.Step,
-            StepNumber= updatePreparationStepRequest.StepNumber
+            StepNumber= updatePreparationStepRequest.StepNumber,
+            ModifiedOn = DateTime.UtcNow
         };
 
         bool isUpdated = await _preparationStepRepo.UpdatePreparationStepAsync(recipeId, preparationStepId, preparationStep);
