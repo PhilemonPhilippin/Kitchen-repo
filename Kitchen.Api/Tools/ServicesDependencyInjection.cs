@@ -4,8 +4,19 @@ namespace Kitchen.Api.Tools;
 
 public static class ServicesDependencyInjection
 {
-    public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration, string AllowKitchenNG)
     {
+        services.AddCors(options =>
+        {
+            options.AddPolicy(name: AllowKitchenNG,
+                policy =>
+                {
+                    policy.WithOrigins("http://localhost:4200")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                });
+        });
+
         services.AddControllers(options =>
             {
                 options.ReturnHttpNotAcceptable = true;

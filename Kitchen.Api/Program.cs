@@ -1,5 +1,7 @@
 using Serilog;
 
+const string AllowKitchenNG = "_allowKitchenNG";
+
 // Serilog Configuration
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
@@ -10,7 +12,7 @@ Log.Logger = new LoggerConfiguration()
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.RegisterServices(builder.Configuration);
+builder.Services.RegisterServices(builder.Configuration, AllowKitchenNG);
 
 builder.Host.UseSerilog();
 
@@ -23,6 +25,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(AllowKitchenNG);
 
 app.UseAuthorization();
 
