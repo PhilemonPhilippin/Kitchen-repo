@@ -13,7 +13,8 @@ public static class ServicesDependencyInjection
                 {
                     policy.WithOrigins("http://localhost:4200")
                     .AllowAnyHeader()
-                    .AllowAnyMethod();
+                    .AllowAnyMethod()
+                    .WithExposedHeaders("X-Pagination");
                 });
         });
 
