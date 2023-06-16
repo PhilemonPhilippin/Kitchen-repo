@@ -6,4 +6,5 @@ public class PreparationStepDto
     public string Title { get; set; } = string.Empty;
     public int StepNumber { get; set; }
     public string Step { get; set; } = string.Empty;
+    public Guid RecipeId { get; set; }
 }
