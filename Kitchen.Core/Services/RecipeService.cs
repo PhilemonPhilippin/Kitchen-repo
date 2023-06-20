@@ -14,7 +14,7 @@ public class RecipeService : IRecipeService
         _recipeCategoryRepo = recipeCategoryRepo;
     }
 
-    public async Task<(IEnumerable<Recipe>, PaginationMetadata)> GetRecipesAsync(int pageNumber, int pageSize)
+    public async Task<(IEnumerable<Recipe> recipes, PaginationMetadata metadata)> GetRecipesAsync(int pageNumber, int pageSize)
     {
         if (pageSize > _maxPageSize)
             pageSize = _maxPageSize;
@@ -22,7 +22,7 @@ public class RecipeService : IRecipeService
         return await _recipeRepo.GetRecipesAsync(pageNumber, pageSize);
     }
 
-    public async Task<(IEnumerable<Recipe>, PaginationMetadata)> GetRecipesAsync(int pageNumber, int pageSize, string? title, string? searchQuery)
+    public async Task<(IEnumerable<Recipe> recipes, PaginationMetadata metadata)> GetRecipesAsync(int pageNumber, int pageSize, string? title, string? searchQuery)
     {
         if (pageSize > _maxPageSize)
             pageSize = _maxPageSize;
@@ -31,7 +31,7 @@ public class RecipeService : IRecipeService
         {
             title = title.Trim();
             searchQuery = searchQuery.Trim();
-            return await _recipeRepo.GetRecipesWithFilterAndSearchAsync(pageNumber, pageSize, title, searchQuery);
+            return await _recipeRepo.GetRecipesAsync(pageNumber, pageSize, title, searchQuery);
         }
         else if (string.IsNullOrEmpty(title) == false)
         {

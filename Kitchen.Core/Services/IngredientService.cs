@@ -12,7 +12,7 @@ public class IngredientService : IIngredientService
         _ingredientRepo = ingredientRepo;
     }
 
-    public async Task<(IEnumerable<Ingredient>, PaginationMetadata)> GetIngredientsAsync(int pageNumber, int pageSize)
+    public async Task<(IEnumerable<Ingredient> ingredients, PaginationMetadata metadata)> GetIngredientsAsync(int pageNumber, int pageSize)
     {
         if (pageSize > _maxPageSize)
             pageSize = _maxPageSize;

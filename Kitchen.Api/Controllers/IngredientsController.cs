@@ -27,10 +27,8 @@ public class IngredientsController : ControllerBase
     {
         try
         {
-            var ingredientsTuple = await _ingredientService.GetIngredientsAsync(pageNumber, pageSize);
-
-            IEnumerable<Ingredient> ingredients = ingredientsTuple.Item1;
-            PaginationMetadata metadata = ingredientsTuple.Item2;
+            (IEnumerable<Ingredient> ingredients, PaginationMetadata metadata) = 
+                await _ingredientService.GetIngredientsAsync(pageNumber, pageSize);
 
             if (ingredients == null || ingredients.Count() == 0)
             {

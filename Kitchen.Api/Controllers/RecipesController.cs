@@ -27,11 +27,8 @@ public class RecipesController : ControllerBase
     {
         try
         {
-            var recipesTuple = await _recipeService.GetRecipesAsync(pageNumber, pageSize, title, searchQuery);
-
-            IEnumerable<Recipe> recipes = recipesTuple.Item1;
-            PaginationMetadata metadata = recipesTuple.Item2;
-
+            (IEnumerable<Recipe> recipes, PaginationMetadata metadata) = await _recipeService.GetRecipesAsync(pageNumber, pageSize, title, searchQuery);
+            
             if (recipes == null || recipes.Count() == 0)
             {
                 _logger.LogInformation("Recipes were not found.");

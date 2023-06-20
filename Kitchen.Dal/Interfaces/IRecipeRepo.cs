@@ -2,12 +2,12 @@
 
 public interface IRecipeRepo
 {
-    Task<(IEnumerable<Recipe>, PaginationMetadata)> GetRecipesAsync(int pageNumber, int pageSize);
-    Task<(IEnumerable<Recipe>, PaginationMetadata)> GetRecipesWithFilterAsync(
+    Task<(IEnumerable<Recipe> recipes, PaginationMetadata metadata)> GetRecipesAsync(int pageNumber, int pageSize);
+    Task<(IEnumerable<Recipe> recipes, PaginationMetadata metadata)> GetRecipesWithFilterAsync(
         int pageNumber, int pageSize, string title);
-    Task<(IEnumerable<Recipe>, PaginationMetadata)> GetRecipesWithSearchAsync(
+    Task<(IEnumerable<Recipe> recipes, PaginationMetadata metadata)> GetRecipesWithSearchAsync(
         int pageNumber, int pageSize, string searchQuery);
-    Task<(IEnumerable<Recipe>, PaginationMetadata)> GetRecipesWithFilterAndSearchAsync(
+    Task<(IEnumerable<Recipe> recipes, PaginationMetadata metadata)> GetRecipesAsync(
         int pageNumber, int pageSize, string title, string searchQuery);
     Task<Recipe?> GetRecipeByIdAsync(Guid id);
     Task<bool> CreateRecipeAsync(Recipe recipe);

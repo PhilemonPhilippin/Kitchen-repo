@@ -4,8 +4,8 @@ namespace Kitchen.Core.Interfaces;
 
 public interface IRecipeService
 {
-    Task<(IEnumerable<Recipe>, PaginationMetadata)> GetRecipesAsync(int pageNumber, int pageSize);
-    Task<(IEnumerable<Recipe>, PaginationMetadata)> GetRecipesAsync(
+    Task<(IEnumerable<Recipe> recipes, PaginationMetadata metadata)> GetRecipesAsync(int pageNumber, int pageSize);
+    Task<(IEnumerable<Recipe> recipes, PaginationMetadata metadata)> GetRecipesAsync(
         int pageNumber, int pageSize, string? title, string? searchQuery);
     Task<Recipe?> GetRecipeByIdAsync(Guid id);
     Task<Recipe?> CreateRecipeAsync(CreateRecipeRequest createRecipeRequest);

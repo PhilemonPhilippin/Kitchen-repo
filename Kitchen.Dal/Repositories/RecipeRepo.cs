@@ -7,7 +7,7 @@ public class RecipeRepo : IRecipeRepo
     {
         _context = context;
     }
-    public async Task<(IEnumerable<Recipe>, PaginationMetadata)> GetRecipesAsync(int pageNumber, int pageSize)
+    public async Task<(IEnumerable<Recipe> recipes, PaginationMetadata metadata)> GetRecipesAsync(int pageNumber, int pageSize)
     {
         IEnumerable<Recipe> recipes = await _context.Recipes
             .Include(r => r.RecipeCategory)
@@ -23,7 +23,7 @@ public class RecipeRepo : IRecipeRepo
         return (recipes, metadata);
     }
 
-    public async Task<(IEnumerable<Recipe>, PaginationMetadata)> GetRecipesWithFilterAsync(
+    public async Task<(IEnumerable<Recipe> recipes, PaginationMetadata metadata)> GetRecipesWithFilterAsync(
         int pageNumber, int pageSize, string title)
     {
         IEnumerable<Recipe> recipes = await _context.Recipes
@@ -41,7 +41,7 @@ public class RecipeRepo : IRecipeRepo
         return (recipes, metadata);
     }
 
-    public async Task<(IEnumerable<Recipe>, PaginationMetadata)> GetRecipesWithSearchAsync(
+    public async Task<(IEnumerable<Recipe> recipes, PaginationMetadata metadata)> GetRecipesWithSearchAsync(
         int pageNumber, int pageSize, string searchQuery)
     {
         IQueryable<Recipe> collection = _context.Recipes;
@@ -62,7 +62,7 @@ public class RecipeRepo : IRecipeRepo
         return (recipes, metadata);
     }
 
-    public async Task<(IEnumerable<Recipe>, PaginationMetadata)> GetRecipesWithFilterAndSearchAsync(
+    public async Task<(IEnumerable<Recipe> recipes, PaginationMetadata metadata)> GetRecipesAsync(
         int pageNumber, int pageSize, string title, string searchQuery)
     {
         IQueryable<Recipe> collection = _context.Recipes;
