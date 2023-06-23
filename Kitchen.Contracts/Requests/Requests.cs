@@ -16,3 +16,7 @@ public record PreparationStepRequest([Required][MaxLength(50)] string Title,
 
 public record RecipeCategoryRequest([Required][MaxLength(50)] string Title,
                                     [MaxLength(500)] string? Description);
+
+public record UpdateRecipeIngredientRequest([Required][MaxLength(50)] string IngredientQuantity);
+public record CreateRecipeIngredientRequest([Required] Guid IngredientId,
+                                            [Required][MaxLength(50)] string IngredientQuantity);
