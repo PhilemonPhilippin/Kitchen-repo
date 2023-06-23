@@ -27,7 +27,7 @@ public class IngredientService : IIngredientService
         return ingredient;
     }
 
-    public async Task<Ingredient?> CreateIngredientAsync(CreateIngredientRequest createIngredientRequest)
+    public async Task<Ingredient?> CreateIngredientAsync(IngredientRequest createIngredientRequest)
     {
         Ingredient ingredient = new()
         {
@@ -48,7 +48,7 @@ public class IngredientService : IIngredientService
         return ingredient;
     }
 
-    public async Task<bool> UpdateIngredientAsync(Guid id, UpdateIngredientRequest updateIngredientRequest)
+    public async Task<bool> UpdateIngredientAsync(Guid id, IngredientRequest updateIngredientRequest)
     {
         Ingredient ingredient = new()
         {
