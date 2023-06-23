@@ -1,5 +1,4 @@
-﻿
-namespace Kitchen.Core.Services;
+﻿namespace Kitchen.Core.Services;
 
 public class RecipeCategoryService : IRecipeCategoryService
 {

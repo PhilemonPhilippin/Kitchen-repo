@@ -1,5 +1,4 @@
-﻿
-namespace Kitchen.Core.Services;
+﻿namespace Kitchen.Core.Services;
 
 public class PreparationStepService : IPreparationStepService
 {
@@ -61,7 +60,7 @@ public class PreparationStepService : IPreparationStepService
         {
             Title = updatePreparationStepRequest.Title,
             Step = updatePreparationStepRequest.Step,
-            StepNumber= updatePreparationStepRequest.StepNumber,
+            StepNumber = updatePreparationStepRequest.StepNumber,
             ModifiedOn = DateTime.UtcNow
         };
 

@@ -1,5 +1,4 @@
-﻿
-using Kitchen.Models;
+﻿using Kitchen.Models;
 
 namespace Kitchen.Core.Services;
 
@@ -53,7 +52,7 @@ public class IngredientService : IIngredientService
         Ingredient ingredient = new()
         {
             Name = updateIngredientRequest.Name,
-            Description= updateIngredientRequest.Description,
+            Description = updateIngredientRequest.Description,
             ModifiedOn = DateTime.UtcNow
         };
 

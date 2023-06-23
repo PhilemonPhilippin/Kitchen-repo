@@ -15,7 +15,7 @@ public class KitchenContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Composite PK
-        modelBuilder.Entity<RecipeIngredient>().HasKey(ir => new {ir.IngredientId,ir.RecipeId});
+        modelBuilder.Entity<RecipeIngredient>().HasKey(ir => new { ir.IngredientId, ir.RecipeId });
 
         // Many-to-Many
         modelBuilder.Entity<RecipeIngredient>()

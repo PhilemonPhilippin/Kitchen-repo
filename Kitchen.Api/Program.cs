@@ -4,10 +4,10 @@ const string AllowKitchenNG = "_allowKitchenNG";
 
 // Serilog Configuration
 Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Debug()
-    .WriteTo.Console()
-    .WriteTo.File("logs/kitchen.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information)
-    .CreateLogger();
+.MinimumLevel.Debug()
+.WriteTo.Console()
+.WriteTo.File("logs/kitchen.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information)
+.CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -3,10 +3,10 @@ namespace Kitchen.Models;
 
 public class PaginationMetadata
 {
-    public int PageNumber { get; set; }
-    public int PageSize { get; set; }
-    public int TotalItemCount { get; set; }
-    public int TotalPageCount { get; set; }
+    public int PageNumber { get; init; }
+    public int PageSize { get; init; }
+    public int TotalItemCount { get; init; }
+    public int TotalPageCount { get; init; }
 
     public PaginationMetadata(int pageNumber, int pageSize, int itemCount)
     {

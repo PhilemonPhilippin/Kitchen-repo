@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using Kitchen.Contracts.Requests;
 using Kitchen.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -27,7 +25,7 @@ public class IngredientsController : ControllerBase
     {
         try
         {
-            (IEnumerable<Ingredient> ingredients, PaginationMetadata metadata) = 
+            (IEnumerable<Ingredient> ingredients, PaginationMetadata metadata) =
                 await _ingredientService.GetIngredientsAsync(pageNumber, pageSize);
 
             if (ingredients == null || ingredients.Any() == false)

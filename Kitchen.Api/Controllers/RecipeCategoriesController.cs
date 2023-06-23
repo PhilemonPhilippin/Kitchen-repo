@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using Kitchen.Contracts.Requests;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kitchen.Api.Controllers;

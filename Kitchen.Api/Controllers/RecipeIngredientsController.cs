@@ -1,9 +1,4 @@
-﻿using AutoMapper;
-using Kitchen.Api.Mappers.Customs;
-using Kitchen.Contracts.Requests;
-using Kitchen.Core.Interfaces;
-using Kitchen.Entities;
-using Microsoft.AspNetCore.Http;
+﻿using Kitchen.Api.Mappers.Customs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kitchen.Api.Controllers;
@@ -81,7 +76,7 @@ public class RecipeIngredientsController : ControllerBase
 
             return NoContent();
         }
-        catch (Exception ex) 
+        catch (Exception ex)
         {
             _logger.LogCritical($"While associating an ingredient with a recipe, for recipe id = {recipeId} and ingredient name = {createRecipeIngredientRequest.IngredientId}, error = {ex}");
             return StatusCode(500, "A problem occured while handling the request.");

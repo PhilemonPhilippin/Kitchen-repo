@@ -1,7 +1,4 @@
-﻿using Kitchen.Contracts.Requests;
-using Kitchen.Entities;
-
-namespace Kitchen.Core.Services;
+﻿namespace Kitchen.Core.Services;
 
 public class RecipeIngredientService : IRecipeIngredientService
 {

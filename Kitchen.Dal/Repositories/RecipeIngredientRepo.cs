@@ -20,7 +20,7 @@ public class RecipeIngredientRepo : IRecipeIngredientRepo
     }
 
     public async Task<bool> CreateRecipeIngredientAsync(RecipeIngredient recipeIngredient)
-    { 
+    {
         _context.RecipeIngredients.Add(recipeIngredient);
 
         int created = await _context.SaveChangesAsync();

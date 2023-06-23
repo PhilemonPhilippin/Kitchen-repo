@@ -272,31 +272,31 @@ public static class KitchenSeed
                     CreatedOn = DateTime.UtcNow,
                     ModifiedOn = DateTime.UtcNow
                 },
-                 new RecipeIngredient()
-                 {
-                    IngredientId = new Guid("00000000-0000-0007-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0005-000000000000"),
-                     IngredientQuantity = "2 tins of crushed tomatoes",
-                     CreatedOn = DateTime.UtcNow,
-                     ModifiedOn = DateTime.UtcNow
-                 },
-                 new RecipeIngredient()
-                 {
-                     IngredientId = new Guid("00000000-0000-0008-0000-000000000000"),
-                     RecipeId = new Guid("00000000-0000-0000-0005-000000000000"),
-                     IngredientQuantity = "300 g.",
-                     CreatedOn = DateTime.UtcNow,
-                     ModifiedOn = DateTime.UtcNow
-                 },
-                 new RecipeIngredient()
-                 {
-                     IngredientId = new Guid("00000000-0000-0009-0000-000000000000"),
-                     RecipeId = new Guid("00000000-0000-0000-0005-000000000000"),
-                     IngredientQuantity = "250 g.",
-                     CreatedOn = DateTime.UtcNow,
-                     ModifiedOn = DateTime.UtcNow
-                 }
-                 );
+                    new RecipeIngredient()
+                    {
+                        IngredientId = new Guid("00000000-0000-0007-0000-000000000000"),
+                        RecipeId = new Guid("00000000-0000-0000-0005-000000000000"),
+                        IngredientQuantity = "2 tins of crushed tomatoes",
+                        CreatedOn = DateTime.UtcNow,
+                        ModifiedOn = DateTime.UtcNow
+                    },
+                    new RecipeIngredient()
+                    {
+                        IngredientId = new Guid("00000000-0000-0008-0000-000000000000"),
+                        RecipeId = new Guid("00000000-0000-0000-0005-000000000000"),
+                        IngredientQuantity = "300 g.",
+                        CreatedOn = DateTime.UtcNow,
+                        ModifiedOn = DateTime.UtcNow
+                    },
+                    new RecipeIngredient()
+                    {
+                        IngredientId = new Guid("00000000-0000-0009-0000-000000000000"),
+                        RecipeId = new Guid("00000000-0000-0000-0005-000000000000"),
+                        IngredientQuantity = "250 g.",
+                        CreatedOn = DateTime.UtcNow,
+                        ModifiedOn = DateTime.UtcNow
+                    }
+                    );
         #endregion
 
         #region SeedPreparationSteps

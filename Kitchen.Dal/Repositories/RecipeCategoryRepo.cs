@@ -50,7 +50,7 @@ public class RecipeCategoryRepo : IRecipeCategoryRepo
 
         return updated > 0;
     }
-    
+
     public async Task<bool> DeleteRecipeCategoryAsync(Guid id)
     {
         RecipeCategory? recipeCategory = await GetRecipeCategoryByIdAsync(id);

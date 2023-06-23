@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using Kitchen.Api.Mappers;
-using Kitchen.Api.Mappers.Customs;
-using Kitchen.Entities;
+﻿using Kitchen.Api.Mappers.Customs;
 using Kitchen.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
@@ -28,7 +25,7 @@ public class RecipesController : ControllerBase
         try
         {
             (IEnumerable<Recipe> recipes, PaginationMetadata metadata) = await _recipeService.GetRecipesAsync(pageNumber, pageSize, title, searchQuery);
-            
+
             if (recipes == null || recipes.Any() == false)
             {
                 _logger.LogInformation("Recipes were not found.");
@@ -86,7 +83,7 @@ public class RecipesController : ControllerBase
 
             return CreatedAtAction(
                 nameof(GetRecipeById),
-                new { id = recipe.Id }, 
+                new { id = recipe.Id },
                 response);
         }
         catch (Exception ex)

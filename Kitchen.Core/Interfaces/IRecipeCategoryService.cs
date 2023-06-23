@@ -1,5 +1,4 @@
-﻿
-namespace Kitchen.Core.Interfaces;
+﻿namespace Kitchen.Core.Interfaces;
 
 public interface IRecipeCategoryService
 {

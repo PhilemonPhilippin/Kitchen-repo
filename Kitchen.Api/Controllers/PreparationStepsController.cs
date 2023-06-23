@@ -1,7 +1,4 @@
 ﻿using AutoMapper;
-using Kitchen.Contracts.Requests;
-using Kitchen.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kitchen.Api.Controllers;
@@ -100,11 +97,11 @@ public class PreparationStepsController : ControllerBase
 
             PreparationStepDto response = _mapper.Map<PreparationStepDto>(preparationStep);
             return CreatedAtAction(
-                nameof(GetPreparationStep), 
-                new 
-                { 
+                nameof(GetPreparationStep),
+                new
+                {
                     recipeId = recipeId,
-                    preparationStepId = preparationStep.Id 
+                    preparationStepId = preparationStep.Id
                 },
                 response);
         }
@@ -116,7 +113,7 @@ public class PreparationStepsController : ControllerBase
     }
     [HttpPut("{preparationstepid:Guid}")]
     public async Task<ActionResult> UpdatePreparationStep(
-        [FromRoute] Guid recipeId, [FromRoute] Guid preparationStepId, 
+        [FromRoute] Guid recipeId, [FromRoute] Guid preparationStepId,
         [FromBody] PreparationStepRequest updatePreparationStepRequest)
     {
         try

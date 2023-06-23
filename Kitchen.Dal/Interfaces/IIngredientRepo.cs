@@ -1,6 +1,4 @@
-﻿
-
-namespace Kitchen.Dal.Interfaces;
+﻿namespace Kitchen.Dal.Interfaces;
 
 public interface IIngredientRepo
 {
