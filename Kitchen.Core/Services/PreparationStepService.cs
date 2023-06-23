@@ -21,7 +21,7 @@ public class PreparationStepService : IPreparationStepService
         return await _preparationStepRepo.GetPreparationStepAsync(recipeId, preparationStepId);
     }
 
-    public async Task<PreparationStep?> CreatePreparationStepAsync(Guid recipeId, CreatePreparationStepRequest createPreparationStepRequest)
+    public async Task<PreparationStep?> CreatePreparationStepAsync(Guid recipeId, PreparationStepRequest createPreparationStepRequest)
     {
         PreparationStep preparationStep = new()
         {
@@ -55,7 +55,7 @@ public class PreparationStepService : IPreparationStepService
     }
 
     public async Task<bool> UpdatePreparationStepAsync(
-        Guid recipeId, Guid preparationStepId, UpdatePreparationStepRequest updatePreparationStepRequest)
+        Guid recipeId, Guid preparationStepId, PreparationStepRequest updatePreparationStepRequest)
     {
         PreparationStep preparationStep = new()
         {

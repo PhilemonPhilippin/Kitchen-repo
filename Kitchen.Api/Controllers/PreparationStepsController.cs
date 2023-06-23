@@ -79,7 +79,7 @@ public class PreparationStepsController : ControllerBase
     }
     [HttpPost]
     public async Task<ActionResult<PreparationStepDto>> CreatePreparationStep(
-        [FromRoute] Guid recipeId, [FromBody] CreatePreparationStepRequest createPreparationStepRequest)
+        [FromRoute] Guid recipeId, [FromBody] PreparationStepRequest createPreparationStepRequest)
     {
         try
         {
@@ -117,7 +117,7 @@ public class PreparationStepsController : ControllerBase
     [HttpPut("{preparationstepid:Guid}")]
     public async Task<ActionResult> UpdatePreparationStep(
         [FromRoute] Guid recipeId, [FromRoute] Guid preparationStepId, 
-        [FromBody] UpdatePreparationStepRequest updatePreparationStepRequest)
+        [FromBody] PreparationStepRequest updatePreparationStepRequest)
     {
         try
         {
