@@ -28,6 +28,9 @@ public class KitchenContext : DbContext
             .WithMany(ir => ir.RecipeIngredients)
             .HasForeignKey(ir => ir.RecipeId);
 
+        // Unique
+        modelBuilder.Entity<Ingredient>().HasIndex(i => i.Name).IsUnique();
+
         modelBuilder.Seed();
     }
 }
