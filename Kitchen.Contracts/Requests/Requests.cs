@@ -13,3 +13,6 @@ public record IngredientRequest([Required][MaxLength(50)] string Name,
 public record PreparationStepRequest([Required][MaxLength(50)] string Title,
                                     [Required] int StepNumber,
                                     [Required][MaxLength(500)] string Step);
+
+public record RecipeCategoryRequest([Required][MaxLength(50)] string Title,
+                                    [MaxLength(500)] string? Description);

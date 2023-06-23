@@ -25,7 +25,7 @@ public class RecipeCategoryService : IRecipeCategoryService
         return recipeCategory;
     }
 
-    public async Task<RecipeCategory?> CreateRecipeCategoryAsync(CreateRecipeCategoryRequest createRecipeCategoryRequest)
+    public async Task<RecipeCategory?> CreateRecipeCategoryAsync(RecipeCategoryRequest createRecipeCategoryRequest)
     {
         RecipeCategory recipeCategory = new()
         {
@@ -46,7 +46,7 @@ public class RecipeCategoryService : IRecipeCategoryService
         return recipeCategory;
     }
 
-    public async Task<bool> UpdateRecipeCategoryAsync(Guid id, UpdateRecipeCategoryRequest updateRecipeCategoryRequest)
+    public async Task<bool> UpdateRecipeCategoryAsync(Guid id, RecipeCategoryRequest updateRecipeCategoryRequest)
     {
         RecipeCategory recipeCategory = new()
         {
