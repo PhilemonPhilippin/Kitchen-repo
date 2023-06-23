@@ -70,7 +70,7 @@ public class RecipesController : ControllerBase
         }
     }
     [HttpPost]
-    public async Task<ActionResult<RecipeDto>> CreateRecipe([FromBody] CreateRecipeRequest createRecipeRequest)
+    public async Task<ActionResult<RecipeDto>> CreateRecipe([FromBody] RecipeRequest createRecipeRequest)
     {
         try
         {
@@ -98,7 +98,7 @@ public class RecipesController : ControllerBase
 
     [HttpPut("{id:Guid}")]
     public async Task<ActionResult> UpdateRecipe(
-        [FromRoute] Guid id, [FromBody] UpdateRecipeRequest updateRecipeRequest)
+        [FromRoute] Guid id, [FromBody] RecipeRequest updateRecipeRequest)
     {
         try
         {

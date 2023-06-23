@@ -56,7 +56,7 @@ public class RecipeService : IRecipeService
         return recipe;
     }
 
-    public async Task<Recipe?> CreateRecipeAsync(CreateRecipeRequest createRecipeRequest)
+    public async Task<Recipe?> CreateRecipeAsync(RecipeRequest createRecipeRequest)
     {
         Recipe recipe = new()
         {
@@ -88,7 +88,7 @@ public class RecipeService : IRecipeService
         }
     }
 
-    public async Task<bool> UpdateRecipeAsync(Guid id, UpdateRecipeRequest updateRecipeRequest)
+    public async Task<bool> UpdateRecipeAsync(Guid id, RecipeRequest updateRecipeRequest)
     {
         Recipe recipe = new()
         {
