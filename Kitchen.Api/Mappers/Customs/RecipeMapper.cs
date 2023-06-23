@@ -4,17 +4,12 @@ public static class RecipeMapper
 {
     public static RecipeDto MapToRecipeDto(this Recipe recipe)
     {
-        return new RecipeDto()
-        {
-            Id = recipe.Id,
-            Title = recipe.Title,
-            Description = recipe.Description,
-            RecipeCategory = new() 
-            { 
-                Id = recipe.RecipeCategory.Id,
-                Title = recipe.RecipeCategory.Title,
-                Description = recipe.RecipeCategory.Description
-            }
-        };
+
+        return new RecipeDto(recipe.Id,
+                            recipe.Title,
+                            recipe.Description,
+                            new RecipeCategoryDto(recipe.RecipeCategory.Id,
+                                                recipe.RecipeCategory.Title,
+                                                recipe.RecipeCategory.Description));
     }
 }
