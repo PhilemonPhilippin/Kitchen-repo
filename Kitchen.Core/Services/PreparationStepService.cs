@@ -36,7 +36,7 @@ public class PreparationStepService : IPreparationStepService
 
         Recipe? recipe = await _recipeRepo.GetRecipeByIdAsync(recipeId);
 
-        if (recipe == null)
+        if (recipe is null)
         {
             return null;
         }

@@ -22,8 +22,7 @@ public class PreparationStepRepo : IPreparationStepRepo
     public async Task<PreparationStep?> GetPreparationStepAsync(Guid recipeId, Guid preparationStepId)
     {
         PreparationStep? preparationStep = await _context.PreparationSteps
-            .Where(p => p.Id == preparationStepId && p.RecipeId == recipeId)
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync(p => p.Id == preparationStepId && p.RecipeId == recipeId);
 
         return preparationStep;
     }

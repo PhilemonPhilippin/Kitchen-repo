@@ -26,7 +26,7 @@ public class IngredientRepo : IIngredientRepo
 
     public async Task<Ingredient?> GetIngredientByIdAsync(Guid id)
     {
-        Ingredient? ingredient = await _context.Ingredients.Where(i => i.Id == id).FirstOrDefaultAsync();
+        Ingredient? ingredient = await _context.Ingredients.FirstOrDefaultAsync(i => i.Id == id);
 
         return ingredient;
     }

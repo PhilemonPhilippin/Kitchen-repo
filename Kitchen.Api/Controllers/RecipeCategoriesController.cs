@@ -27,7 +27,7 @@ public class RecipeCategoriesController : ControllerBase
         {
             IEnumerable<RecipeCategory> recipeCategories = await _recipeCategoryService.GetRecipeCategoriesAsync();
 
-            if (recipeCategories == null || recipeCategories.Count() == 0)
+            if (recipeCategories == null || recipeCategories.Any() == false)
             {
                 _logger.LogInformation($"Recipe categories were not found.");
                 return NotFound();
@@ -51,7 +51,7 @@ public class RecipeCategoriesController : ControllerBase
         {
             RecipeCategory? recipeCategory = await _recipeCategoryService.GetRecipeCategoryByIdAsync(id);
 
-            if (recipeCategory == null) 
+            if (recipeCategory == null)
             {
                 _logger.LogInformation($"Recipe category with id {id} was not found.");
                 return NotFound();
@@ -83,7 +83,7 @@ public class RecipeCategoriesController : ControllerBase
 
             return CreatedAtAction(
                     nameof(GetRecipeCategoryById),
-                    new {id = recipeCategory.Id},
+                    new { id = recipeCategory.Id },
                     response
                 );
         }

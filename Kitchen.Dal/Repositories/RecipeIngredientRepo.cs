@@ -68,8 +68,7 @@ public class RecipeIngredientRepo : IRecipeIngredientRepo
     private async Task<RecipeIngredient?> GetRecipeIngredientByIdAsync(Guid recipeId, Guid ingredientId)
     {
         RecipeIngredient? recipeIngredient = await _context.RecipeIngredients
-            .Where(ri => ri.IngredientId == ingredientId && ri.RecipeId == recipeId)
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync(ri => ri.IngredientId == ingredientId && ri.RecipeId == recipeId);
 
         return recipeIngredient;
     }

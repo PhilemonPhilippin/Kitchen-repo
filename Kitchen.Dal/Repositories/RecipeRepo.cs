@@ -86,7 +86,9 @@ public class RecipeRepo : IRecipeRepo
 
     public async Task<Recipe?> GetRecipeByIdAsync(Guid id)
     {
-        Recipe? recipe = await _context.Recipes.Include(r => r.RecipeCategory).Where(r => r.Id == id).FirstOrDefaultAsync();
+        Recipe? recipe = await _context.Recipes.
+            Include(r => r.RecipeCategory).
+            FirstOrDefaultAsync(r => r.Id == id);
 
         return recipe;
     }
@@ -102,7 +104,7 @@ public class RecipeRepo : IRecipeRepo
 
     public async Task<bool> UpdateRecipeAsync(Guid id, Recipe recipe)
     {
-        Recipe? recipeToUpdate = await _context.Recipes.Where(r => r.Id == id).FirstOrDefaultAsync();
+        Recipe? recipeToUpdate = await _context.Recipes.FirstOrDefaultAsync(r => r.Id == id);
 
         if (recipeToUpdate == null)
         {
@@ -120,7 +122,7 @@ public class RecipeRepo : IRecipeRepo
 
     public async Task<bool> DeleteRecipeAsync(Guid id)
     {
-        Recipe? recipe = await _context.Recipes.Where(r => r.Id == id).FirstOrDefaultAsync();
+        Recipe? recipe = await _context.Recipes.FirstOrDefaultAsync(r => r.Id == id);
 
         if (recipe == null)
         {

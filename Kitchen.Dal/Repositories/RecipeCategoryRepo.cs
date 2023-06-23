@@ -19,7 +19,7 @@ public class RecipeCategoryRepo : IRecipeCategoryRepo
 
     public async Task<RecipeCategory?> GetRecipeCategoryByIdAsync(Guid id)
     {
-        RecipeCategory? recipeCategory = await _context.RecipeCategories.Where(rc => rc.Id == id).FirstOrDefaultAsync();
+        RecipeCategory? recipeCategory = await _context.RecipeCategories.FirstOrDefaultAsync(rc => rc.Id == id);
 
         return recipeCategory;
     }

@@ -30,7 +30,7 @@ public class IngredientsController : ControllerBase
             (IEnumerable<Ingredient> ingredients, PaginationMetadata metadata) = 
                 await _ingredientService.GetIngredientsAsync(pageNumber, pageSize);
 
-            if (ingredients == null || ingredients.Count() == 0)
+            if (ingredients == null || ingredients.Any() == false)
             {
                 _logger.LogInformation("Ingredients were not found");
                 return NotFound();
