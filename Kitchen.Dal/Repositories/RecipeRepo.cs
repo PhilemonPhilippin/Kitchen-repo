@@ -17,7 +17,6 @@ public class RecipeRepo : IRecipeRepo
             .ToListAsync();
 
         int totalItemCount = await _context.Recipes.CountAsync();
-
         PaginationMetadata metadata = new(pageNumber, pageSize, totalItemCount);
 
         return (recipes, metadata);
@@ -35,7 +34,6 @@ public class RecipeRepo : IRecipeRepo
             .ToListAsync();
 
         int totalItemCount = await _context.Recipes.Where(r => r.Title == title).CountAsync();
-
         PaginationMetadata metadata = new(pageNumber, pageSize, totalItemCount);
 
         return (recipes, metadata);
@@ -50,7 +48,6 @@ public class RecipeRepo : IRecipeRepo
             r.Title.Contains(searchQuery) || (r.Description != null && r.Description.Contains(searchQuery)));
 
         int totalItemCount = await collection.CountAsync();
-
         PaginationMetadata metadata = new(pageNumber, pageSize, totalItemCount);
 
         IEnumerable<Recipe> recipes = await collection.Include(r => r.RecipeCategory)
@@ -67,12 +64,11 @@ public class RecipeRepo : IRecipeRepo
     {
         IQueryable<Recipe> collection = _context.Recipes;
 
-        collection = collection.Where(r =>
-            (r.Title.Contains(searchQuery) || (r.Description != null && r.Description.Contains(searchQuery)))
+        collection = collection
+            .Where(r => (r.Title.Contains(searchQuery) || (r.Description != null && r.Description.Contains(searchQuery)))
             && r.Title == title);
 
         int totalItemCount = await collection.CountAsync();
-
         PaginationMetadata metadata = new(pageNumber, pageSize, totalItemCount);
 
         IEnumerable<Recipe> recipes = await _context.Recipes.Include(r => r.RecipeCategory)
@@ -84,21 +80,16 @@ public class RecipeRepo : IRecipeRepo
         return (recipes, metadata);
     }
 
-    public async Task<Recipe?> GetRecipeByIdAsync(Guid id)
-    {
-        Recipe? recipe = await _context.Recipes.
-            Include(r => r.RecipeCategory).
-            FirstOrDefaultAsync(r => r.Id == id);
-
-        return recipe;
-    }
+    public async Task<Recipe?> GetRecipeByIdAsync(Guid id) =>
+        await _context.Recipes
+        .Include(r => r.RecipeCategory)
+        .FirstOrDefaultAsync(r => r.Id == id);
 
     public async Task<bool> CreateRecipeAsync(Recipe recipe)
     {
         _context.Recipes.Add(recipe);
 
         int created = await _context.SaveChangesAsync();
-
         return created > 0;
     }
 
@@ -106,10 +97,9 @@ public class RecipeRepo : IRecipeRepo
     {
         Recipe? recipeToUpdate = await _context.Recipes.FirstOrDefaultAsync(r => r.Id == id);
 
-        if (recipeToUpdate == null)
-        {
+        if (recipeToUpdate is null)
             return false;
-        }
+
 
         recipeToUpdate.Title = recipe.Title;
         recipeToUpdate.Description = recipe.Description;
@@ -124,18 +114,16 @@ public class RecipeRepo : IRecipeRepo
     {
         Recipe? recipe = await _context.Recipes.FirstOrDefaultAsync(r => r.Id == id);
 
-        if (recipe == null)
-        {
+        if (recipe is null)
             return false;
-        }
+
 
         _context.Recipes.Remove(recipe);
         await _context.SaveChangesAsync();
         return true;
     }
 
-    public async Task<bool> RecipeExistsAsync(Guid id)
-    {
-        return await _context.Recipes.AnyAsync(r => r.Id == id);
-    }
+    public async Task<bool> RecipeExistsAsync(Guid id) =>
+        await _context.Recipes.AnyAsync(r => r.Id == id);
+
 }

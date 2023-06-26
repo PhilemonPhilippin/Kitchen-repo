@@ -24,15 +24,14 @@ public class IngredientRepo : IIngredientRepo
         return (ingredients, metadata);
     }
 
-    public async Task<Ingredient?> GetIngredientByIdAsync(Guid id)
-    {
-        Ingredient? ingredient = await _context.Ingredients.FirstOrDefaultAsync(i => i.Id == id);
-
-        return ingredient;
-    }
+    public async Task<Ingredient?> GetIngredientByIdAsync(Guid id) =>
+        await _context.Ingredients.FirstOrDefaultAsync(i => i.Id == id);
 
     public async Task<bool> CreateIngredientAsync(Ingredient ingredient)
     {
+        if (await IngredientExistsAsync(ingredient.Name))
+            return false;
+
         _context.Ingredients.Add(ingredient);
 
         int created = await _context.SaveChangesAsync();
@@ -42,12 +41,13 @@ public class IngredientRepo : IIngredientRepo
 
     public async Task<bool> UpdateIngredientAsync(Guid id, Ingredient ingredient)
     {
+        if (await IngredientExistsAsync(ingredient.Name))
+            return false;
+
         Ingredient? ingredientToUpdate = await GetIngredientByIdAsync(id);
 
-        if (ingredientToUpdate == null)
-        {
+        if (ingredientToUpdate is null)
             return false;
-        }
 
 
         ingredientToUpdate.Name = ingredient.Name;
@@ -62,18 +62,19 @@ public class IngredientRepo : IIngredientRepo
     {
         Ingredient? ingredient = await GetIngredientByIdAsync(id);
 
-        if (ingredient == null)
-        {
+        if (ingredient is null)
             return false;
-        }
+
 
         _context.Ingredients.Remove(ingredient);
         await _context.SaveChangesAsync();
         return true;
     }
 
-    public async Task<bool> IngredientExistsAsync(Guid id)
-    {
-        return await _context.Ingredients.AnyAsync(i => i.Id == id);
-    }
+    public async Task<bool> IngredientExistsAsync(Guid id) =>
+        await _context.Ingredients.AnyAsync(i => i.Id == id);
+
+    private async Task<bool> IngredientExistsAsync(string name) =>
+        await _context.Ingredients.AnyAsync(i => i.Name == name);
+
 }

@@ -9,30 +9,21 @@ public class PreparationStepRepo : IPreparationStepRepo
     {
         _context = context;
     }
-    public async Task<IEnumerable<PreparationStep>> GetPreparationStepsAsync(Guid recipeId)
-    {
-        IEnumerable<PreparationStep> preparationSteps = await _context.PreparationSteps
-            .Where(p => p.RecipeId == recipeId)
-            .OrderBy(p => p.StepNumber)
-            .ToListAsync();
+    public async Task<IEnumerable<PreparationStep>> GetPreparationStepsAsync(Guid recipeId) =>
+        await _context.PreparationSteps
+        .Where(p => p.RecipeId == recipeId)
+        .OrderBy(p => p.StepNumber)
+        .ToListAsync();
 
-        return preparationSteps;
-    }
-
-    public async Task<PreparationStep?> GetPreparationStepAsync(Guid recipeId, Guid preparationStepId)
-    {
-        PreparationStep? preparationStep = await _context.PreparationSteps
-            .FirstOrDefaultAsync(p => p.Id == preparationStepId && p.RecipeId == recipeId);
-
-        return preparationStep;
-    }
+    public async Task<PreparationStep?> GetPreparationStepAsync(Guid recipeId, Guid preparationStepId) =>
+        await _context.PreparationSteps
+        .FirstOrDefaultAsync(p => p.Id == preparationStepId && p.RecipeId == recipeId);
 
     public async Task<bool> CreatePreparationStepAsync(PreparationStep preparationStep)
     {
         _context.PreparationSteps.Add(preparationStep);
 
         int created = await _context.SaveChangesAsync();
-
         return created > 0;
     }
 
@@ -40,10 +31,9 @@ public class PreparationStepRepo : IPreparationStepRepo
     {
         PreparationStep? preparationStepToUpdate = await GetPreparationStepAsync(recipeId, preparationStepId);
 
-        if (preparationStepToUpdate == null)
-        {
+        if (preparationStepToUpdate is null)
             return false;
-        }
+
 
         preparationStepToUpdate.Title = preparationStep.Title;
         preparationStepToUpdate.Step = preparationStep.Step;
@@ -52,7 +42,6 @@ public class PreparationStepRepo : IPreparationStepRepo
         preparationStepToUpdate.ModifiedOn = preparationStep.ModifiedOn;
 
         int updated = await _context.SaveChangesAsync();
-
         return updated > 0;
     }
 
@@ -60,10 +49,8 @@ public class PreparationStepRepo : IPreparationStepRepo
     {
         PreparationStep? preparationStep = await GetPreparationStepAsync(recipeId, preparationStepId);
 
-        if (preparationStep == null)
-        {
+        if (preparationStep is null)
             return false;
-        }
 
         _context.PreparationSteps.Remove(preparationStep);
         await _context.SaveChangesAsync();

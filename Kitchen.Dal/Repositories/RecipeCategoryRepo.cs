@@ -10,26 +10,20 @@ public class RecipeCategoryRepo : IRecipeCategoryRepo
     }
 
 
-    public async Task<IEnumerable<RecipeCategory>> GetRecipeCategoriesAsync()
-    {
-        IEnumerable<RecipeCategory> recipeCategories = await _context.RecipeCategories.OrderBy(rc => rc.Title).ToListAsync();
+    public async Task<IEnumerable<RecipeCategory>> GetRecipeCategoriesAsync() =>
+        await _context.RecipeCategories.OrderBy(rc => rc.Title).ToListAsync();
 
-        return recipeCategories;
-    }
 
     public async Task<RecipeCategory?> GetRecipeCategoryByIdAsync(Guid id)
-    {
-        RecipeCategory? recipeCategory = await _context.RecipeCategories.FirstOrDefaultAsync(rc => rc.Id == id);
+        => await _context.RecipeCategories
+        .FirstOrDefaultAsync(rc => rc.Id == id);
 
-        return recipeCategory;
-    }
 
     public async Task<bool> CreateRecipeCategoryAsync(RecipeCategory recipeCategory)
     {
         _context.RecipeCategories.Add(recipeCategory);
 
         int created = await _context.SaveChangesAsync();
-
         return created > 0;
     }
 
@@ -37,17 +31,14 @@ public class RecipeCategoryRepo : IRecipeCategoryRepo
     {
         RecipeCategory? recipeCategoryToUpdate = await GetRecipeCategoryByIdAsync(id);
 
-        if (recipeCategoryToUpdate == null)
-        {
+        if (recipeCategoryToUpdate is null)
             return false;
-        }
 
         recipeCategoryToUpdate.Title = recipeCategory.Title;
         recipeCategoryToUpdate.Description = recipeCategory.Description;
         recipeCategoryToUpdate.ModifiedOn = recipeCategory.ModifiedOn;
 
         int updated = await _context.SaveChangesAsync();
-
         return updated > 0;
     }
 
@@ -55,7 +46,7 @@ public class RecipeCategoryRepo : IRecipeCategoryRepo
     {
         RecipeCategory? recipeCategory = await GetRecipeCategoryByIdAsync(id);
 
-        if (recipeCategory == null)
+        if (recipeCategory is null)
         {
             return false;
         }
