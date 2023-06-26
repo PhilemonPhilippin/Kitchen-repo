@@ -28,7 +28,7 @@ public class IngredientsController : ControllerBase
             (IEnumerable<Ingredient> ingredients, PaginationMetadata metadata) =
                 await _ingredientService.GetIngredientsAsync(pageNumber, pageSize);
 
-            if (ingredients == null || ingredients.Any() == false)
+            if (ingredients is null || ingredients.Any() == false)
             {
                 _logger.LogInformation("Ingredients were not found");
                 return NotFound();
@@ -37,7 +37,6 @@ public class IngredientsController : ControllerBase
             IEnumerable<IngredientDto> response = _mapper.Map<IEnumerable<IngredientDto>>(ingredients);
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metadata));
-
             return Ok(response);
         }
         catch (Exception ex)
@@ -54,7 +53,7 @@ public class IngredientsController : ControllerBase
         {
             Ingredient? ingredient = await _ingredientService.GetIngredientByIdAsync(id);
 
-            if (ingredient == null)
+            if (ingredient is null)
             {
                 _logger.LogInformation($"Ingredient with id {id} was not found.");
                 return NotFound();
@@ -76,7 +75,7 @@ public class IngredientsController : ControllerBase
         {
             Ingredient? ingredient = await _ingredientService.CreateIngredientAsync(createIngredientRequest);
 
-            if (ingredient == null)
+            if (ingredient is null)
             {
                 _logger.LogInformation($"Could not create the ingredient with name = {createIngredientRequest.Name}");
                 return BadRequest();
@@ -96,7 +95,9 @@ public class IngredientsController : ControllerBase
         }
     }
     [HttpPut("{id:GUid}")]
-    public async Task<ActionResult> UpdateIngredient([FromRoute] Guid id, [FromBody] IngredientRequest updateIngredientRequest)
+    public async Task<ActionResult> UpdateIngredient(
+        [FromRoute] Guid id,
+        [FromBody] IngredientRequest updateIngredientRequest)
     {
         try
         {
@@ -107,7 +108,6 @@ public class IngredientsController : ControllerBase
                 _logger.LogInformation($"Ingredient with id {id} could not be updated.");
                 return NotFound();
             }
-
             return NoContent();
         }
         catch (Exception ex)
@@ -129,7 +129,6 @@ public class IngredientsController : ControllerBase
                 _logger.LogInformation($"Ingredient with id {id} could not be deleted.");
                 return NotFound();
             }
-
             return NoContent();
         }
         catch (Exception ex)

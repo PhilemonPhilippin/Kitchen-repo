@@ -20,13 +20,17 @@ public class RecipesController : ControllerBase
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<RecipeDto>>> GetRecipes(
-        [FromQuery] int pageNumber, [FromQuery] int pageSize, [FromQuery] string? title, [FromQuery] string? searchQuery)
+        [FromQuery] int pageNumber,
+        [FromQuery] int pageSize,
+        [FromQuery] string? title,
+        [FromQuery] string? searchQuery)
     {
         try
         {
-            (IEnumerable<Recipe> recipes, PaginationMetadata metadata) = await _recipeService.GetRecipesAsync(pageNumber, pageSize, title, searchQuery);
+            (IEnumerable<Recipe> recipes, PaginationMetadata metadata) =
+                await _recipeService.GetRecipesAsync(pageNumber, pageSize, title, searchQuery);
 
-            if (recipes == null || recipes.Any() == false)
+            if (recipes is null || recipes.Any() == false)
             {
                 _logger.LogInformation("Recipes were not found.");
                 return NotFound();
@@ -35,7 +39,6 @@ public class RecipesController : ControllerBase
             IEnumerable<RecipeDto> response = recipes.Select(r => r.MapToRecipeDto());
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metadata));
-
             return Ok(response);
         }
         catch (Exception ex)
@@ -52,12 +55,11 @@ public class RecipesController : ControllerBase
         {
             Recipe? recipe = await _recipeService.GetRecipeByIdAsync(id);
 
-            if (recipe == null)
+            if (recipe is null)
             {
                 _logger.LogInformation($"Recipe with id {id} was not found.");
                 return NotFound();
             }
-
             return Ok(recipe.MapToRecipeDto());
         }
         catch (Exception ex)
@@ -73,7 +75,7 @@ public class RecipesController : ControllerBase
         {
             Recipe? recipe = await _recipeService.CreateRecipeAsync(createRecipeRequest);
 
-            if (recipe == null)
+            if (recipe is null)
             {
                 _logger.LogInformation($"Could not create the recipe with title = {createRecipeRequest.Title}");
                 return BadRequest();
@@ -95,7 +97,8 @@ public class RecipesController : ControllerBase
 
     [HttpPut("{id:Guid}")]
     public async Task<ActionResult> UpdateRecipe(
-        [FromRoute] Guid id, [FromBody] RecipeRequest updateRecipeRequest)
+        [FromRoute] Guid id,
+        [FromBody] RecipeRequest updateRecipeRequest)
     {
         try
         {
@@ -106,7 +109,6 @@ public class RecipesController : ControllerBase
                 _logger.LogInformation($"Recipe with id {id} could not be updated.");
                 return NotFound();
             }
-
             return NoContent();
         }
         catch (Exception ex)
@@ -128,7 +130,6 @@ public class RecipesController : ControllerBase
                 _logger.LogInformation($"Recipe with id {id} could not be deleted.");
                 return NotFound();
             }
-
             return NoContent();
         }
         catch (Exception ex)

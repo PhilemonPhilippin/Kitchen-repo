@@ -12,7 +12,9 @@ public class RecipeCategoriesController : ControllerBase
     private readonly IRecipeCategoryService _recipeCategoryService;
 
     public RecipeCategoriesController(
-        ILogger<RecipeCategoriesController> logger, IMapper mapper, IRecipeCategoryService recipeCategoryService)
+        ILogger<RecipeCategoriesController> logger,
+        IMapper mapper,
+        IRecipeCategoryService recipeCategoryService)
     {
         _logger = logger;
         _mapper = mapper;
@@ -25,14 +27,12 @@ public class RecipeCategoriesController : ControllerBase
         {
             IEnumerable<RecipeCategory> recipeCategories = await _recipeCategoryService.GetRecipeCategoriesAsync();
 
-            if (recipeCategories == null || recipeCategories.Any() == false)
+            if (recipeCategories is null || recipeCategories.Any() == false)
             {
                 _logger.LogInformation($"Recipe categories were not found.");
                 return NotFound();
             }
-
             IEnumerable<RecipeCategoryDto> response = _mapper.Map<IEnumerable<RecipeCategoryDto>>(recipeCategories);
-
             return Ok(response);
         }
         catch (Exception ex)
@@ -49,12 +49,11 @@ public class RecipeCategoriesController : ControllerBase
         {
             RecipeCategory? recipeCategory = await _recipeCategoryService.GetRecipeCategoryByIdAsync(id);
 
-            if (recipeCategory == null)
+            if (recipeCategory is null)
             {
                 _logger.LogInformation($"Recipe category with id {id} was not found.");
                 return NotFound();
             }
-
             return Ok(_mapper.Map<RecipeCategoryDto>(recipeCategory));
         }
         catch (Exception ex)
@@ -71,7 +70,7 @@ public class RecipeCategoriesController : ControllerBase
         {
             RecipeCategory? recipeCategory = await _recipeCategoryService.CreateRecipeCategoryAsync(createRecipeCategoryRequest);
 
-            if (recipeCategory == null)
+            if (recipeCategory is null)
             {
                 _logger.LogInformation($"Could no create the recipe category with title = {createRecipeCategoryRequest.Title}");
                 return BadRequest();
@@ -93,7 +92,8 @@ public class RecipeCategoriesController : ControllerBase
     }
     [HttpPut("{id:Guid}")]
     public async Task<ActionResult> UpdateRecipeCategory(
-        [FromRoute] Guid id, [FromBody] RecipeCategoryRequest updateRecipeCategoryRequest)
+        [FromRoute] Guid id,
+        [FromBody] RecipeCategoryRequest updateRecipeCategoryRequest)
     {
         try
         {
@@ -104,7 +104,6 @@ public class RecipeCategoriesController : ControllerBase
                 _logger.LogInformation($"Recipe category with id {id} could not be updated.");
                 return NotFound();
             }
-
             return NoContent();
         }
         catch (Exception ex)
@@ -125,7 +124,6 @@ public class RecipeCategoriesController : ControllerBase
                 _logger.LogInformation($"Recipe category with id {id} could not be deleted.");
                 return NotFound();
             }
-
             return NoContent();
         }
         catch (Exception ex)

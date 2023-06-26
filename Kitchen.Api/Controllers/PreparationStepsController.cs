@@ -12,7 +12,11 @@ public class PreparationStepsController : ControllerBase
     private readonly IRecipeService _recipeService;
     private readonly IMapper _mapper;
 
-    public PreparationStepsController(ILogger<PreparationStepsController> logger, IMapper mapper, IPreparationStepService preparationStepService, IRecipeService recipeService)
+    public PreparationStepsController(
+        ILogger<PreparationStepsController> logger,
+        IMapper mapper,
+        IPreparationStepService preparationStepService,
+        IRecipeService recipeService)
     {
         _logger = logger;
         _mapper = mapper;
@@ -34,7 +38,6 @@ public class PreparationStepsController : ControllerBase
             }
 
             IEnumerable<PreparationStep> preparationSteps = await _preparationStepService.GetPreparationStepsAsync(recipeId);
-
             return Ok(_mapper.Map<IEnumerable<PreparationStepDto>>(preparationSteps));
         }
         catch (Exception ex)
@@ -46,7 +49,8 @@ public class PreparationStepsController : ControllerBase
 
     [HttpGet("{preparationstepid:Guid}")]
     public async Task<ActionResult<PreparationStepDto>> GetPreparationStep(
-        [FromRoute] Guid recipeId, [FromRoute] Guid preparationStepId)
+        [FromRoute] Guid recipeId,
+        [FromRoute] Guid preparationStepId)
     {
         try
         {
@@ -60,12 +64,11 @@ public class PreparationStepsController : ControllerBase
 
             PreparationStep? preparationStep = await _preparationStepService.GetPreparationStepAsync(recipeId, preparationStepId);
 
-            if (preparationStep == null)
+            if (preparationStep is null)
             {
                 _logger.LogInformation($"Preparation step with id {preparationStepId} was not found.");
                 return NotFound();
             }
-
             return Ok(_mapper.Map<PreparationStepDto>(preparationStep));
         }
         catch (Exception ex)
@@ -76,7 +79,8 @@ public class PreparationStepsController : ControllerBase
     }
     [HttpPost]
     public async Task<ActionResult<PreparationStepDto>> CreatePreparationStep(
-        [FromRoute] Guid recipeId, [FromBody] PreparationStepRequest createPreparationStepRequest)
+        [FromRoute] Guid recipeId,
+        [FromBody] PreparationStepRequest createPreparationStepRequest)
     {
         try
         {
@@ -89,13 +93,14 @@ public class PreparationStepsController : ControllerBase
             }
             PreparationStep? preparationStep = await _preparationStepService.CreatePreparationStepAsync(recipeId, createPreparationStepRequest);
 
-            if (preparationStep == null)
+            if (preparationStep is null)
             {
                 _logger.LogInformation($"Could not create the preparation step with title = {createPreparationStepRequest.Title}");
                 return BadRequest();
             }
 
             PreparationStepDto response = _mapper.Map<PreparationStepDto>(preparationStep);
+
             return CreatedAtAction(
                 nameof(GetPreparationStep),
                 new
@@ -113,7 +118,8 @@ public class PreparationStepsController : ControllerBase
     }
     [HttpPut("{preparationstepid:Guid}")]
     public async Task<ActionResult> UpdatePreparationStep(
-        [FromRoute] Guid recipeId, [FromRoute] Guid preparationStepId,
+        [FromRoute] Guid recipeId,
+        [FromRoute] Guid preparationStepId,
         [FromBody] PreparationStepRequest updatePreparationStepRequest)
     {
         try
@@ -134,7 +140,6 @@ public class PreparationStepsController : ControllerBase
                 _logger.LogInformation($"Preparation step with id {preparationStepId} could not be updated.");
                 return NotFound();
             }
-
             return NoContent();
         }
         catch (Exception ex)
@@ -145,7 +150,8 @@ public class PreparationStepsController : ControllerBase
     }
     [HttpDelete("{preparationstepid:Guid}")]
     public async Task<ActionResult> DeletePreparationStep(
-        [FromRoute] Guid recipeId, [FromRoute] Guid preparationStepId)
+        [FromRoute] Guid recipeId,
+        [FromRoute] Guid preparationStepId)
     {
         try
         {
@@ -164,7 +170,6 @@ public class PreparationStepsController : ControllerBase
                 _logger.LogInformation($"PreparationStep with id {preparationStepId} could not be deleted.");
                 return NotFound();
             }
-
             return NoContent();
         }
         catch (Exception ex)

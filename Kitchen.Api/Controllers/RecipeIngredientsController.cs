@@ -13,7 +13,10 @@ public class RecipeIngredientsController : ControllerBase
     private readonly IIngredientService _ingredientService;
 
     public RecipeIngredientsController(
-        ILogger<RecipeIngredientsController> logger, IRecipeIngredientService recipeIngredientService, IRecipeService recipeService, IIngredientService ingredientService)
+        ILogger<RecipeIngredientsController> logger,
+        IRecipeIngredientService recipeIngredientService,
+        IRecipeService recipeService,
+        IIngredientService ingredientService)
     {
         _logger = logger;
         _recipeIngredientService = recipeIngredientService;
@@ -36,7 +39,6 @@ public class RecipeIngredientsController : ControllerBase
             IEnumerable<RecipeIngredient> recipeIngredients = await _recipeIngredientService.GetRecipeIngredientAsync(recipeId);
 
             IEnumerable<IngredientForSpecificRecipeDto> ingredients = recipeIngredients.Select(ri => ri.MapForSpecificRecipeDto());
-
             return Ok(ingredients);
         }
         catch (Exception ex)
@@ -48,7 +50,8 @@ public class RecipeIngredientsController : ControllerBase
 
     [HttpPost]
     public async Task<ActionResult> CreateRecipeIngredient(
-        [FromRoute] Guid recipeId, [FromBody] CreateRecipeIngredientRequest createRecipeIngredientRequest)
+        [FromRoute] Guid recipeId,
+        [FromBody] CreateRecipeIngredientRequest createRecipeIngredientRequest)
     {
         try
         {
@@ -73,7 +76,6 @@ public class RecipeIngredientsController : ControllerBase
                 _logger.LogInformation($"Could not create the association between recipe with id = {recipeId} and ingredient with id = {createRecipeIngredientRequest.IngredientId}.");
                 return BadRequest();
             }
-
             return NoContent();
         }
         catch (Exception ex)
@@ -84,7 +86,10 @@ public class RecipeIngredientsController : ControllerBase
     }
 
     [HttpPut("{ingredientId:Guid}")]
-    public async Task<ActionResult> UpdateRecipeIngredient([FromRoute] Guid recipeId, [FromRoute] Guid ingredientId, [FromBody] UpdateRecipeIngredientRequest updateRecipeIngredientRequest)
+    public async Task<ActionResult> UpdateRecipeIngredient(
+        [FromRoute] Guid recipeId,
+        [FromRoute] Guid ingredientId,
+        [FromBody] UpdateRecipeIngredientRequest updateRecipeIngredientRequest)
     {
         try
         {
@@ -104,7 +109,6 @@ public class RecipeIngredientsController : ControllerBase
                 _logger.LogInformation($"Association between recipe with recipeId = {recipeId} and ingredient with ingredientId = {ingredientId} could not be updated.");
                 return NotFound();
             }
-
             return NoContent();
         }
         catch (Exception ex)
@@ -134,7 +138,6 @@ public class RecipeIngredientsController : ControllerBase
                 _logger.LogInformation($"Recipe ingredient with recipe id = {recipeId} and ingredient id = {ingredientId} could not be deleted.");
                 return NotFound();
             }
-
             return NoContent();
         }
         catch (Exception ex)
