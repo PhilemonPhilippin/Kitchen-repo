@@ -9,10 +9,9 @@ public class RecipeIngredientService : IRecipeIngredientService
         _recipeIngredientRepo = recipeIngredientRepo;
     }
 
-    public async Task<IEnumerable<RecipeIngredient>> GetRecipeIngredientAsync(Guid recipeId)
-    {
-        return await _recipeIngredientRepo.GetRecipeIngredientsAsync(recipeId);
-    }
+    public async Task<IEnumerable<RecipeIngredient>> GetRecipeIngredientAsync(Guid recipeId) =>
+        await _recipeIngredientRepo.GetRecipeIngredientsAsync(recipeId);
+
 
     public async Task<bool> CreateRecipeIngredientAsync(Guid recipeId, CreateRecipeIngredientRequest createRecipeIngredientRequest)
     {
@@ -28,12 +27,9 @@ public class RecipeIngredientService : IRecipeIngredientService
         bool recipeIngredientExists = await _recipeIngredientRepo.RecipeIngredientExistsAsync(recipeIngredient);
 
         if (recipeIngredientExists)
-        {
             return false;
-        }
 
-        bool isCreated = await _recipeIngredientRepo.CreateRecipeIngredientAsync(recipeIngredient);
-        return isCreated;
+        return await _recipeIngredientRepo.CreateRecipeIngredientAsync(recipeIngredient);
     }
 
     public async Task<bool> UpdateRecipeIngredientAsync(Guid recipeId, Guid ingredientId, string ingredientQuantity)
@@ -46,13 +42,10 @@ public class RecipeIngredientService : IRecipeIngredientService
             ModifiedOn = DateTime.UtcNow
         };
 
-        bool isUpdated = await _recipeIngredientRepo.UpdateRecipeIngredientAsync(recipeIngredient);
-        return isUpdated;
+        return await _recipeIngredientRepo.UpdateRecipeIngredientAsync(recipeIngredient);
     }
 
-    public async Task<bool> DeleteRecipeIngredientAsync(Guid recipeId, Guid ingredientId)
-    {
-        bool isDeleted = await _recipeIngredientRepo.DeleteRecipeIngredientAsync(recipeId, ingredientId);
-        return isDeleted;
-    }
+    public async Task<bool> DeleteRecipeIngredientAsync(Guid recipeId, Guid ingredientId) =>
+        await _recipeIngredientRepo.DeleteRecipeIngredientAsync(recipeId, ingredientId);
+
 }

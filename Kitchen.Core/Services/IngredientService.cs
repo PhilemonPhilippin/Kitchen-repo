@@ -19,12 +19,8 @@ public class IngredientService : IIngredientService
         return await _ingredientRepo.GetIngredientsAsync(pageNumber, pageSize);
     }
 
-    public async Task<Ingredient?> GetIngredientByIdAsync(Guid id)
-    {
-        Ingredient? ingredient = await _ingredientRepo.GetIngredientByIdAsync(id);
-
-        return ingredient;
-    }
+    public async Task<Ingredient?> GetIngredientByIdAsync(Guid id) =>
+        await _ingredientRepo.GetIngredientByIdAsync(id);
 
     public async Task<Ingredient?> CreateIngredientAsync(IngredientRequest createIngredientRequest)
     {
@@ -40,9 +36,7 @@ public class IngredientService : IIngredientService
         bool isCreated = await _ingredientRepo.CreateIngredientAsync(ingredient);
 
         if (isCreated == false)
-        {
             return null;
-        }
 
         return ingredient;
     }
@@ -56,18 +50,14 @@ public class IngredientService : IIngredientService
             ModifiedOn = DateTime.UtcNow
         };
 
-        bool isUpdated = await _ingredientRepo.UpdateIngredientAsync(id, ingredient);
-        return isUpdated;
+        return await _ingredientRepo.UpdateIngredientAsync(id, ingredient);
     }
 
-    public async Task<bool> DeleteIngredientAsync(Guid id)
-    {
-        bool isDeleted = await _ingredientRepo.DeleteIngredientAsync(id);
-        return isDeleted;
-    }
+    public async Task<bool> DeleteIngredientAsync(Guid id) =>
+        await _ingredientRepo.DeleteIngredientAsync(id);
 
-    public async Task<bool> IngredientExistsAsync(Guid id)
-    {
-        return await _ingredientRepo.IngredientExistsAsync(id);
-    }
+
+    public async Task<bool> IngredientExistsAsync(Guid id) =>
+        await _ingredientRepo.IngredientExistsAsync(id);
+
 }

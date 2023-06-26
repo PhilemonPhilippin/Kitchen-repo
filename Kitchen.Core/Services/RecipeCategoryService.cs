@@ -10,19 +10,11 @@ public class RecipeCategoryService : IRecipeCategoryService
     }
 
 
-    public async Task<IEnumerable<RecipeCategory>> GetRecipeCategoriesAsync()
-    {
-        IEnumerable<RecipeCategory> recipeCategories = await _recipeCategoryRepo.GetRecipeCategoriesAsync();
+    public async Task<IEnumerable<RecipeCategory>> GetRecipeCategoriesAsync() =>
+        await _recipeCategoryRepo.GetRecipeCategoriesAsync();
 
-        return recipeCategories;
-    }
-
-    public async Task<RecipeCategory?> GetRecipeCategoryByIdAsync(Guid id)
-    {
-        RecipeCategory? recipeCategory = await _recipeCategoryRepo.GetRecipeCategoryByIdAsync(id);
-
-        return recipeCategory;
-    }
+    public async Task<RecipeCategory?> GetRecipeCategoryByIdAsync(Guid id) =>
+        await _recipeCategoryRepo.GetRecipeCategoryByIdAsync(id);
 
     public async Task<RecipeCategory?> CreateRecipeCategoryAsync(RecipeCategoryRequest createRecipeCategoryRequest)
     {
@@ -38,9 +30,7 @@ public class RecipeCategoryService : IRecipeCategoryService
         bool isCreated = await _recipeCategoryRepo.CreateRecipeCategoryAsync(recipeCategory);
 
         if (isCreated == false)
-        {
             return null;
-        }
 
         return recipeCategory;
     }
@@ -54,13 +44,9 @@ public class RecipeCategoryService : IRecipeCategoryService
             ModifiedOn = DateTime.UtcNow
         };
 
-        bool isUpdated = await _recipeCategoryRepo.UpdateRecipeCategoryAsync(id, recipeCategory);
-        return isUpdated;
+        return await _recipeCategoryRepo.UpdateRecipeCategoryAsync(id, recipeCategory);
     }
 
-    public async Task<bool> DeleteRecipeCategoryAsync(Guid id)
-    {
-        bool isDeleted = await _recipeCategoryRepo.DeleteRecipeCategoryAsync(id);
-        return isDeleted;
-    }
+    public async Task<bool> DeleteRecipeCategoryAsync(Guid id) =>
+        await _recipeCategoryRepo.DeleteRecipeCategoryAsync(id);
 }
