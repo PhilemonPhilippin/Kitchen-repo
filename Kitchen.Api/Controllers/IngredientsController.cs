@@ -20,6 +20,29 @@ public class IngredientsController : ControllerBase
         _ingredientService = ingredientService;
     }
 
+    [HttpGet("nodesc")]
+    public async Task<ActionResult<IEnumerable<IngredientNoDescDto>>> GetIngredientsNoDescAsync()
+    {
+        try
+        {
+            IEnumerable<Ingredient> ingredients = await _ingredientService.GetIngredientsNoDescAsync();
+
+            if (ingredients is null || ingredients.Any() == false)
+            {
+                _logger.LogInformation("Ingredients were not found");
+                return NotFound();
+            }
+
+            IEnumerable<IngredientNoDescDto> response = _mapper.Map<IEnumerable<IngredientNoDescDto>>(ingredients);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical($"While getting the ingredients, error = {ex}");
+            return StatusCode(500, "A problem occured while handling the request.");
+        }
+    }
+
     [HttpGet]
     public async Task<ActionResult<IEnumerable<IngredientDto>>> GetIngredients([FromQuery] int pageNumber, [FromQuery] int pageSize)
     {

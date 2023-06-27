@@ -24,6 +24,16 @@ public class IngredientRepo : IIngredientRepo
         return (ingredients, metadata);
     }
 
+    public async Task<IEnumerable<Ingredient>> GetIngredientsNoDescAsync()
+    {
+        IEnumerable<Ingredient> ingredients = await _context.Ingredients
+            .OrderBy(i => i.Name)
+            .Select(i => new Ingredient { Id = i.Id, Name = i.Name})
+            .ToListAsync();
+
+        return ingredients;
+    }
+
     public async Task<Ingredient?> GetIngredientByIdAsync(Guid id) =>
         await _context.Ingredients.FirstOrDefaultAsync(i => i.Id == id);
 

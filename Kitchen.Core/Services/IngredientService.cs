@@ -19,6 +19,9 @@ public class IngredientService : IIngredientService
         return await _ingredientRepo.GetIngredientsAsync(pageNumber, pageSize);
     }
 
+    public async Task<IEnumerable<Ingredient>> GetIngredientsNoDescAsync() =>
+        await _ingredientRepo.GetIngredientsNoDescAsync();
+
     public async Task<Ingredient?> GetIngredientByIdAsync(Guid id) =>
         await _ingredientRepo.GetIngredientByIdAsync(id);
 

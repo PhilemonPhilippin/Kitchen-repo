@@ -5,6 +5,7 @@ namespace Kitchen.Core.Interfaces;
 public interface IIngredientService
 {
     Task<(IEnumerable<Ingredient> ingredients, PaginationMetadata metadata)> GetIngredientsAsync(int pageNumber, int pageSize);
+    Task<IEnumerable<Ingredient>> GetIngredientsNoDescAsync();
     Task<Ingredient?> GetIngredientByIdAsync(Guid id);
     Task<Ingredient?> CreateIngredientAsync(IngredientRequest createIngredientRequest);
     Task<bool> UpdateIngredientAsync(Guid id, IngredientRequest updateIngredientRequest);

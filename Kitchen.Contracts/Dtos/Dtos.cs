@@ -5,6 +5,10 @@ public record IngredientDto(
     string Name, 
     string? Description);
 
+public record IngredientNoDescDto(
+    Guid Id,
+    string Name);
+
 public record PreparationStepDto(
     Guid Id, 
     string Title, 
