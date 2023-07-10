@@ -84,7 +84,7 @@ public class IngredientRepo : IIngredientRepo
     public async Task<bool> IngredientExistsAsync(Guid id) =>
         await _context.Ingredients.AnyAsync(i => i.Id == id);
 
-    private async Task<bool> IngredientExistsAsync(string name) =>
-        await _context.Ingredients.AnyAsync(i => i.Name == name);
+    public async Task<bool> IngredientExistsAsync(string name) =>
+        await _context.Ingredients.AnyAsync(i => i.Name.ToLower() == name.ToLower());
 
 }

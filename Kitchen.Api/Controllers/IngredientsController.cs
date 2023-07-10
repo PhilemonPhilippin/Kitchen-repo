@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Kitchen.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 
 namespace Kitchen.Api.Controllers;
@@ -18,6 +19,21 @@ public class IngredientsController : ControllerBase
         _logger = logger;
         _mapper = mapper;
         _ingredientService = ingredientService;
+    }
+
+    [HttpGet("exist/{name}")]
+    public async Task<ActionResult<bool>> NameExistAsync([FromRoute][MaxLength(50)] string name)
+    {
+        try
+        {
+            bool exist = await _ingredientService.NameExistAsync(name);
+            return Ok(exist);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical($"While getting the ingredients, error = {ex}");
+            return StatusCode(500, "A problem occured while handling the request.");
+        }
     }
 
     [HttpGet("nodesc")]

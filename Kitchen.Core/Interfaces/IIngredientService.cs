@@ -11,4 +11,5 @@ public interface IIngredientService
     Task<bool> UpdateIngredientAsync(Guid id, IngredientRequest updateIngredientRequest);
     Task<bool> DeleteIngredientAsync(Guid id);
     Task<bool> IngredientExistsAsync(Guid id);
+    Task<bool> NameExistAsync(string name);
 }

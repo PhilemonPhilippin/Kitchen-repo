@@ -63,4 +63,5 @@ public class IngredientService : IIngredientService
     public async Task<bool> IngredientExistsAsync(Guid id) =>
         await _ingredientRepo.IngredientExistsAsync(id);
 
+    public async Task<bool> NameExistAsync(string name) => await _ingredientRepo.IngredientExistsAsync(name);
 }

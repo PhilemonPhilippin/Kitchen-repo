@@ -9,4 +9,5 @@ public interface IIngredientRepo
     Task<bool> UpdateIngredientAsync(Guid id, Ingredient ingredient);
     Task<bool> DeleteIngredientAsync(Guid id);
     Task<bool> IngredientExistsAsync(Guid id);
+    Task<bool> IngredientExistsAsync(string name);
 }
