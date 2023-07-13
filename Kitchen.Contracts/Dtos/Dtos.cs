@@ -1,34 +1,34 @@
 ﻿namespace Kitchen.Contracts.Dtos;
 
 public record IngredientDto(
-    Guid Id, 
+    int Id, 
     string Name, 
     string? Description);
 
 public record IngredientNoDescDto(
-    Guid Id,
+    int Id,
     string Name);
 
 public record PreparationStepDto(
-    Guid Id, 
+    int Id, 
     string Title, 
     int StepNumber, 
-    string Step, 
-    Guid RecipeId);
+    string Step,
+    int RecipeId);
 
 public record RecipeCategoryDto(
-    Guid Id, 
+    int Id, 
     string Title, 
     string? Description);
 
 public record RecipeDto(
-    Guid Id, 
+    int Id, 
     string Title, 
     string? Description, 
     RecipeCategoryDto RecipeCategory);
 
 public record IngredientForSpecificRecipeDto(
-    Guid Id, 
+    int Id, 
     string Name, 
     string? Description, 
     string IngredientQuantity);

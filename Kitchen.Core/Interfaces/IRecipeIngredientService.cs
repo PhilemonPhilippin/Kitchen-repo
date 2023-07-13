@@ -2,8 +2,8 @@
 
 public interface IRecipeIngredientService
 {
-    Task<IEnumerable<RecipeIngredient>> GetRecipeIngredientAsync(Guid recipeId);
-    Task<bool> CreateRecipeIngredientAsync(Guid recipeId, CreateRecipeIngredientRequest createRecipeIngredientRequest);
-    Task<bool> UpdateRecipeIngredientAsync(Guid recipeId, Guid ingredientId, string ingredientQuantity);
-    Task<bool> DeleteRecipeIngredientAsync(Guid recipeId, Guid ingredientId);
+    Task<IEnumerable<RecipeIngredient>> GetRecipeIngredientAsync(int recipeId);
+    Task<bool> CreateRecipeIngredientAsync(int recipeId, CreateRecipeIngredientRequest createRecipeIngredientRequest);
+    Task<bool> UpdateRecipeIngredientAsync(int recipeId, int ingredientId, string ingredientQuantity);
+    Task<bool> DeleteRecipeIngredientAsync(int recipeId, int ingredientId);
 }

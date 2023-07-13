@@ -48,8 +48,8 @@ public class RecipesController : ControllerBase
         }
     }
 
-    [HttpGet("{id:Guid}")]
-    public async Task<ActionResult<RecipeDto>> GetRecipeById([FromRoute] Guid id)
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<RecipeDto>> GetRecipeById([FromRoute] int id)
     {
         try
         {
@@ -95,9 +95,9 @@ public class RecipesController : ControllerBase
         }
     }
 
-    [HttpPut("{id:Guid}")]
+    [HttpPut("{id:int}")]
     public async Task<ActionResult> UpdateRecipe(
-        [FromRoute] Guid id,
+        [FromRoute] int id,
         [FromBody] RecipeRequest updateRecipeRequest)
     {
         try
@@ -118,8 +118,8 @@ public class RecipesController : ControllerBase
         }
     }
 
-    [HttpDelete("{id:Guid}")]
-    public async Task<ActionResult> DeleteRecipe([FromRoute] Guid id)
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult> DeleteRecipe([FromRoute] int id)
     {
         try
         {

@@ -9,11 +9,11 @@ public class RecipeIngredientService : IRecipeIngredientService
         _recipeIngredientRepo = recipeIngredientRepo;
     }
 
-    public async Task<IEnumerable<RecipeIngredient>> GetRecipeIngredientAsync(Guid recipeId) =>
+    public async Task<IEnumerable<RecipeIngredient>> GetRecipeIngredientAsync(int recipeId) =>
         await _recipeIngredientRepo.GetRecipeIngredientsAsync(recipeId);
 
 
-    public async Task<bool> CreateRecipeIngredientAsync(Guid recipeId, CreateRecipeIngredientRequest createRecipeIngredientRequest)
+    public async Task<bool> CreateRecipeIngredientAsync(int recipeId, CreateRecipeIngredientRequest createRecipeIngredientRequest)
     {
         RecipeIngredient recipeIngredient = new()
         {
@@ -32,7 +32,7 @@ public class RecipeIngredientService : IRecipeIngredientService
         return await _recipeIngredientRepo.CreateRecipeIngredientAsync(recipeIngredient);
     }
 
-    public async Task<bool> UpdateRecipeIngredientAsync(Guid recipeId, Guid ingredientId, string ingredientQuantity)
+    public async Task<bool> UpdateRecipeIngredientAsync(int recipeId, int ingredientId, string ingredientQuantity)
     {
         RecipeIngredient recipeIngredient = new()
         {
@@ -45,7 +45,7 @@ public class RecipeIngredientService : IRecipeIngredientService
         return await _recipeIngredientRepo.UpdateRecipeIngredientAsync(recipeIngredient);
     }
 
-    public async Task<bool> DeleteRecipeIngredientAsync(Guid recipeId, Guid ingredientId) =>
+    public async Task<bool> DeleteRecipeIngredientAsync(int recipeId, int ingredientId) =>
         await _recipeIngredientRepo.DeleteRecipeIngredientAsync(recipeId, ingredientId);
 
 }

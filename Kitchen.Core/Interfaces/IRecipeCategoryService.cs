@@ -3,8 +3,8 @@
 public interface IRecipeCategoryService
 {
     Task<IEnumerable<RecipeCategory>> GetRecipeCategoriesAsync();
-    Task<RecipeCategory?> GetRecipeCategoryByIdAsync(Guid id);
+    Task<RecipeCategory?> GetRecipeCategoryByIdAsync(int id);
     Task<RecipeCategory?> CreateRecipeCategoryAsync(RecipeCategoryRequest createRecipeCategoryRequest);
-    Task<bool> UpdateRecipeCategoryAsync(Guid id, RecipeCategoryRequest updateRecipeCategoryRequest);
-    Task<bool> DeleteRecipeCategoryAsync(Guid id);
+    Task<bool> UpdateRecipeCategoryAsync(int id, RecipeCategoryRequest updateRecipeCategoryRequest);
+    Task<bool> DeleteRecipeCategoryAsync(int id);
 }

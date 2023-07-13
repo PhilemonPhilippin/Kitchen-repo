@@ -34,7 +34,7 @@ public class IngredientRepo : IIngredientRepo
         return ingredients;
     }
 
-    public async Task<Ingredient?> GetIngredientByIdAsync(Guid id) =>
+    public async Task<Ingredient?> GetIngredientByIdAsync(int id) =>
         await _context.Ingredients.FirstOrDefaultAsync(i => i.Id == id);
 
     public async Task<bool> CreateIngredientAsync(Ingredient ingredient)
@@ -49,12 +49,12 @@ public class IngredientRepo : IIngredientRepo
         return created > 0;
     }
 
-    public async Task<bool> UpdateIngredientAsync(Guid id, Ingredient ingredient)
+    public async Task<bool> UpdateIngredientAsync(Ingredient ingredient)
     {
         if (await IngredientExistsAsync(ingredient.Name))
             return false;
 
-        Ingredient? ingredientToUpdate = await GetIngredientByIdAsync(id);
+        Ingredient? ingredientToUpdate = await GetIngredientByIdAsync(ingredient.Id);
 
         if (ingredientToUpdate is null)
             return false;
@@ -68,7 +68,7 @@ public class IngredientRepo : IIngredientRepo
         return updated > 0;
     }
 
-    public async Task<bool> DeleteIngredientAsync(Guid id)
+    public async Task<bool> DeleteIngredientAsync(int id)
     {
         Ingredient? ingredient = await GetIngredientByIdAsync(id);
 
@@ -81,7 +81,7 @@ public class IngredientRepo : IIngredientRepo
         return true;
     }
 
-    public async Task<bool> IngredientExistsAsync(Guid id) =>
+    public async Task<bool> IngredientExistsAsync(int id) =>
         await _context.Ingredients.AnyAsync(i => i.Id == id);
 
     public async Task<bool> IngredientExistsAsync(string name) =>

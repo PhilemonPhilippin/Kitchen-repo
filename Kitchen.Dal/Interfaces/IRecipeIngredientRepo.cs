@@ -2,9 +2,9 @@
 
 public interface IRecipeIngredientRepo
 {
-    Task<IEnumerable<RecipeIngredient>> GetRecipeIngredientsAsync(Guid recipeId);
+    Task<IEnumerable<RecipeIngredient>> GetRecipeIngredientsAsync(int recipeId);
     Task<bool> CreateRecipeIngredientAsync(RecipeIngredient recipeIngredient);
     Task<bool> RecipeIngredientExistsAsync(RecipeIngredient recipeIngredient);
     Task<bool> UpdateRecipeIngredientAsync(RecipeIngredient recipeIngredient);
-    Task<bool> DeleteRecipeIngredientAsync(Guid recipeId, Guid ingredientId);
+    Task<bool> DeleteRecipeIngredientAsync(int recipeId, int ingredientId);
 }

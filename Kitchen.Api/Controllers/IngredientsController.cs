@@ -85,8 +85,8 @@ public class IngredientsController : ControllerBase
         }
     }
 
-    [HttpGet("{id:Guid}")]
-    public async Task<ActionResult<IngredientDto>> GetIngredientById([FromRoute] Guid id)
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<IngredientDto>> GetIngredientById([FromRoute] int id)
     {
         try
         {
@@ -133,9 +133,9 @@ public class IngredientsController : ControllerBase
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
-    [HttpPut("{id:GUid}")]
+    [HttpPut("{id:int}")]
     public async Task<ActionResult> UpdateIngredient(
-        [FromRoute] Guid id,
+        [FromRoute] int id,
         [FromBody] IngredientRequest updateIngredientRequest)
     {
         try
@@ -156,8 +156,8 @@ public class IngredientsController : ControllerBase
         }
     }
 
-    [HttpDelete("{id:Guid}")]
-    public async Task<ActionResult> DeleteIngredient([FromRoute] Guid id)
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult> DeleteIngredient([FromRoute] int id)
     {
         try
         {

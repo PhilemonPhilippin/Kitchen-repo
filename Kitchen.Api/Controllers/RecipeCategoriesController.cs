@@ -42,8 +42,8 @@ public class RecipeCategoriesController : ControllerBase
         }
     }
 
-    [HttpGet("{id:Guid}")]
-    public async Task<ActionResult<RecipeCategoryDto>> GetRecipeCategoryById([FromRoute] Guid id)
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<RecipeCategoryDto>> GetRecipeCategoryById([FromRoute] int id)
     {
         try
         {
@@ -90,9 +90,9 @@ public class RecipeCategoriesController : ControllerBase
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
-    [HttpPut("{id:Guid}")]
+    [HttpPut("{id:int}")]
     public async Task<ActionResult> UpdateRecipeCategory(
-        [FromRoute] Guid id,
+        [FromRoute] int id,
         [FromBody] RecipeCategoryRequest updateRecipeCategoryRequest)
     {
         try
@@ -112,8 +112,8 @@ public class RecipeCategoriesController : ControllerBase
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
-    [HttpDelete("{id:Guid}")]
-    public async Task<ActionResult> DeleteRecipeCategory([FromRoute] Guid id)
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult> DeleteRecipeCategory([FromRoute] int id)
     {
         try
         {

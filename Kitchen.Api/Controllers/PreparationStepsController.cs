@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Kitchen.Api.Controllers;
 
-[Route("api/recipes/{recipeId:Guid}/preparationsteps")]
+[Route("api/recipes/{recipeId:int}/preparationsteps")]
 [ApiController]
 public class PreparationStepsController : ControllerBase
 {
@@ -25,7 +25,7 @@ public class PreparationStepsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<PreparationStepDto>>> GetPreparationSteps([FromRoute] Guid recipeId)
+    public async Task<ActionResult<IEnumerable<PreparationStepDto>>> GetPreparationSteps([FromRoute] int recipeId)
     {
         try
         {
@@ -47,10 +47,10 @@ public class PreparationStepsController : ControllerBase
         }
     }
 
-    [HttpGet("{preparationstepid:Guid}")]
+    [HttpGet("{preparationstepid:int}")]
     public async Task<ActionResult<PreparationStepDto>> GetPreparationStep(
-        [FromRoute] Guid recipeId,
-        [FromRoute] Guid preparationStepId)
+        [FromRoute] int recipeId,
+        [FromRoute] int preparationStepId)
     {
         try
         {
@@ -79,7 +79,7 @@ public class PreparationStepsController : ControllerBase
     }
     [HttpPost]
     public async Task<ActionResult<PreparationStepDto>> CreatePreparationStep(
-        [FromRoute] Guid recipeId,
+        [FromRoute] int recipeId,
         [FromBody] PreparationStepRequest createPreparationStepRequest)
     {
         try
@@ -116,10 +116,10 @@ public class PreparationStepsController : ControllerBase
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
-    [HttpPut("{preparationstepid:Guid}")]
+    [HttpPut("{preparationstepid:int}")]
     public async Task<ActionResult> UpdatePreparationStep(
-        [FromRoute] Guid recipeId,
-        [FromRoute] Guid preparationStepId,
+        [FromRoute] int recipeId,
+        [FromRoute] int preparationStepId,
         [FromBody] PreparationStepRequest updatePreparationStepRequest)
     {
         try
@@ -148,10 +148,10 @@ public class PreparationStepsController : ControllerBase
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
-    [HttpDelete("{preparationstepid:Guid}")]
+    [HttpDelete("{preparationstepid:int}")]
     public async Task<ActionResult> DeletePreparationStep(
-        [FromRoute] Guid recipeId,
-        [FromRoute] Guid preparationStepId)
+        [FromRoute] int recipeId,
+        [FromRoute] int preparationStepId)
     {
         try
         {

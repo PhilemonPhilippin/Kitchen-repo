@@ -14,7 +14,7 @@ public class RecipeCategoryRepo : IRecipeCategoryRepo
         await _context.RecipeCategories.OrderBy(rc => rc.Title).ToListAsync();
 
 
-    public async Task<RecipeCategory?> GetRecipeCategoryByIdAsync(Guid id)
+    public async Task<RecipeCategory?> GetRecipeCategoryByIdAsync(int id)
         => await _context.RecipeCategories
         .FirstOrDefaultAsync(rc => rc.Id == id);
 
@@ -27,9 +27,9 @@ public class RecipeCategoryRepo : IRecipeCategoryRepo
         return created > 0;
     }
 
-    public async Task<bool> UpdateRecipeCategoryAsync(Guid id, RecipeCategory recipeCategory)
+    public async Task<bool> UpdateRecipeCategoryAsync(RecipeCategory recipeCategory)
     {
-        RecipeCategory? recipeCategoryToUpdate = await GetRecipeCategoryByIdAsync(id);
+        RecipeCategory? recipeCategoryToUpdate = await GetRecipeCategoryByIdAsync(recipeCategory.Id);
 
         if (recipeCategoryToUpdate is null)
             return false;
@@ -42,7 +42,7 @@ public class RecipeCategoryRepo : IRecipeCategoryRepo
         return updated > 0;
     }
 
-    public async Task<bool> DeleteRecipeCategoryAsync(Guid id)
+    public async Task<bool> DeleteRecipeCategoryAsync(int id)
     {
         RecipeCategory? recipeCategory = await GetRecipeCategoryByIdAsync(id);
 

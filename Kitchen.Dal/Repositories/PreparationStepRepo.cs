@@ -9,13 +9,13 @@ public class PreparationStepRepo : IPreparationStepRepo
     {
         _context = context;
     }
-    public async Task<IEnumerable<PreparationStep>> GetPreparationStepsAsync(Guid recipeId) =>
+    public async Task<IEnumerable<PreparationStep>> GetPreparationStepsAsync(int recipeId) =>
         await _context.PreparationSteps
         .Where(p => p.RecipeId == recipeId)
         .OrderBy(p => p.StepNumber)
         .ToListAsync();
 
-    public async Task<PreparationStep?> GetPreparationStepAsync(Guid recipeId, Guid preparationStepId) =>
+    public async Task<PreparationStep?> GetPreparationStepAsync(int recipeId, int preparationStepId) =>
         await _context.PreparationSteps
         .FirstOrDefaultAsync(p => p.Id == preparationStepId && p.RecipeId == recipeId);
 
@@ -27,9 +27,9 @@ public class PreparationStepRepo : IPreparationStepRepo
         return created > 0;
     }
 
-    public async Task<bool> UpdatePreparationStepAsync(Guid recipeId, Guid preparationStepId, PreparationStep preparationStep)
+    public async Task<bool> UpdatePreparationStepAsync(int recipeId, PreparationStep preparationStep)
     {
-        PreparationStep? preparationStepToUpdate = await GetPreparationStepAsync(recipeId, preparationStepId);
+        PreparationStep? preparationStepToUpdate = await GetPreparationStepAsync(recipeId, preparationStep.Id);
 
         if (preparationStepToUpdate is null)
             return false;
@@ -45,7 +45,7 @@ public class PreparationStepRepo : IPreparationStepRepo
         return updated > 0;
     }
 
-    public async Task<bool> DeletePreparationStepAsync(Guid recipeId, Guid preparationStepId)
+    public async Task<bool> DeletePreparationStepAsync(int recipeId, int preparationStepId)
     {
         PreparationStep? preparationStep = await GetPreparationStepAsync(recipeId, preparationStepId);
 

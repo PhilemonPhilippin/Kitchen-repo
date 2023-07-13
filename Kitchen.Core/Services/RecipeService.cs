@@ -49,7 +49,7 @@ public class RecipeService : IRecipeService
         }
     }
 
-    public async Task<Recipe?> GetRecipeByIdAsync(Guid id) =>
+    public async Task<Recipe?> GetRecipeByIdAsync(int id) =>
         await _recipeRepo.GetRecipeByIdAsync(id);
 
 
@@ -57,11 +57,9 @@ public class RecipeService : IRecipeService
     {
         Recipe recipe = new()
         {
-            Id = Guid.NewGuid(),
             Title = createRecipeRequest.Title,
             Description = createRecipeRequest.Description,
             RecipeCategoryId = createRecipeRequest.RecipeCategoryId,
-            CreatedOn = DateTime.UtcNow,
             ModifiedOn = DateTime.UtcNow
         };
 
@@ -81,24 +79,25 @@ public class RecipeService : IRecipeService
         return recipe;
     }
 
-    public async Task<bool> UpdateRecipeAsync(Guid id, RecipeRequest updateRecipeRequest)
+    public async Task<bool> UpdateRecipeAsync(int id, RecipeRequest updateRecipeRequest)
     {
         Recipe recipe = new()
         {
+            Id = id,
             Title = updateRecipeRequest.Title,
             Description = updateRecipeRequest.Description,
             RecipeCategoryId = updateRecipeRequest.RecipeCategoryId,
             ModifiedOn = DateTime.UtcNow
         };
 
-        return await _recipeRepo.UpdateRecipeAsync(id, recipe);
+        return await _recipeRepo.UpdateRecipeAsync(recipe);
     }
 
-    public async Task<bool> DeleteRecipeAsync(Guid id) =>
+    public async Task<bool> DeleteRecipeAsync(int id) =>
         await _recipeRepo.DeleteRecipeAsync(id);
 
 
-    public async Task<bool> RecipeExistsAsync(Guid id) =>
+    public async Task<bool> RecipeExistsAsync(int id) =>
         await _recipeRepo.RecipeExistsAsync(id);
 
 }

@@ -22,17 +22,15 @@ public class IngredientService : IIngredientService
     public async Task<IEnumerable<Ingredient>> GetIngredientsNoDescAsync() =>
         await _ingredientRepo.GetIngredientsNoDescAsync();
 
-    public async Task<Ingredient?> GetIngredientByIdAsync(Guid id) =>
+    public async Task<Ingredient?> GetIngredientByIdAsync(int id) =>
         await _ingredientRepo.GetIngredientByIdAsync(id);
 
     public async Task<Ingredient?> CreateIngredientAsync(IngredientRequest createIngredientRequest)
     {
         Ingredient ingredient = new()
         {
-            Id = Guid.NewGuid(),
             Name = createIngredientRequest.Name,
             Description = createIngredientRequest.Description,
-            CreatedOn = DateTime.UtcNow,
             ModifiedOn = DateTime.UtcNow
         };
 
@@ -44,23 +42,24 @@ public class IngredientService : IIngredientService
         return ingredient;
     }
 
-    public async Task<bool> UpdateIngredientAsync(Guid id, IngredientRequest updateIngredientRequest)
+    public async Task<bool> UpdateIngredientAsync(int id, IngredientRequest updateIngredientRequest)
     {
         Ingredient ingredient = new()
         {
+            Id = id,
             Name = updateIngredientRequest.Name,
             Description = updateIngredientRequest.Description,
             ModifiedOn = DateTime.UtcNow
         };
 
-        return await _ingredientRepo.UpdateIngredientAsync(id, ingredient);
+        return await _ingredientRepo.UpdateIngredientAsync(ingredient);
     }
 
-    public async Task<bool> DeleteIngredientAsync(Guid id) =>
+    public async Task<bool> DeleteIngredientAsync(int id) =>
         await _ingredientRepo.DeleteIngredientAsync(id);
 
 
-    public async Task<bool> IngredientExistsAsync(Guid id) =>
+    public async Task<bool> IngredientExistsAsync(int id) =>
         await _ingredientRepo.IngredientExistsAsync(id);
 
     public async Task<bool> NameExistAsync(string name) => await _ingredientRepo.IngredientExistsAsync(name);

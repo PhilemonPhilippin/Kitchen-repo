@@ -4,10 +4,10 @@ public interface IIngredientRepo
 {
     Task<(IEnumerable<Ingredient> ingredients, PaginationMetadata metadata)> GetIngredientsAsync(int pageNumber, int pageSize);
     Task<IEnumerable<Ingredient>> GetIngredientsNoDescAsync();
-    Task<Ingredient?> GetIngredientByIdAsync(Guid id);
+    Task<Ingredient?> GetIngredientByIdAsync(int id);
     Task<bool> CreateIngredientAsync(Ingredient ingredient);
-    Task<bool> UpdateIngredientAsync(Guid id, Ingredient ingredient);
-    Task<bool> DeleteIngredientAsync(Guid id);
-    Task<bool> IngredientExistsAsync(Guid id);
+    Task<bool> UpdateIngredientAsync(Ingredient ingredient);
+    Task<bool> DeleteIngredientAsync(int id);
+    Task<bool> IngredientExistsAsync(int id);
     Task<bool> IngredientExistsAsync(string name);
 }

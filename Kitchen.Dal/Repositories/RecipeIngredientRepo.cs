@@ -9,7 +9,7 @@ public class RecipeIngredientRepo : IRecipeIngredientRepo
         _context = context;
     }
 
-    public async Task<IEnumerable<RecipeIngredient>> GetRecipeIngredientsAsync(Guid recipeId) =>
+    public async Task<IEnumerable<RecipeIngredient>> GetRecipeIngredientsAsync(int recipeId) =>
         await _context.RecipeIngredients
         .Where(ri => ri.RecipeId == recipeId)
         .Include(ri => ri.Ingredient)
@@ -45,7 +45,7 @@ public class RecipeIngredientRepo : IRecipeIngredientRepo
         return updated > 0;
     }
 
-    public async Task<bool> DeleteRecipeIngredientAsync(Guid recipeId, Guid ingredientId)
+    public async Task<bool> DeleteRecipeIngredientAsync(int recipeId, int ingredientId)
     {
         RecipeIngredient? recipeIngredient = await GetRecipeIngredientByIdAsync(recipeId, ingredientId);
 
@@ -57,7 +57,7 @@ public class RecipeIngredientRepo : IRecipeIngredientRepo
         return true;
     }
 
-    private async Task<RecipeIngredient?> GetRecipeIngredientByIdAsync(Guid recipeId, Guid ingredientId) =>
+    private async Task<RecipeIngredient?> GetRecipeIngredientByIdAsync(int recipeId, int ingredientId) =>
         await _context.RecipeIngredients
         .FirstOrDefaultAsync(ri => ri.IngredientId == ingredientId && ri.RecipeId == recipeId);
 

@@ -8,27 +8,30 @@ public static class KitchenSeed
         modelBuilder.Entity<RecipeCategory>().HasData(
             new RecipeCategory()
             {
-                Id = new Guid("00000000-0000-0000-0000-000000000001"),
+                Id = 1,
                 Title = "Breakfast",
                 Description = "Breakfast is the first meal of the day usually eaten in the morning. The word in English refers to breaking the fasting period of the previous night.",
                 CreatedOn = DateTime.UtcNow,
-                ModifiedOn = DateTime.UtcNow
+                ModifiedOn = DateTime.UtcNow,
+                UniqueId = Guid.NewGuid()
             },
             new RecipeCategory()
             {
-                Id = new Guid("00000000-0000-0000-0000-000000000002"),
+                Id = 2,
                 Title = "Lunch",
                 Description = "Lunch is a meal eaten around the middle of the day. It is commonly the second meal of the day, after breakfast, and varies in size by culture and region.",
                 CreatedOn = DateTime.UtcNow,
-                ModifiedOn = DateTime.UtcNow
+                ModifiedOn = DateTime.UtcNow,
+                UniqueId = Guid.NewGuid()
             },
             new RecipeCategory()
             {
-                Id = new Guid("00000000-0000-0000-0000-000000000003"),
+                Id = 3,
                 Title = "Dinner",
                 Description = "Dinner usually refers to what is in many Western cultures the largest and most formal meal of the day.Historically, the largest meal used to be eaten around midday, and called dinner.",
                 CreatedOn = DateTime.UtcNow,
-                ModifiedOn = DateTime.UtcNow
+                ModifiedOn = DateTime.UtcNow,
+                UniqueId = Guid.NewGuid()
             }
             );
         #endregion
@@ -37,48 +40,53 @@ public static class KitchenSeed
         modelBuilder.Entity<Recipe>().HasData(
                 new Recipe()
                 {
-                    Id = new Guid("00000000-0000-0000-0001-000000000000"),
+                    Id = 1,
                     Title = "English breakfast",
                     Description = "Sometimes also called a 'fry-up', the full English breakfast consists of fried eggs, sausages, back bacon, tomatoes, mushrooms, fried bread and often a slice of white or black pudding (similar to bloodwurst). It is accompanied by tea or coffee and hot, buttered toast.",
-                    RecipeCategoryId = new Guid("00000000-0000-0000-0000-000000000001"),
+                    RecipeCategoryId = 1,
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new Recipe()
                 {
-                    Id = new Guid("00000000-0000-0000-0002-000000000000"),
+                    Id = 2,
                     Title = "Spaghetti carbonara",
                     Description = "Spaghetti alla carbonara is an Italian pasta dish made with eggs, pecorino romano, guanciale and black pepper.",
-                    RecipeCategoryId = new Guid("00000000-0000-0000-0000-000000000002"),
+                    RecipeCategoryId = 2,
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new Recipe()
                 {
-                    Id = new Guid("00000000-0000-0000-0003-000000000000"),
+                    Id = 3,
                     Title = "Club sandwich",
                     Description = "A club sandwich, also called a clubhouse sandwich, is a sandwich consisting of bread (traditionally toasted), sliced cooked poultry, fried bacon, lettuce, tomato, and mayonnaise. It is often cut into quarters or halves and held together by cocktail sticks.",
-                    RecipeCategoryId = new Guid("00000000-0000-0000-0000-000000000002"),
+                    RecipeCategoryId = 2,
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new Recipe()
                 {
-                    Id = new Guid("00000000-0000-0000-0004-000000000000"),
+                    Id = 4,
                     Title = "Spaghetti bolognese",
                     Description = "Spaghetti bolognese consists of spaghetti (long strings of pasta) with an Italian ragù (meat sauce) made with minced beef, bacon and tomatoes, served with Parmesan cheese. Spaghetti bolognese is one of the most popular pasta dishes eaten outside of Italy.",
-                    RecipeCategoryId = new Guid("00000000-0000-0000-0000-000000000003"),
+                    RecipeCategoryId = 3,
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new Recipe()
                 {
-                    Id = new Guid("00000000-0000-0000-0005-000000000000"),
+                    Id = 5,
                     Title = "Lasagna bolognese",
                     Description = "Lasagna Bolognese includes only fresh egg pasta, Bolognese ragù (slow-cooked meat sauce), creamy béchamel (white sauce) and plenty of grated Parmigiano cheese. The result is a melt in your mouth, creamy, decadent, and satisfying lasagna that is distinct to Italy.",
-                    RecipeCategoryId = new Guid("00000000-0000-0000-0000-000000000003"),
+                    RecipeCategoryId = 3,
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 });
         #endregion
 
@@ -86,66 +94,75 @@ public static class KitchenSeed
         modelBuilder.Entity<Ingredient>().HasData(
                 new Ingredient()
                 {
-                    Id = new Guid("00000000-0000-0001-0000-000000000000"),
+                    Id = 1,
                     Name = "Eggs",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new Ingredient()
                 {
-                    Id = new Guid("00000000-0000-0002-0000-000000000000"),
+                    Id = 2,
                     Name = "Bacon",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new Ingredient()
                 {
-                    Id = new Guid("00000000-0000-0003-0000-000000000000"),
+                    Id = 3,
                     Name = "Bread",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new Ingredient()
                 {
-                    Id = new Guid("00000000-0000-0004-0000-000000000000"),
+                    Id = 4,
                     Name = "Spaghettis",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new Ingredient()
                 {
-                    Id = new Guid("00000000-0000-0005-0000-000000000000"),
+                    Id = 5,
                     Name = "Guanciale",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new Ingredient()
                 {
-                    Id = new Guid("00000000-0000-0006-0000-000000000000"),
+                    Id = 6,
                     Name = "Pecorino romano",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new Ingredient()
                 {
-                    Id = new Guid("00000000-0000-0007-0000-000000000000"),
+                    Id = 7,
                     Name = "Tomatoes",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new Ingredient()
                 {
-                    Id = new Guid("00000000-0000-0008-0000-000000000000"),
+                    Id = 8,
                     Name = "Beef",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new Ingredient()
                 {
-                    Id = new Guid("00000000-0000-0009-0000-000000000000"),
+                    Id = 9,
                     Name = "Pasta",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 }
                 );
         #endregion
@@ -154,147 +171,165 @@ public static class KitchenSeed
         modelBuilder.Entity<RecipeIngredient>().HasData(
                 new RecipeIngredient()
                 {
-                    IngredientId = new Guid("00000000-0000-0001-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0001-000000000000"),
+                    IngredientId = 1,
+                    RecipeId = 1,
                     IngredientQuantity = "2 whole",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new RecipeIngredient()
                 {
-                    IngredientId = new Guid("00000000-0000-0002-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0001-000000000000"),
+                    IngredientId = 2,
+                    RecipeId = 1,
                     IngredientQuantity = "100 g.",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new RecipeIngredient()
                 {
-                    IngredientId = new Guid("00000000-0000-0003-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0001-000000000000"),
+                    IngredientId = 3,
+                    RecipeId = 1,
                     IngredientQuantity = "2 slices",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new RecipeIngredient()
                 {
-                    IngredientId = new Guid("00000000-0000-0007-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0001-000000000000"),
+                    IngredientId = 7,
+                    RecipeId = 1,
                     IngredientQuantity = "1 whole",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new RecipeIngredient()
                 {
-                    IngredientId = new Guid("00000000-0000-0001-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0002-000000000000"),
+                    IngredientId = 1,
+                    RecipeId = 2,
                     IngredientQuantity = "1 whole",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new RecipeIngredient()
                 {
-                    IngredientId = new Guid("00000000-0000-0004-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0002-000000000000"),
+                    IngredientId = 4,
+                    RecipeId = 2,
                     IngredientQuantity = "500 g.",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new RecipeIngredient()
                 {
-                    IngredientId = new Guid("00000000-0000-0005-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0002-000000000000"),
+                    IngredientId = 5,
+                    RecipeId = 2,
                     IngredientQuantity = "200 g.",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new RecipeIngredient()
                 {
-                    IngredientId = new Guid("00000000-0000-0006-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0002-000000000000"),
+                    IngredientId = 6,
+                    RecipeId = 2,
                     IngredientQuantity = "50 g.",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new RecipeIngredient()
                 {
-                    IngredientId = new Guid("00000000-0000-0002-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0003-000000000000"),
+                    IngredientId = 2,
+                    RecipeId = 3,
                     IngredientQuantity = "75 g.",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new RecipeIngredient()
                 {
-                    IngredientId = new Guid("00000000-0000-0003-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0003-000000000000"),
+                    IngredientId = 3,
+                    RecipeId = 3,
                     IngredientQuantity = "4 slices",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new RecipeIngredient()
                 {
-                    IngredientId = new Guid("00000000-0000-0007-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0003-000000000000"),
+                    IngredientId = 7,
+                    RecipeId = 3,
                     IngredientQuantity = "1 whole",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new RecipeIngredient()
                 {
-                    IngredientId = new Guid("00000000-0000-0004-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0004-000000000000"),
+                    IngredientId = 4,
+                    RecipeId = 4,
                     IngredientQuantity = "500 g.",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new RecipeIngredient()
                 {
-                    IngredientId = new Guid("00000000-0000-0002-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0004-000000000000"),
+                    IngredientId = 2,
+                    RecipeId = 4,
                     IngredientQuantity = "100 g.",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new RecipeIngredient()
                 {
-                    IngredientId = new Guid("00000000-0000-0007-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0004-000000000000"),
+                    IngredientId = 7,
+                    RecipeId = 4,
                     IngredientQuantity = "3 tins of crushed tomatoes",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new RecipeIngredient()
                 {
-                    IngredientId = new Guid("00000000-0000-0008-0000-000000000000"),
-                    RecipeId = new Guid("00000000-0000-0000-0004-000000000000"),
+                    IngredientId = 8,
+                    RecipeId = 4,
                     IngredientQuantity = "250 g.",
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                     new RecipeIngredient()
                     {
-                        IngredientId = new Guid("00000000-0000-0007-0000-000000000000"),
-                        RecipeId = new Guid("00000000-0000-0000-0005-000000000000"),
+                        IngredientId = 7,
+                        RecipeId = 5,
                         IngredientQuantity = "2 tins of crushed tomatoes",
                         CreatedOn = DateTime.UtcNow,
-                        ModifiedOn = DateTime.UtcNow
+                        ModifiedOn = DateTime.UtcNow,
+                        UniqueId = Guid.NewGuid()
                     },
                     new RecipeIngredient()
                     {
-                        IngredientId = new Guid("00000000-0000-0008-0000-000000000000"),
-                        RecipeId = new Guid("00000000-0000-0000-0005-000000000000"),
+                        IngredientId = 8,
+                        RecipeId = 5,
                         IngredientQuantity = "300 g.",
                         CreatedOn = DateTime.UtcNow,
-                        ModifiedOn = DateTime.UtcNow
+                        ModifiedOn = DateTime.UtcNow,
+                        UniqueId = Guid.NewGuid()
                     },
                     new RecipeIngredient()
                     {
-                        IngredientId = new Guid("00000000-0000-0009-0000-000000000000"),
-                        RecipeId = new Guid("00000000-0000-0000-0005-000000000000"),
+                        IngredientId = 9,
+                        RecipeId = 5,
                         IngredientQuantity = "250 g.",
                         CreatedOn = DateTime.UtcNow,
-                        ModifiedOn = DateTime.UtcNow
+                        ModifiedOn = DateTime.UtcNow,
+                        UniqueId = Guid.NewGuid()
                     }
                     );
         #endregion
@@ -303,123 +338,135 @@ public static class KitchenSeed
         modelBuilder.Entity<PreparationStep>().HasData(
                 new PreparationStep()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 1,
                     Title = "Cook eggs",
                     Step = "Cook the eggs",
-                    RecipeId = new Guid("00000000-0000-0000-0001-000000000000"),
+                    RecipeId = 1,
                     StepNumber = 1,
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new PreparationStep()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 2,
                     Title = "Cook bacon",
                     Step = "Cook the bacon",
-                    RecipeId = new Guid("00000000-0000-0000-0001-000000000000"),
+                    RecipeId = 1,
                     StepNumber = 2,
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new PreparationStep()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 3,
                     Title = "Fry bread",
                     Step = "Fry the bread",
-                    RecipeId = new Guid("00000000-0000-0000-0001-000000000000"),
+                    RecipeId = 1,
                     StepNumber = 3,
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new PreparationStep()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 4,
                     Title = "Cook guanciale",
                     Step = "Cook the guanciale",
-                    RecipeId = new Guid("00000000-0000-0000-0002-000000000000"),
+                    RecipeId = 2,
                     StepNumber = 1,
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new PreparationStep()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 5,
                     Title = "Cook spaghetti",
                     Step = "Cook the spaghetti",
-                    RecipeId = new Guid("00000000-0000-0000-0002-000000000000"),
+                    RecipeId = 2,
                     StepNumber = 2,
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new PreparationStep()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 6,
                     Title = "Fry bacon",
                     Step = "Fry the bacon",
-                    RecipeId = new Guid("00000000-0000-0000-0003-000000000000"),
+                    RecipeId = 3,
                     StepNumber = 1,
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new PreparationStep()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 7,
                     Title = "Cook eggs",
                     Step = "Cook the eggs",
-                    RecipeId = new Guid("00000000-0000-0000-0003-000000000000"),
+                    RecipeId = 3,
                     StepNumber = 2,
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new PreparationStep()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 8,
                     Title = "Cook beef and bacon",
                     Step = "Cook the beef and the bacon",
-                    RecipeId = new Guid("00000000-0000-0000-0004-000000000000"),
+                    RecipeId = 4,
                     StepNumber = 1,
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new PreparationStep()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 9,
                     Title = "Cook spaghetti",
                     Step = "Cook the spaghetti",
-                    RecipeId = new Guid("00000000-0000-0000-0004-000000000000"),
+                    RecipeId = 4,
                     StepNumber = 2,
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new PreparationStep()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 10,
                     Title = "Prepare bolognese",
                     Step = "Prepare the bolognese",
-                    RecipeId = new Guid("00000000-0000-0000-0005-000000000000"),
+                    RecipeId = 5,
                     StepNumber = 1,
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new PreparationStep()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 11,
                     Title = "Prepare bechamel",
                     Step = "Prepare the bechamel",
-                    RecipeId = new Guid("00000000-0000-0000-0005-000000000000"),
+                    RecipeId = 5,
                     StepNumber = 2,
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 },
                 new PreparationStep()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 12,
                     Title = "Prepare lasagna",
                     Step = "Prepare the lasagna and place it in the oven.",
-                    RecipeId = new Guid("00000000-0000-0000-0005-000000000000"),
+                    RecipeId = 5,
                     StepNumber = 3,
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    UniqueId = Guid.NewGuid()
                 });
         #endregion
     }

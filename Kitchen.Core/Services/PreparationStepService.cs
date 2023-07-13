@@ -10,24 +10,22 @@ public class PreparationStepService : IPreparationStepService
         _preparationStepRepo = preparationStepRepo;
         _recipeRepo = recipeRepo;
     }
-    public async Task<IEnumerable<PreparationStep>> GetPreparationStepsAsync(Guid recipeId) =>
+    public async Task<IEnumerable<PreparationStep>> GetPreparationStepsAsync(int recipeId) =>
         await _preparationStepRepo.GetPreparationStepsAsync(recipeId);
 
 
-    public async Task<PreparationStep?> GetPreparationStepAsync(Guid recipeId, Guid preparationStepId) =>
+    public async Task<PreparationStep?> GetPreparationStepAsync(int recipeId, int preparationStepId) =>
         await _preparationStepRepo.GetPreparationStepAsync(recipeId, preparationStepId);
 
 
-    public async Task<PreparationStep?> CreatePreparationStepAsync(Guid recipeId, PreparationStepRequest createPreparationStepRequest)
+    public async Task<PreparationStep?> CreatePreparationStepAsync(int recipeId, PreparationStepRequest createPreparationStepRequest)
     {
         PreparationStep preparationStep = new()
         {
-            Id = Guid.NewGuid(),
             Title = createPreparationStepRequest.Title,
             Step = createPreparationStepRequest.Step,
             StepNumber = createPreparationStepRequest.StepNumber,
             RecipeId = recipeId,
-            CreatedOn = DateTime.UtcNow,
             ModifiedOn = DateTime.UtcNow
         };
 
@@ -47,20 +45,21 @@ public class PreparationStepService : IPreparationStepService
     }
 
     public async Task<bool> UpdatePreparationStepAsync(
-        Guid recipeId, Guid preparationStepId, PreparationStepRequest updatePreparationStepRequest)
+        int recipeId, int preparationStepId, PreparationStepRequest updatePreparationStepRequest)
     {
         PreparationStep preparationStep = new()
         {
+            Id = preparationStepId,
             Title = updatePreparationStepRequest.Title,
             Step = updatePreparationStepRequest.Step,
             StepNumber = updatePreparationStepRequest.StepNumber,
             ModifiedOn = DateTime.UtcNow
         };
 
-        return await _preparationStepRepo.UpdatePreparationStepAsync(recipeId, preparationStepId, preparationStep);
+        return await _preparationStepRepo.UpdatePreparationStepAsync(recipeId, preparationStep);
     }
 
-    public async Task<bool> DeletePreparationStepAsync(Guid recipeId, Guid preparationStepId) =>
+    public async Task<bool> DeletePreparationStepAsync(int recipeId, int preparationStepId) =>
         await _preparationStepRepo.DeletePreparationStepAsync(recipeId, preparationStepId);
 
 }

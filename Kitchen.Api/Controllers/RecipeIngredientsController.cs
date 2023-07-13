@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Kitchen.Api.Controllers;
 
-[Route("api/recipes/{recipeId:Guid}/recipeingredients")]
+[Route("api/recipes/{recipeId:int}/recipeingredients")]
 [ApiController]
 public class RecipeIngredientsController : ControllerBase
 {
@@ -25,7 +25,7 @@ public class RecipeIngredientsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<IngredientForSpecificRecipeDto>>> GetRecipeIngredients([FromRoute] Guid recipeId)
+    public async Task<ActionResult<IEnumerable<IngredientForSpecificRecipeDto>>> GetRecipeIngredients([FromRoute] int recipeId)
     {
         try
         {
@@ -50,7 +50,7 @@ public class RecipeIngredientsController : ControllerBase
 
     [HttpPost]
     public async Task<ActionResult> CreateRecipeIngredient(
-        [FromRoute] Guid recipeId,
+        [FromRoute] int recipeId,
         [FromBody] CreateRecipeIngredientRequest createRecipeIngredientRequest)
     {
         try
@@ -85,10 +85,10 @@ public class RecipeIngredientsController : ControllerBase
         }
     }
 
-    [HttpPut("{ingredientId:Guid}")]
+    [HttpPut("{ingredientId:int}")]
     public async Task<ActionResult> UpdateRecipeIngredient(
-        [FromRoute] Guid recipeId,
-        [FromRoute] Guid ingredientId,
+        [FromRoute] int recipeId,
+        [FromRoute] int ingredientId,
         [FromBody] UpdateRecipeIngredientRequest updateRecipeIngredientRequest)
     {
         try
@@ -118,8 +118,8 @@ public class RecipeIngredientsController : ControllerBase
         }
     }
 
-    [HttpDelete("{ingredientId:Guid}")]
-    public async Task<ActionResult> DeleteRecipeIngredient([FromRoute] Guid recipeId, [FromRoute] Guid ingredientId)
+    [HttpDelete("{ingredientId:int}")]
+    public async Task<ActionResult> DeleteRecipeIngredient([FromRoute] int recipeId, [FromRoute] int ingredientId)
     {
         try
         {
