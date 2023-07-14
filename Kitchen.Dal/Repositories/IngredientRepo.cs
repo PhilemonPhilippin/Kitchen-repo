@@ -51,14 +51,13 @@ public class IngredientRepo : IIngredientRepo
 
     public async Task<bool> UpdateIngredientAsync(Ingredient ingredient)
     {
-        if (await IngredientExistsAsync(ingredient.Name))
-            return false;
-
         Ingredient? ingredientToUpdate = await GetIngredientByIdAsync(ingredient.Id);
 
         if (ingredientToUpdate is null)
             return false;
 
+        if (await _context.Ingredients.AnyAsync(i => i.Name == ingredient.Name && i.Id != ingredient.Id))
+            return false;
 
         ingredientToUpdate.Name = ingredient.Name;
         ingredientToUpdate.Description = ingredient.Description;
