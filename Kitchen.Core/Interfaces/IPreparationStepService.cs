@@ -2,10 +2,10 @@
 
 public interface IPreparationStepService
 {
-    Task<IEnumerable<PreparationStep>> GetPreparationStepsAsync(int recipeId);
-    Task<PreparationStep?> GetPreparationStepAsync(int recipeId, int preparationStepId);
-    Task<PreparationStep?> CreatePreparationStepAsync(int recipeId, PreparationStepRequest createPreparationStepRequest);
-    Task<bool> UpdatePreparationStepAsync(
+    Task<IEnumerable<PreparationStep>> GetAll(int recipeId);
+    Task<PreparationStep?> Get(int preparationStepId);
+    Task<PreparationStep?> Add(int recipeId, PreparationStepRequest createPreparationStepRequest);
+    Task<PreparationStep?> Update(
         int recipeId, int preparationStepId, PreparationStepRequest updatePreparationStepRequest);
-    Task<bool> DeletePreparationStepAsync(int recipeId, int preparationStepId);
+    Task<bool> Delete(int preparationStepId);
 }

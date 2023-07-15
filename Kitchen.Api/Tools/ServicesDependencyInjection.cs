@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
+﻿
 namespace Kitchen.Api.Tools;
 
 public static class ServicesDependencyInjection
@@ -29,9 +28,9 @@ public static class ServicesDependencyInjection
 
         services.AddScoped<IRecipeRepo, RecipeRepo>();
         services.AddScoped<IRecipeCategoryRepo, RecipeCategoryRepo>();
-        services.AddScoped<IPreparationStepRepo, PreparationStepRepo>();
         services.AddScoped<IIngredientRepo, IngredientRepo>();
         services.AddScoped<IRecipeIngredientRepo, RecipeIngredientRepo>();
+        services.AddScoped<IPreparationStepRepository, PreparationStepRepository>();
         services.AddTransient<IRecipeService, RecipeService>();
         services.AddTransient<IPreparationStepService, PreparationStepService>();
         services.AddTransient<IRecipeCategoryService, RecipeCategoryService>();

@@ -37,7 +37,7 @@ public class PreparationStepsController : ControllerBase
                 return NotFound();
             }
 
-            IEnumerable<PreparationStep> preparationSteps = await _preparationStepService.GetPreparationStepsAsync(recipeId);
+            IEnumerable<PreparationStep> preparationSteps = await _preparationStepService.GetAll(recipeId);
             return Ok(_mapper.Map<IEnumerable<PreparationStepDto>>(preparationSteps));
         }
         catch (Exception ex)
@@ -62,7 +62,7 @@ public class PreparationStepsController : ControllerBase
                 return NotFound();
             }
 
-            PreparationStep? preparationStep = await _preparationStepService.GetPreparationStepAsync(recipeId, preparationStepId);
+            PreparationStep? preparationStep = await _preparationStepService.Get(preparationStepId);
 
             if (preparationStep is null)
             {
@@ -91,7 +91,7 @@ public class PreparationStepsController : ControllerBase
                 _logger.LogInformation($"Recipe with id {recipeId} was not found when creating Preparation step.");
                 return NotFound();
             }
-            PreparationStep? preparationStep = await _preparationStepService.CreatePreparationStepAsync(recipeId, createPreparationStepRequest);
+            PreparationStep? preparationStep = await _preparationStepService.Add(recipeId, createPreparationStepRequest);
 
             if (preparationStep is null)
             {
@@ -132,10 +132,11 @@ public class PreparationStepsController : ControllerBase
                 return NotFound();
             }
 
-            bool isUpdated = await _preparationStepService
-                .UpdatePreparationStepAsync(recipeId, preparationStepId, updatePreparationStepRequest);
+            PreparationStep? preparationStep = await _preparationStepService.Update(recipeId,
+                                                                                    preparationStepId,
+                                                                                    updatePreparationStepRequest);
 
-            if (isUpdated == false)
+            if (preparationStep is null)
             {
                 _logger.LogInformation($"Preparation step with id {preparationStepId} could not be updated.");
                 return NotFound();
@@ -163,7 +164,7 @@ public class PreparationStepsController : ControllerBase
                 return NotFound();
             }
 
-            bool isDeleted = await _preparationStepService.DeletePreparationStepAsync(recipeId, preparationStepId);
+            bool isDeleted = await _preparationStepService.Delete(preparationStepId);
 
             if (isDeleted == false)
             {
