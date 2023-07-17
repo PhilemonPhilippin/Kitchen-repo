@@ -29,7 +29,7 @@ public class RecipeCategoriesController : ControllerBase
 
             if (recipeCategories is null || recipeCategories.Any() == false)
             {
-                _logger.LogInformation($"Recipe categories were not found.");
+                _logger.LogInformation("Recipe categories were not found.");
                 return NotFound();
             }
             IEnumerable<RecipeCategoryDto> response = _mapper.Map<IEnumerable<RecipeCategoryDto>>(recipeCategories);
@@ -37,7 +37,7 @@ public class RecipeCategoriesController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical($"While getting the recipe categories, error = {ex}");
+            _logger.LogCritical("While getting the recipe categories, error = {Ex}", ex.Message);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -51,14 +51,14 @@ public class RecipeCategoriesController : ControllerBase
 
             if (recipeCategory is null)
             {
-                _logger.LogInformation($"Recipe category with id {id} was not found.");
+                _logger.LogInformation("Recipe category with id {Id} was not found.", id);
                 return NotFound();
             }
             return Ok(_mapper.Map<RecipeCategoryDto>(recipeCategory));
         }
         catch (Exception ex)
         {
-            _logger.LogCritical($"While getting the recipe category with id = {id}, error = {ex}");
+            _logger.LogCritical("While getting the recipe category with id = {Id}, error = {Ex}", id, ex.Message);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -72,7 +72,7 @@ public class RecipeCategoriesController : ControllerBase
 
             if (recipeCategory is null)
             {
-                _logger.LogInformation($"Could no create the recipe category with title = {createRecipeCategoryRequest.Title}");
+                _logger.LogInformation("Could no create the recipe category with title = {Title}", createRecipeCategoryRequest.Title);
                 return BadRequest();
             }
 
@@ -86,7 +86,7 @@ public class RecipeCategoriesController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical($"While creating the recipe category with title = {createRecipeCategoryRequest.Title}, error = {ex}");
+            _logger.LogCritical("While creating the recipe category with title = {Title}, error = {Ex}", createRecipeCategoryRequest.Title, ex.Message);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -101,14 +101,14 @@ public class RecipeCategoriesController : ControllerBase
 
             if (isUpdated == false)
             {
-                _logger.LogInformation($"Recipe category with id {id} could not be updated.");
+                _logger.LogInformation("Recipe category with id {Id} could not be updated.", id);
                 return NotFound();
             }
             return NoContent();
         }
         catch (Exception ex)
         {
-            _logger.LogCritical($"While updating the recipe category with id = {id}, error = {ex}");
+            _logger.LogCritical("While updating the recipe category with id = {Id}, error = {Ex}", id, ex.Message);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -121,14 +121,14 @@ public class RecipeCategoriesController : ControllerBase
 
             if (isDeleted == false)
             {
-                _logger.LogInformation($"Recipe category with id {id} could not be deleted.");
+                _logger.LogInformation("Recipe category with id {id} could not be deleted.", id);
                 return NotFound();
             }
             return NoContent();
         }
         catch (Exception ex)
         {
-            _logger.LogCritical($"While deleting the recipe category with id = {id}, error = {ex}");
+            _logger.LogCritical("While deleting the recipe category with id = {Id}, error = {Ex}", id, ex.Message);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }

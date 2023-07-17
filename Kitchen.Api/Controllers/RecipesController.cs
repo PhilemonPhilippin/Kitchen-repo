@@ -42,7 +42,7 @@ public class RecipesController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical($"While getting the recipes, error = {ex}");
+            _logger.LogCritical("While getting the recipes, error = {Ex}", ex.Message);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -56,14 +56,14 @@ public class RecipesController : ControllerBase
 
             if (recipe is null)
             {
-                _logger.LogInformation($"Recipe with id {id} was not found.");
+                _logger.LogInformation("Recipe with id {Id} was not found.", id);
                 return NotFound();
             }
             return Ok(recipe.MapToRecipeDto());
         }
         catch (Exception ex)
         {
-            _logger.LogCritical($"While getting a recipe, for recipe id = {id}, error = {ex}");
+            _logger.LogCritical("While getting a recipe, for recipe id = {Id}, error = {Ex}", id, ex.Message);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -76,7 +76,7 @@ public class RecipesController : ControllerBase
 
             if (recipe is null)
             {
-                _logger.LogInformation($"Could not create the recipe with title = {createRecipeRequest.Title}");
+                _logger.LogInformation("Could not create the recipe with title = {Title}", createRecipeRequest.Title);
                 return BadRequest();
             }
 
@@ -89,7 +89,7 @@ public class RecipesController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical($"While creating a recipe, for recipe title = {createRecipeRequest.Title}, error = {ex}");
+            _logger.LogCritical("While creating a recipe, for recipe title = {Title}, error = {Ex}", createRecipeRequest.Title, ex.Message);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -105,14 +105,14 @@ public class RecipesController : ControllerBase
 
             if (isUpdated == false)
             {
-                _logger.LogInformation($"Recipe with id {id} could not be updated.");
+                _logger.LogInformation("Recipe with id {Id} could not be updated.", id);
                 return NotFound();
             }
             return NoContent();
         }
         catch (Exception ex)
         {
-            _logger.LogCritical($"While updating a recipe, for recipe id = {id}, error = {ex}");
+            _logger.LogCritical("While updating a recipe, for recipe id = {Id}, error = {Ex}", id, ex.Message);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -126,14 +126,14 @@ public class RecipesController : ControllerBase
 
             if (isDeleted == false)
             {
-                _logger.LogInformation($"Recipe with id {id} could not be deleted.");
+                _logger.LogInformation("Recipe with id {Id} could not be deleted.", id);
                 return NotFound();
             }
             return NoContent();
         }
         catch (Exception ex)
         {
-            _logger.LogCritical($"While deleting a recipe, for recipe id = {id}, error = {ex}");
+            _logger.LogCritical("While deleting a recipe, for recipe id = {Id}, error = {Ex}", id, ex.Message);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }

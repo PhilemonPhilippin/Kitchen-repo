@@ -33,7 +33,7 @@ public class RecipeIngredientsController : ControllerBase
 
             if (recipeExists == false)
             {
-                _logger.LogInformation($"Recipe with id {recipeId} was not found when accessing Recipe ingredients");
+                _logger.LogInformation("Recipe with id {RecipeId} was not found when accessing Recipe ingredients", recipeId);
                 return NotFound();
             }
             IEnumerable<RecipeIngredient> recipeIngredients = await _recipeIngredientService.GetRecipeIngredientAsync(recipeId);
@@ -43,7 +43,7 @@ public class RecipeIngredientsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical($"While getting recipe ingredients, for recipe id = {recipeId}, error = {ex}");
+            _logger.LogCritical("While getting recipe ingredients, for recipe id = {RecipeId}, error = {Ex}", recipeId, ex.Message);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -58,14 +58,14 @@ public class RecipeIngredientsController : ControllerBase
             bool recipeExists = await _recipeService.IdExist(recipeId);
             if (recipeExists == false)
             {
-                _logger.LogInformation($"Recipe with id = {recipeId} was not found when associating an ingredient with the recipe.");
+                _logger.LogInformation("Recipe with id = {RecipeId} was not found when associating an ingredient with the recipe.", recipeId);
                 return NotFound();
             }
 
             bool ingredientExists = await _ingredientService.IdExist(createRecipeIngredientRequest.IngredientId);
             if (ingredientExists == false)
             {
-                _logger.LogInformation($"Ingredient with id = {createRecipeIngredientRequest.IngredientId} was not found when associating this ingredient with the recipe.");
+                _logger.LogInformation("Ingredient with id = {IngredientId} was not found when associating with the recipe with id {RecipeId}.", createRecipeIngredientRequest.IngredientId, recipeId);
                 return NotFound();
             }
 
@@ -73,14 +73,14 @@ public class RecipeIngredientsController : ControllerBase
 
             if (isCreated == false)
             {
-                _logger.LogInformation($"Could not create the association between recipe with id = {recipeId} and ingredient with id = {createRecipeIngredientRequest.IngredientId}.");
+                _logger.LogInformation("Could not create the association between recipe with id = {RecipeId} and ingredient with id = {IngredientId}.", recipeId, createRecipeIngredientRequest.IngredientId);
                 return BadRequest();
             }
             return NoContent();
         }
         catch (Exception ex)
         {
-            _logger.LogCritical($"While associating an ingredient with a recipe, for recipe id = {recipeId} and ingredient name = {createRecipeIngredientRequest.IngredientId}, error = {ex}");
+            _logger.LogCritical("While associating an ingredient with a recipe, for recipe id = {RecipeId} and ingredient id = {IngredientId}, error = {Ex}", recipeId, createRecipeIngredientRequest.IngredientId, ex.Message);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -97,7 +97,7 @@ public class RecipeIngredientsController : ControllerBase
 
             if (recipeExists == false)
             {
-                _logger.LogInformation($"Recipe with id {recipeId} was not found when updating association between the ingredient and the recipe.");
+                _logger.LogInformation("Recipe with id {RecipeId} was not found when updating association between the recipe and the ingredient with id {IngredientId}.", recipeId, ingredientId);
                 return NotFound();
             }
 
@@ -106,14 +106,14 @@ public class RecipeIngredientsController : ControllerBase
 
             if (isUpdated == false)
             {
-                _logger.LogInformation($"Association between recipe with recipeId = {recipeId} and ingredient with ingredientId = {ingredientId} could not be updated.");
+                _logger.LogInformation("Association between recipe with recipeId = {RecipeId} and ingredient with ingredientId = {IngredientId} could not be updated.", recipeId, ingredientId);
                 return NotFound();
             }
             return NoContent();
         }
         catch (Exception ex)
         {
-            _logger.LogCritical($"While updating the association between the recipe id = {recipeId} and ingredient id = {ingredientId}, error = {ex}");
+            _logger.LogCritical("While updating the association between the recipe id = {RecipeId} and ingredient id = {IngredientId}, error = {Ex}", recipeId, ingredientId, ex.Message);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -127,7 +127,7 @@ public class RecipeIngredientsController : ControllerBase
 
             if (recipeExists == false)
             {
-                _logger.LogInformation($"Recipe with id {recipeId} was not found when deleting association between the ingredient and the recipe.");
+                _logger.LogInformation("Recipe with id {RecipeId} was not found when deleting association between the recipe and the ingredient with id {IngredientId}.", recipeId, ingredientId);
                 return NotFound();
             }
 
@@ -135,14 +135,14 @@ public class RecipeIngredientsController : ControllerBase
 
             if (isDeleted == false)
             {
-                _logger.LogInformation($"Recipe ingredient with recipe id = {recipeId} and ingredient id = {ingredientId} could not be deleted.");
+                _logger.LogInformation("Recipe ingredient with recipe id = {RecipeId} and ingredient id = {IngredientId} could not be deleted.", recipeId, ingredientId);
                 return NotFound();
             }
             return NoContent();
         }
         catch (Exception ex)
         {
-            _logger.LogCritical($"While deleting the association between the recipe with id = {recipeId} and ingredient with id = {ingredientId}, error = {ex}");
+            _logger.LogCritical("While deleting the association between the recipe with id = {RecipeId} and ingredient with id = {IngredientId}, error = {Ex}", recipeId, ingredientId, ex.Message);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }

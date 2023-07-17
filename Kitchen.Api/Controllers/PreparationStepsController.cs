@@ -33,7 +33,7 @@ public class PreparationStepsController : ControllerBase
 
             if (recipeExists == false)
             {
-                _logger.LogInformation($"Recipe with id {recipeId} was not found when accessing Preparation steps.");
+                _logger.LogInformation("Recipe with id {RecipeId} was not found when accessing Preparation steps.", recipeId);
                 return NotFound();
             }
 
@@ -42,7 +42,7 @@ public class PreparationStepsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical($"While getting preparation steps, for recipe id = {recipeId}, error = {ex}");
+            _logger.LogCritical("While getting preparation steps, for recipe id = {RecipeId}, error = {Ex}",recipeId, ex.Message);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -58,7 +58,7 @@ public class PreparationStepsController : ControllerBase
 
             if (recipeExists == false)
             {
-                _logger.LogInformation($"Recipe with id {recipeId} was not found when accessing Preparation step.");
+                _logger.LogInformation("Recipe with id {RecipeId} was not found when accessing Preparation step.", recipeId);
                 return NotFound();
             }
 
@@ -66,14 +66,14 @@ public class PreparationStepsController : ControllerBase
 
             if (preparationStep is null)
             {
-                _logger.LogInformation($"Preparation step with id {preparationStepId} was not found.");
+                _logger.LogInformation("Preparation step with id {PreparationStepId} was not found.", preparationStepId);
                 return NotFound();
             }
             return Ok(_mapper.Map<PreparationStepDto>(preparationStep));
         }
         catch (Exception ex)
         {
-            _logger.LogCritical($"While getting a preparation step, for recipe id = {recipeId} and preparation step id = {preparationStepId}, error = {ex}");
+            _logger.LogCritical("While getting a preparation step, for recipe id = {RecipeId} and preparation step id = {PreparationStepId}, error = {Ex}", recipeId, preparationStepId, ex.Message);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -88,14 +88,14 @@ public class PreparationStepsController : ControllerBase
 
             if (recipeExists == false)
             {
-                _logger.LogInformation($"Recipe with id {recipeId} was not found when creating Preparation step.");
+                _logger.LogInformation("Recipe with id {RecipeId} was not found when creating Preparation step.", recipeId);
                 return NotFound();
             }
             PreparationStep? preparationStep = await _preparationStepService.Add(recipeId, createPreparationStepRequest);
 
             if (preparationStep is null)
             {
-                _logger.LogInformation($"Could not create the preparation step with title = {createPreparationStepRequest.Title}");
+                _logger.LogInformation("Could not create the preparation step with title = {Title}", createPreparationStepRequest.Title);
                 return BadRequest();
             }
 
@@ -112,7 +112,7 @@ public class PreparationStepsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical($"While creating a preparation step, for recipe id = {recipeId} and preparation step title = {createPreparationStepRequest.Title}, error = {ex}");
+            _logger.LogCritical("While creating a preparation step, for recipe id = {RecipeId} and preparation step title = {Title}, error = {Ex}", recipeId, createPreparationStepRequest.Title, ex.Message);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -128,7 +128,7 @@ public class PreparationStepsController : ControllerBase
 
             if (recipeExists == false)
             {
-                _logger.LogInformation($"Recipe with id {recipeId} was not found when updating Preparation step.");
+                _logger.LogInformation("Recipe with id {RecipeId} was not found when updating Preparation step.", recipeId);
                 return NotFound();
             }
              
@@ -136,14 +136,14 @@ public class PreparationStepsController : ControllerBase
 
             if (isUpdated == false)
             {
-                _logger.LogInformation($"Preparation step with id {preparationStepId} could not be updated.");
+                _logger.LogInformation("Preparation step with id {PreparationStepId} could not be updated.", preparationStepId);
                 return NotFound();
             }
             return NoContent();
         }
         catch (Exception ex)
         {
-            _logger.LogCritical($"While updating a preparation step, for recipe id = {recipeId} and preparation step id = {preparationStepId}, error = {ex}");
+            _logger.LogCritical("While updating a preparation step, for recipe id = {RecipeId} and preparation step id = {PreparationStepId}, error = {Ex}", recipeId, preparationStepId, ex.Message);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -158,7 +158,7 @@ public class PreparationStepsController : ControllerBase
 
             if (recipeExists == false)
             {
-                _logger.LogInformation($"Recipe with id {recipeId} was not found when deleting Preparation step.");
+                _logger.LogInformation("Recipe with id {RecipeId} was not found when deleting Preparation step.", recipeId);
                 return NotFound();
             }
 
@@ -166,14 +166,14 @@ public class PreparationStepsController : ControllerBase
 
             if (isDeleted == false)
             {
-                _logger.LogInformation($"PreparationStep with id {preparationStepId} could not be deleted.");
+                _logger.LogInformation("PreparationStep with id {PreparationStepId} could not be deleted.", preparationStepId);
                 return NotFound();
             }
             return NoContent();
         }
         catch (Exception ex)
         {
-            _logger.LogCritical($"While deleting a preparation step, for recipe id = {recipeId} and preparation step id = {preparationStepId}, error = {ex}");
+            _logger.LogCritical("While deleting a preparation step, for recipe id = {RecipeId} and preparation step id = {PreparationStepId}, error = {Ex}", recipeId, preparationStepId, ex.Message);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
