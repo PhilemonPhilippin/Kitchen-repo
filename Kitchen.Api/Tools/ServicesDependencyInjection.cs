@@ -26,11 +26,11 @@ public static class ServicesDependencyInjection
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
 
-        services.AddScoped<IRecipeRepo, RecipeRepo>();
-        services.AddScoped<IRecipeCategoryRepo, RecipeCategoryRepo>();
-        services.AddScoped<IIngredientRepo, IngredientRepo>();
-        services.AddScoped<IRecipeIngredientRepo, RecipeIngredientRepo>();
-        services.AddScoped<IPreparationStepRepository, PreparationStepRepository>();
+        services.AddTransient<IRecipeRepo, RecipeRepo>();
+        services.AddTransient<IRecipeCategoryRepository, RecipeCategoryRepository>();
+        services.AddTransient<IIngredientRepo, IngredientRepo>();
+        services.AddTransient<IRecipeIngredientRepo, RecipeIngredientRepo>();
+        services.AddTransient<IPreparationStepRepository, PreparationStepRepository>();
         services.AddTransient<IRecipeService, RecipeService>();
         services.AddTransient<IPreparationStepService, PreparationStepService>();
         services.AddTransient<IRecipeCategoryService, RecipeCategoryService>();

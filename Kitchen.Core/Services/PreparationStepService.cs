@@ -14,10 +14,8 @@ public class PreparationStepService : IPreparationStepService
     public async Task<IEnumerable<PreparationStep>> GetAll(int recipeId) =>
                             await _preparationStepRepository.GetAll(recipeId);
 
-
     public async Task<PreparationStep?> Get(int preparationStepId) =>
-                         await _preparationStepRepository.Get(preparationStepId);
-
+                            await _preparationStepRepository.Get(preparationStepId);
 
     public async Task<PreparationStep?> Add(int recipeId, PreparationStepRequest createPreparationStepRequest)
     {
@@ -36,11 +34,10 @@ public class PreparationStepService : IPreparationStepService
             return null;
 
         PreparationStep? created = await _preparationStepRepository.Add(preparationStep);
-
         return created;
     }
 
-    public async Task<PreparationStep?> Update(
+    public async Task<bool> Update(
         int recipeId, int preparationStepId, PreparationStepRequest updatePreparationStepRequest)
     {
         PreparationStep preparationStep = new()
@@ -53,9 +50,7 @@ public class PreparationStepService : IPreparationStepService
             ModifiedOn = DateTime.UtcNow
         };
 
-        PreparationStep? updated = await _preparationStepRepository.Update(preparationStep);
-
-        return updated;
+        return await _preparationStepRepository.Update(preparationStep);
     }
 
     public async Task<bool> Delete(int preparationStepId) =>

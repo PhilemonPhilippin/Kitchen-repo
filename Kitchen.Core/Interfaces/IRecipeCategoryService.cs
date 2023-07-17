@@ -2,9 +2,9 @@
 
 public interface IRecipeCategoryService
 {
-    Task<IEnumerable<RecipeCategory>> GetRecipeCategoriesAsync();
-    Task<RecipeCategory?> GetRecipeCategoryByIdAsync(int id);
-    Task<RecipeCategory?> CreateRecipeCategoryAsync(RecipeCategoryRequest createRecipeCategoryRequest);
-    Task<bool> UpdateRecipeCategoryAsync(int id, RecipeCategoryRequest updateRecipeCategoryRequest);
-    Task<bool> DeleteRecipeCategoryAsync(int id);
+    Task<IEnumerable<RecipeCategory>> GetAll();
+    Task<RecipeCategory?> Get(int id);
+    Task<RecipeCategory?> Add(RecipeCategoryRequest createRecipeCategoryRequest);
+    Task<bool> Update(int id, RecipeCategoryRequest updateRecipeCategoryRequest);
+    Task<bool> Delete(int id);
 }

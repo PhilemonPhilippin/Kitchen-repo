@@ -2,21 +2,20 @@
 
 public class RecipeCategoryService : IRecipeCategoryService
 {
-    private readonly IRecipeCategoryRepo _recipeCategoryRepo;
+    private readonly IRecipeCategoryRepository _recipeCategoryRepository;
 
-    public RecipeCategoryService(IRecipeCategoryRepo recipeCategoryRepo)
+    public RecipeCategoryService(IRecipeCategoryRepository recipeCategoryRepository)
     {
-        _recipeCategoryRepo = recipeCategoryRepo;
+        _recipeCategoryRepository = recipeCategoryRepository;
     }
 
+    public async Task<IEnumerable<RecipeCategory>> GetAll() =>
+        await _recipeCategoryRepository.GetAll();
 
-    public async Task<IEnumerable<RecipeCategory>> GetRecipeCategoriesAsync() =>
-        await _recipeCategoryRepo.GetRecipeCategoriesAsync();
+    public async Task<RecipeCategory?> Get(int id) =>
+        await _recipeCategoryRepository.Get(id);
 
-    public async Task<RecipeCategory?> GetRecipeCategoryByIdAsync(int id) =>
-        await _recipeCategoryRepo.GetRecipeCategoryByIdAsync(id);
-
-    public async Task<RecipeCategory?> CreateRecipeCategoryAsync(RecipeCategoryRequest createRecipeCategoryRequest)
+    public async Task<RecipeCategory?> Add(RecipeCategoryRequest createRecipeCategoryRequest)
     {
         RecipeCategory recipeCategory = new()
         {
@@ -25,15 +24,11 @@ public class RecipeCategoryService : IRecipeCategoryService
             ModifiedOn = DateTime.UtcNow
         };
 
-        bool isCreated = await _recipeCategoryRepo.CreateRecipeCategoryAsync(recipeCategory);
-
-        if (isCreated == false)
-            return null;
-
-        return recipeCategory;
+        RecipeCategory? created = await _recipeCategoryRepository.Add(recipeCategory);
+        return created;
     }
 
-    public async Task<bool> UpdateRecipeCategoryAsync(int id, RecipeCategoryRequest updateRecipeCategoryRequest)
+    public async Task<bool> Update(int id, RecipeCategoryRequest updateRecipeCategoryRequest)
     {
         RecipeCategory recipeCategory = new()
         {
@@ -43,9 +38,9 @@ public class RecipeCategoryService : IRecipeCategoryService
             ModifiedOn = DateTime.UtcNow
         };
 
-        return await _recipeCategoryRepo.UpdateRecipeCategoryAsync(recipeCategory);
+        return await _recipeCategoryRepository.Update(recipeCategory);
     }
 
-    public async Task<bool> DeleteRecipeCategoryAsync(int id) =>
-        await _recipeCategoryRepo.DeleteRecipeCategoryAsync(id);
+    public async Task<bool> Delete(int id) =>
+        await _recipeCategoryRepository.Delete(id);
 }

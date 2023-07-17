@@ -5,13 +5,13 @@ namespace Kitchen.Core.Services;
 public class RecipeService : IRecipeService
 {
     private readonly IRecipeRepo _recipeRepo;
-    private readonly IRecipeCategoryRepo _recipeCategoryRepo;
+    private readonly IRecipeCategoryRepository _recipeCategoryRepository;
     private const int _maxPageSize = 20;
 
-    public RecipeService(IRecipeRepo recipeRepo, IRecipeCategoryRepo recipeCategoryRepo)
+    public RecipeService(IRecipeRepo recipeRepo, IRecipeCategoryRepository recipeCategoryRepository)
     {
         _recipeRepo = recipeRepo;
-        _recipeCategoryRepo = recipeCategoryRepo;
+        _recipeCategoryRepository = recipeCategoryRepository;
     }
 
     public async Task<(IEnumerable<Recipe> recipes, PaginationMetadata metadata)> GetRecipesAsync(int pageNumber, int pageSize)
@@ -63,7 +63,7 @@ public class RecipeService : IRecipeService
             ModifiedOn = DateTime.UtcNow
         };
 
-        RecipeCategory? category = await _recipeCategoryRepo.GetRecipeCategoryByIdAsync(createRecipeRequest.RecipeCategoryId);
+        RecipeCategory? category = await _recipeCategoryRepository.Get(createRecipeRequest.RecipeCategoryId);
 
         if (category is null)
             return null;

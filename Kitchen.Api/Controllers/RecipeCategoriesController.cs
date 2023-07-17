@@ -25,7 +25,7 @@ public class RecipeCategoriesController : ControllerBase
     {
         try
         {
-            IEnumerable<RecipeCategory> recipeCategories = await _recipeCategoryService.GetRecipeCategoriesAsync();
+            IEnumerable<RecipeCategory> recipeCategories = await _recipeCategoryService.GetAll();
 
             if (recipeCategories is null || recipeCategories.Any() == false)
             {
@@ -47,7 +47,7 @@ public class RecipeCategoriesController : ControllerBase
     {
         try
         {
-            RecipeCategory? recipeCategory = await _recipeCategoryService.GetRecipeCategoryByIdAsync(id);
+            RecipeCategory? recipeCategory = await _recipeCategoryService.Get(id);
 
             if (recipeCategory is null)
             {
@@ -68,7 +68,7 @@ public class RecipeCategoriesController : ControllerBase
     {
         try
         {
-            RecipeCategory? recipeCategory = await _recipeCategoryService.CreateRecipeCategoryAsync(createRecipeCategoryRequest);
+            RecipeCategory? recipeCategory = await _recipeCategoryService.Add(createRecipeCategoryRequest);
 
             if (recipeCategory is null)
             {
@@ -97,7 +97,7 @@ public class RecipeCategoriesController : ControllerBase
     {
         try
         {
-            bool isUpdated = await _recipeCategoryService.UpdateRecipeCategoryAsync(id, updateRecipeCategoryRequest);
+            bool isUpdated = await _recipeCategoryService.Update(id, updateRecipeCategoryRequest);
 
             if (isUpdated == false)
             {
@@ -117,7 +117,7 @@ public class RecipeCategoriesController : ControllerBase
     {
         try
         {
-            bool isDeleted = await _recipeCategoryService.DeleteRecipeCategoryAsync(id);
+            bool isDeleted = await _recipeCategoryService.Delete(id);
 
             if (isDeleted == false)
             {

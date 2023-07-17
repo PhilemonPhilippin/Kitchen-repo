@@ -40,12 +40,10 @@ public abstract class GenericRepo<T> : IRepository<T> where T : class
         return await SaveChanges();
     }
 
-    public virtual async Task<T?> Update(T entity)
+    public virtual async Task<bool> Update(T entity)
     {
-        T? updatedEntity = context.Update(entity).Entity;
-        await SaveChanges();
-
-        return updatedEntity;
+        context.Update(entity);
+        return await SaveChanges();
     }
 
     public virtual async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate)
@@ -54,7 +52,7 @@ public abstract class GenericRepo<T> : IRepository<T> where T : class
 
         return result;
     }
-    private async Task<bool> SaveChanges()
+    public async Task<bool> SaveChanges()
     {
         int changes = await context.SaveChangesAsync();
         return changes > 0;

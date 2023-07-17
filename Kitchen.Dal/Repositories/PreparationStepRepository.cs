@@ -7,12 +7,12 @@ public class PreparationStepRepository : GenericRepo<PreparationStep>, IPreparat
     {
     }
 
-    public override async Task<PreparationStep?> Update(PreparationStep entity)
+    public override async Task<bool> Update(PreparationStep entity)
     {
         var entityToUpdate = await Get(entity.Id);
 
         if (entityToUpdate is null)
-            return null;
+            return false;
 
         entityToUpdate.Title = entity.Title;
         entityToUpdate.Step = entity.Step;

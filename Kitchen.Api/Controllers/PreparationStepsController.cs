@@ -131,12 +131,10 @@ public class PreparationStepsController : ControllerBase
                 _logger.LogInformation($"Recipe with id {recipeId} was not found when updating Preparation step.");
                 return NotFound();
             }
+             
+            bool isUpdated = await _preparationStepService.Update(recipeId, preparationStepId, updatePreparationStepRequest);
 
-            PreparationStep? preparationStep = await _preparationStepService.Update(recipeId,
-                                                                                    preparationStepId,
-                                                                                    updatePreparationStepRequest);
-
-            if (preparationStep is null)
+            if (isUpdated == false)
             {
                 _logger.LogInformation($"Preparation step with id {preparationStepId} could not be updated.");
                 return NotFound();
