@@ -29,7 +29,7 @@ public class PreparationStepsController : ControllerBase
     {
         try
         {
-            bool recipeExists = await _recipeService.RecipeExistsAsync(recipeId);
+            bool recipeExists = await _recipeService.IdExist(recipeId);
 
             if (recipeExists == false)
             {
@@ -54,7 +54,7 @@ public class PreparationStepsController : ControllerBase
     {
         try
         {
-            bool recipeExists = await _recipeService.RecipeExistsAsync(recipeId);
+            bool recipeExists = await _recipeService.IdExist(recipeId);
 
             if (recipeExists == false)
             {
@@ -84,7 +84,7 @@ public class PreparationStepsController : ControllerBase
     {
         try
         {
-            bool recipeExists = await _recipeService.RecipeExistsAsync(recipeId);
+            bool recipeExists = await _recipeService.IdExist(recipeId);
 
             if (recipeExists == false)
             {
@@ -124,7 +124,7 @@ public class PreparationStepsController : ControllerBase
     {
         try
         {
-            bool recipeExists = await _recipeService.RecipeExistsAsync(recipeId);
+            bool recipeExists = await _recipeService.IdExist(recipeId);
 
             if (recipeExists == false)
             {
@@ -154,7 +154,7 @@ public class PreparationStepsController : ControllerBase
     {
         try
         {
-            bool recipeExists = await _recipeService.RecipeExistsAsync(recipeId);
+            bool recipeExists = await _recipeService.IdExist(recipeId);
 
             if (recipeExists == false)
             {

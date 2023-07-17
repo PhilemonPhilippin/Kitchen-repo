@@ -46,12 +46,6 @@ public abstract class GenericRepo<T> : IRepository<T> where T : class
         return await SaveChanges();
     }
 
-    public virtual async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate)
-    {
-        var result = await context.Set<T>().AsQueryable().Where(predicate).ToListAsync();
-
-        return result;
-    }
     public async Task<bool> SaveChanges()
     {
         int changes = await context.SaveChangesAsync();

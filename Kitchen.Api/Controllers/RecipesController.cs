@@ -27,8 +27,7 @@ public class RecipesController : ControllerBase
     {
         try
         {
-            (IEnumerable<Recipe> recipes, PaginationMetadata metadata) =
-                await _recipeService.GetRecipesAsync(pageNumber, pageSize, title, searchQuery);
+            (IEnumerable<Recipe> recipes, PaginationMetadata metadata) = await _recipeService.GetPage(pageNumber, pageSize, title, searchQuery);
 
             if (recipes is null || recipes.Any() == false)
             {
@@ -53,7 +52,7 @@ public class RecipesController : ControllerBase
     {
         try
         {
-            Recipe? recipe = await _recipeService.GetRecipeByIdAsync(id);
+            Recipe? recipe = await _recipeService.Get(id);
 
             if (recipe is null)
             {
@@ -73,7 +72,7 @@ public class RecipesController : ControllerBase
     {
         try
         {
-            Recipe? recipe = await _recipeService.CreateRecipeAsync(createRecipeRequest);
+            Recipe? recipe = await _recipeService.Add(createRecipeRequest);
 
             if (recipe is null)
             {
@@ -102,7 +101,7 @@ public class RecipesController : ControllerBase
     {
         try
         {
-            bool isUpdated = await _recipeService.UpdateRecipeAsync(id, updateRecipeRequest);
+            bool isUpdated = await _recipeService.Update(id, updateRecipeRequest);
 
             if (isUpdated == false)
             {
@@ -123,7 +122,7 @@ public class RecipesController : ControllerBase
     {
         try
         {
-            bool isDeleted = await _recipeService.DeleteRecipeAsync(id);
+            bool isDeleted = await _recipeService.Delete(id);
 
             if (isDeleted == false)
             {

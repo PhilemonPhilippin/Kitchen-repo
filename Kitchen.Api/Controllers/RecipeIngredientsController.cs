@@ -29,7 +29,7 @@ public class RecipeIngredientsController : ControllerBase
     {
         try
         {
-            bool recipeExists = await _recipeService.RecipeExistsAsync(recipeId);
+            bool recipeExists = await _recipeService.IdExist(recipeId);
 
             if (recipeExists == false)
             {
@@ -55,7 +55,7 @@ public class RecipeIngredientsController : ControllerBase
     {
         try
         {
-            bool recipeExists = await _recipeService.RecipeExistsAsync(recipeId);
+            bool recipeExists = await _recipeService.IdExist(recipeId);
             if (recipeExists == false)
             {
                 _logger.LogInformation($"Recipe with id = {recipeId} was not found when associating an ingredient with the recipe.");
@@ -93,7 +93,7 @@ public class RecipeIngredientsController : ControllerBase
     {
         try
         {
-            bool recipeExists = await _recipeService.RecipeExistsAsync(recipeId);
+            bool recipeExists = await _recipeService.IdExist(recipeId);
 
             if (recipeExists == false)
             {
@@ -123,7 +123,7 @@ public class RecipeIngredientsController : ControllerBase
     {
         try
         {
-            bool recipeExists = await _recipeService.RecipeExistsAsync(recipeId);
+            bool recipeExists = await _recipeService.IdExist(recipeId);
 
             if (recipeExists == false)
             {

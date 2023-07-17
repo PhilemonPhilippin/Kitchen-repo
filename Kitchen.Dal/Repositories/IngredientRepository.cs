@@ -1,6 +1,4 @@
 ﻿
-using Microsoft.EntityFrameworkCore;
-
 namespace Kitchen.Dal.Repositories;
 
 public class IngredientRepository : GenericRepo<Ingredient>, IIngredientRepository
@@ -15,7 +13,6 @@ public class IngredientRepository : GenericRepo<Ingredient>, IIngredientReposito
     public override async Task<Ingredient?> Add(Ingredient entity)
     {
         bool nameExist = await NameExist(entity.Name);
-
         if (nameExist)
             return null;
 

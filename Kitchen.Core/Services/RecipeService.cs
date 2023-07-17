@@ -4,25 +4,17 @@ namespace Kitchen.Core.Services;
 
 public class RecipeService : IRecipeService
 {
-    private readonly IRecipeRepo _recipeRepo;
+    private readonly IRecipeRepository _recipeRepository;
     private readonly IRecipeCategoryRepository _recipeCategoryRepository;
     private const int _maxPageSize = 20;
 
-    public RecipeService(IRecipeRepo recipeRepo, IRecipeCategoryRepository recipeCategoryRepository)
+    public RecipeService(IRecipeRepository recipeRepository, IRecipeCategoryRepository recipeCategoryRepository)
     {
-        _recipeRepo = recipeRepo;
+        _recipeRepository = recipeRepository;
         _recipeCategoryRepository = recipeCategoryRepository;
     }
 
-    public async Task<(IEnumerable<Recipe> recipes, PaginationMetadata metadata)> GetRecipesAsync(int pageNumber, int pageSize)
-    {
-        if (pageSize > _maxPageSize)
-            pageSize = _maxPageSize;
-
-        return await _recipeRepo.GetRecipesAsync(pageNumber, pageSize);
-    }
-
-    public async Task<(IEnumerable<Recipe> recipes, PaginationMetadata metadata)> GetRecipesAsync(int pageNumber, int pageSize, string? title, string? searchQuery)
+    public async Task<(IEnumerable<Recipe> recipes, PaginationMetadata metadata)> GetPage(int pageNumber, int pageSize, string? title, string? searchQuery)
     {
         if (pageSize > _maxPageSize)
             pageSize = _maxPageSize;
@@ -31,29 +23,28 @@ public class RecipeService : IRecipeService
         {
             title = title.Trim();
             searchQuery = searchQuery.Trim();
-            return await _recipeRepo.GetRecipesAsync(pageNumber, pageSize, title, searchQuery);
+            return await _recipeRepository.GetPage(pageNumber, pageSize, title, searchQuery);
         }
         else if (string.IsNullOrEmpty(title) == false)
         {
             title = title.Trim();
-            return await _recipeRepo.GetRecipesWithFilterAsync(pageNumber, pageSize, title);
+            return await _recipeRepository.GetPageWithFilter(pageNumber, pageSize, title);
         }
         else if (string.IsNullOrEmpty(searchQuery) == false)
         {
             searchQuery = searchQuery.Trim();
-            return await _recipeRepo.GetRecipesWithSearchAsync(pageNumber, pageSize, searchQuery);
+            return await _recipeRepository.GetPageWithSearch(pageNumber, pageSize, searchQuery);
         }
         else
         {
-            return await GetRecipesAsync(pageNumber, pageSize);
+            return await _recipeRepository.GetPage(pageNumber, pageSize);
         }
     }
 
-    public async Task<Recipe?> GetRecipeByIdAsync(int id) =>
-        await _recipeRepo.GetRecipeByIdAsync(id);
+    public async Task<Recipe?> Get(int id) => await _recipeRepository.Get(id);
 
 
-    public async Task<Recipe?> CreateRecipeAsync(RecipeRequest createRecipeRequest)
+    public async Task<Recipe?> Add(RecipeRequest createRecipeRequest)
     {
         Recipe recipe = new()
         {
@@ -68,18 +59,12 @@ public class RecipeService : IRecipeService
         if (category is null)
             return null;
 
-        bool isCreated = await _recipeRepo.CreateRecipeAsync(recipe);
+        Recipe? created = await _recipeRepository.Add(recipe);
 
-        if (isCreated == false)
-        {
-            return null;
-        }
-
-        recipe.RecipeCategory = category;
-        return recipe;
+        return created;
     }
 
-    public async Task<bool> UpdateRecipeAsync(int id, RecipeRequest updateRecipeRequest)
+    public async Task<bool> Update(int id, RecipeRequest updateRecipeRequest)
     {
         Recipe recipe = new()
         {
@@ -90,14 +75,11 @@ public class RecipeService : IRecipeService
             ModifiedOn = DateTime.UtcNow
         };
 
-        return await _recipeRepo.UpdateRecipeAsync(recipe);
+        return await _recipeRepository.Update(recipe);
     }
 
-    public async Task<bool> DeleteRecipeAsync(int id) =>
-        await _recipeRepo.DeleteRecipeAsync(id);
+    public async Task<bool> Delete(int id) => await _recipeRepository.Delete(id);
 
-
-    public async Task<bool> RecipeExistsAsync(int id) =>
-        await _recipeRepo.RecipeExistsAsync(id);
+    public async Task<bool> IdExist(int id) => await _recipeRepository.IdExist(id);
 
 }

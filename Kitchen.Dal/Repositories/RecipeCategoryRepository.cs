@@ -10,7 +10,7 @@ public class RecipeCategoryRepository : GenericRepo<RecipeCategory>, IRecipeCate
     {
     }
     public async Task<IEnumerable<RecipeCategory>> GetAll() =>
-        await context.RecipeCategories.OrderBy(rc => rc.Title).ToListAsync();
+                    await context.RecipeCategories.OrderBy(rc => rc.Title).ToListAsync();
 
     public override async Task<bool> Update(RecipeCategory entity)
     {

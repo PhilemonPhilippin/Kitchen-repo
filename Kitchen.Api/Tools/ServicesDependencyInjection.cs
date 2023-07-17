@@ -26,7 +26,7 @@ public static class ServicesDependencyInjection
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
 
-        services.AddTransient<IRecipeRepo, RecipeRepo>();
+        services.AddTransient<IRecipeRepository, RecipeRepository>();
         services.AddTransient<IRecipeCategoryRepository, RecipeCategoryRepository>();
         services.AddTransient<IIngredientRepository, IngredientRepository>();
         services.AddTransient<IRecipeIngredientRepo, RecipeIngredientRepo>();

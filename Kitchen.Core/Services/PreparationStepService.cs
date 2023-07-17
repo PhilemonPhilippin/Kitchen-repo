@@ -3,13 +3,13 @@ namespace Kitchen.Core.Services;
 
 public class PreparationStepService : IPreparationStepService
 {
-    private readonly IRecipeRepo _recipeRepo;
+    private readonly IRecipeRepository _recipeRepository;
     private readonly IPreparationStepRepository _preparationStepRepository;
 
-    public PreparationStepService(IPreparationStepRepository preparationStepRepository, IRecipeRepo recipeRepo)
+    public PreparationStepService(IPreparationStepRepository preparationStepRepository, IRecipeRepository recipeRepository)
     {
         _preparationStepRepository = preparationStepRepository;
-        _recipeRepo = recipeRepo;
+        _recipeRepository = recipeRepository;
     }
     public async Task<IEnumerable<PreparationStep>> GetAll(int recipeId) =>
                             await _preparationStepRepository.GetAll(recipeId);
@@ -28,7 +28,7 @@ public class PreparationStepService : IPreparationStepService
             ModifiedOn = DateTime.UtcNow
         };
 
-        Recipe? recipe = await _recipeRepo.GetRecipeByIdAsync(recipeId);
+        Recipe? recipe = await _recipeRepository.Get(recipeId);
 
         if (recipe is null)
             return null;
