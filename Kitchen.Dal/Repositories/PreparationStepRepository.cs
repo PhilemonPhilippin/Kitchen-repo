@@ -20,7 +20,7 @@ public class PreparationStepRepository : GenericRepo<PreparationStep>, IPreparat
         entityToUpdate.RecipeId = entity.RecipeId;
         entityToUpdate.ModifiedOn = entity.ModifiedOn;
 
-        return await base.Update(entityToUpdate);
+        return await SaveChanges();
     }
 
     public async Task<IEnumerable<PreparationStep>> GetAll(int recipeId) =>

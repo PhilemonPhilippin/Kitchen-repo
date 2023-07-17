@@ -28,7 +28,7 @@ public static class ServicesDependencyInjection
 
         services.AddTransient<IRecipeRepo, RecipeRepo>();
         services.AddTransient<IRecipeCategoryRepository, RecipeCategoryRepository>();
-        services.AddTransient<IIngredientRepo, IngredientRepo>();
+        services.AddTransient<IIngredientRepository, IngredientRepository>();
         services.AddTransient<IRecipeIngredientRepo, RecipeIngredientRepo>();
         services.AddTransient<IPreparationStepRepository, PreparationStepRepository>();
         services.AddTransient<IRecipeService, RecipeService>();

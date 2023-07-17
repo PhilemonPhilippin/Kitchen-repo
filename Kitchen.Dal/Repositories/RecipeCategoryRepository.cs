@@ -23,6 +23,6 @@ public class RecipeCategoryRepository : GenericRepo<RecipeCategory>, IRecipeCate
         entityToUpdate.Description = entity.Description;
         entityToUpdate.ModifiedOn = entity.ModifiedOn;
 
-        return await base.Update(entityToUpdate);
+        return await SaveChanges();
     }
 }

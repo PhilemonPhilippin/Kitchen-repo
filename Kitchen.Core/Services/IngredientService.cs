@@ -4,28 +4,26 @@ namespace Kitchen.Core.Services;
 
 public class IngredientService : IIngredientService
 {
-    private readonly IIngredientRepo _ingredientRepo;
+    private readonly IIngredientRepository _ingredientRepository;
     private const int _maxPageSize = 40;
-    public IngredientService(IIngredientRepo ingredientRepo)
+    public IngredientService(IIngredientRepository ingredientRepository)
     {
-        _ingredientRepo = ingredientRepo;
+        _ingredientRepository = ingredientRepository;
     }
 
-    public async Task<(IEnumerable<Ingredient> ingredients, PaginationMetadata metadata)> GetIngredientsAsync(int pageNumber, int pageSize)
+    public async Task<(IEnumerable<Ingredient> ingredients, PaginationMetadata metadata)> GetPage(int pageNumber, int pageSize)
     {
         if (pageSize > _maxPageSize)
             pageSize = _maxPageSize;
 
-        return await _ingredientRepo.GetIngredientsAsync(pageNumber, pageSize);
+        return await _ingredientRepository.GetPage(pageNumber, pageSize);
     }
 
-    public async Task<IEnumerable<Ingredient>> GetIngredientsNoDescAsync() =>
-        await _ingredientRepo.GetIngredientsNoDescAsync();
+    public async Task<IEnumerable<Ingredient>> GetAllNoDescription() => await _ingredientRepository.GetAllNoDescription();
 
-    public async Task<Ingredient?> GetIngredientByIdAsync(int id) =>
-        await _ingredientRepo.GetIngredientByIdAsync(id);
+    public async Task<Ingredient?> Get(int id) => await _ingredientRepository.Get(id);
 
-    public async Task<Ingredient?> CreateIngredientAsync(IngredientRequest createIngredientRequest)
+    public async Task<Ingredient?> Add(IngredientRequest createIngredientRequest)
     {
         Ingredient ingredient = new()
         {
@@ -34,15 +32,11 @@ public class IngredientService : IIngredientService
             ModifiedOn = DateTime.UtcNow
         };
 
-        bool isCreated = await _ingredientRepo.CreateIngredientAsync(ingredient);
-
-        if (isCreated == false)
-            return null;
-
-        return ingredient;
+        Ingredient? created = await _ingredientRepository.Add(ingredient);
+        return created;
     }
 
-    public async Task<bool> UpdateIngredientAsync(int id, IngredientRequest updateIngredientRequest)
+    public async Task<bool> Update(int id, IngredientRequest updateIngredientRequest)
     {
         Ingredient ingredient = new()
         {
@@ -52,15 +46,12 @@ public class IngredientService : IIngredientService
             ModifiedOn = DateTime.UtcNow
         };
 
-        return await _ingredientRepo.UpdateIngredientAsync(ingredient);
+        return await _ingredientRepository.Update(ingredient);
     }
 
-    public async Task<bool> DeleteIngredientAsync(int id) =>
-        await _ingredientRepo.DeleteIngredientAsync(id);
+    public async Task<bool> Delete(int id) => await _ingredientRepository.Delete(id);
 
+    public async Task<bool> IdExist(int id) => await _ingredientRepository.IdExist(id);
 
-    public async Task<bool> IngredientExistsAsync(int id) =>
-        await _ingredientRepo.IngredientExistsAsync(id);
-
-    public async Task<bool> NameExistAsync(string name) => await _ingredientRepo.IngredientExistsAsync(name);
+    public async Task<bool> NameExist(string name) => await _ingredientRepository.NameExist(name);
 }

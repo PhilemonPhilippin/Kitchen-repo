@@ -26,7 +26,7 @@ public class IngredientsController : ControllerBase
     {
         try
         {
-            bool exist = await _ingredientService.NameExistAsync(name);
+            bool exist = await _ingredientService.NameExist(name);
             return Ok(exist);
         }
         catch (Exception ex)
@@ -41,7 +41,7 @@ public class IngredientsController : ControllerBase
     {
         try
         {
-            IEnumerable<Ingredient> ingredients = await _ingredientService.GetIngredientsNoDescAsync();
+            IEnumerable<Ingredient> ingredients = await _ingredientService.GetAllNoDescription();
 
             if (ingredients is null || ingredients.Any() == false)
             {
@@ -65,7 +65,7 @@ public class IngredientsController : ControllerBase
         try
         {
             (IEnumerable<Ingredient> ingredients, PaginationMetadata metadata) =
-                await _ingredientService.GetIngredientsAsync(pageNumber, pageSize);
+                await _ingredientService.GetPage(pageNumber, pageSize);
 
             if (ingredients is null || ingredients.Any() == false)
             {
@@ -90,7 +90,7 @@ public class IngredientsController : ControllerBase
     {
         try
         {
-            Ingredient? ingredient = await _ingredientService.GetIngredientByIdAsync(id);
+            Ingredient? ingredient = await _ingredientService.Get(id);
 
             if (ingredient is null)
             {
@@ -112,7 +112,7 @@ public class IngredientsController : ControllerBase
     {
         try
         {
-            Ingredient? ingredient = await _ingredientService.CreateIngredientAsync(createIngredientRequest);
+            Ingredient? ingredient = await _ingredientService.Add(createIngredientRequest);
 
             if (ingredient is null)
             {
@@ -140,7 +140,7 @@ public class IngredientsController : ControllerBase
     {
         try
         {
-            bool isUpdated = await _ingredientService.UpdateIngredientAsync(id, updateIngredientRequest);
+            bool isUpdated = await _ingredientService.Update(id, updateIngredientRequest);
 
             if (isUpdated == false)
             {
@@ -161,7 +161,7 @@ public class IngredientsController : ControllerBase
     {
         try
         {
-            bool isDeleted = await _ingredientService.DeleteIngredientAsync(id);
+            bool isDeleted = await _ingredientService.Delete(id);
 
             if (isDeleted == false)
             {
