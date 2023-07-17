@@ -5,9 +5,12 @@ public static class RecipeIngredientMapper
 
     public static IngredientForSpecificRecipeDto MapForSpecificRecipeDto(this RecipeIngredient recipeIngredient)
     {
-        return new IngredientForSpecificRecipeDto(recipeIngredient.IngredientId,
-                                                recipeIngredient.Ingredient.Name,
-                                                recipeIngredient.Ingredient.Description,
-                                                recipeIngredient.IngredientQuantity);
+        return new IngredientForSpecificRecipeDto
+        {
+            Id = recipeIngredient.IngredientId,
+            Name = recipeIngredient.Ingredient.Name,
+            Description = recipeIngredient.Ingredient.Description,
+            IngredientQuantity = recipeIngredient.IngredientQuantity
+        };
     }
 }

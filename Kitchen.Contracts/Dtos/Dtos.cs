@@ -1,34 +1,75 @@
-﻿namespace Kitchen.Contracts.Dtos;
+﻿using System.Runtime.Serialization;
 
-public record IngredientDto(
-    int Id, 
-    string Name, 
-    string? Description);
+namespace Kitchen.Contracts.Dtos;
 
-public record IngredientNoDescDto(
-    int Id,
-    string Name);
+[DataContract]
+public record IngredientDto
+{
+    [DataMember]
+    public int Id { get; set; }
+    [DataMember]
+    public string Name { get; set; }
+    [DataMember]
+    public string? Description { get; set; }
+}
 
-public record PreparationStepDto(
-    int Id, 
-    string Title, 
-    int StepNumber, 
-    string Step,
-    int RecipeId);
+[DataContract]
+public record IngredientNoDescDto
+{
+    [DataMember]
+    public int Id { get; set; }
+    [DataMember]
+    public string Name { get; set; }
+}
 
-public record RecipeCategoryDto(
-    int Id, 
-    string Title, 
-    string? Description);
+[DataContract]
+public record PreparationStepDto
+{
+    [DataMember]
+    public int Id { get; set; }
+    [DataMember]
+    public string Title { get; set; }
+    [DataMember]
+    public int StepNumber { get; set; }
+    [DataMember]
+    public string Step { get; set; }
+    [DataMember]
+    public int RecipeId { get; set; }
+}
 
-public record RecipeDto(
-    int Id, 
-    string Title, 
-    string? Description, 
-    RecipeCategoryDto RecipeCategory);
+[DataContract]
+public record RecipeCategoryDto
+{
+    [DataMember]
+    public int Id { get; set; }
+    [DataMember]
+    public string Title { get; set; }
+    [DataMember]
+    public string? Description { get; set; }
+}
 
-public record IngredientForSpecificRecipeDto(
-    int Id, 
-    string Name, 
-    string? Description, 
-    string IngredientQuantity);
+[DataContract]
+public record RecipeDto
+{
+    [DataMember]
+    public int Id { get; set; }
+    [DataMember]
+    public string Title { get; set; }
+    [DataMember]
+    public string? Description { get; set; }
+    [DataMember]
+    public RecipeCategoryDto RecipeCategory { get; set; }
+}
+
+[DataContract]
+public record IngredientForSpecificRecipeDto
+{
+    [DataMember]
+    public int Id { get; set; }
+    [DataMember]
+    public string Name { get; set; }
+    [DataMember]
+    public string? Description { get; set; }
+    [DataMember]
+    public string IngredientQuantity { get; set; }
+}
