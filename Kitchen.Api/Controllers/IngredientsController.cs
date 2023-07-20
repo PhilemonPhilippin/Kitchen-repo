@@ -36,7 +36,7 @@ public class IngredientsController : ControllerBase
         }
     }
 
-    [HttpGet("nodesc")]
+    [HttpGet("nodescription")]
     public async Task<ActionResult<IEnumerable<IngredientNoDescDto>>> GetIngredientsNoDescAsync()
     {
         try
