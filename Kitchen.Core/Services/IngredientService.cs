@@ -49,6 +49,19 @@ public class IngredientService : IIngredientService
         return await _ingredientRepository.Update(ingredient);
     }
 
+    public async Task<DbResult<Ingredient>> UpdateWithDbResult(int id, IngredientRequest updateIngredientRequest)
+    {
+        Ingredient ingredient = new()
+        {
+            Id = id,
+            Name = updateIngredientRequest.Name,
+            Description = updateIngredientRequest.Description,
+            ModifiedOn = DateTime.UtcNow
+        };
+
+        return await _ingredientRepository.UpdateWithDbResult(ingredient);
+    }
+
     public async Task<bool> Delete(int id) => await _ingredientRepository.Delete(id);
 
     public async Task<bool> IdExist(int id) => await _ingredientRepository.IdExist(id);

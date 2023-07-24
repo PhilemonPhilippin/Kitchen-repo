@@ -9,6 +9,7 @@ public interface IIngredientService
     Task<Ingredient?> Get(int id);
     Task<Ingredient?> Add(IngredientRequest createIngredientRequest);
     Task<bool> Update(int id, IngredientRequest updateIngredientRequest);
+    Task<DbResult<Ingredient>> UpdateWithDbResult(int id, IngredientRequest updateIngredientRequest);
     Task<bool> Delete(int id);
     Task<bool> IdExist(int id);
     Task<bool> NameExist(string name);

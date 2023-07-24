@@ -6,8 +6,8 @@ public enum Status
     NotFound,
     NameConflict
 }
-public class DbResult<T>
+public record DbResult<T> 
 {
-    public T? Entity { get; set; }
-    public Status Status { get; set; } = Status.Success;
+    public T? Entity { get; init; }
+    public Status Status { get; init; } = Status.Success;
 }
