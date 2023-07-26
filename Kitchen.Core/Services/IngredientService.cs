@@ -49,7 +49,7 @@ public class IngredientService : IIngredientService
         return await _ingredientRepository.Update(ingredient);
     }
 
-    public async Task<DbResult<Ingredient>> UpdateWithDbResult(int id, IngredientRequest updateIngredientRequest)
+    public async Task<Status> UpdateWithStatus(int id, IngredientRequest updateIngredientRequest)
     {
         Ingredient ingredient = new()
         {
@@ -59,7 +59,7 @@ public class IngredientService : IIngredientService
             ModifiedOn = DateTime.UtcNow
         };
 
-        return await _ingredientRepository.UpdateWithDbResult(ingredient);
+        return await _ingredientRepository.UpdateWithStatus(ingredient);
     }
 
     public async Task<bool> Delete(int id) => await _ingredientRepository.Delete(id);

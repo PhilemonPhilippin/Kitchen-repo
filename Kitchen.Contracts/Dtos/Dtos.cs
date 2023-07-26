@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace Kitchen.Contracts.Dtos;
 
@@ -8,7 +9,7 @@ public record IngredientDto
     [DataMember]
     public int Id { get; init; }
     [DataMember]
-    public string Name { get; init; }
+    public required string Name { get; init; }
     [DataMember]
     public string? Description { get; init; }
 }
@@ -19,7 +20,7 @@ public record IngredientNoDescDto
     [DataMember]
     public int Id { get; init; }
     [DataMember]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 }
 
 [DataContract]
@@ -28,11 +29,11 @@ public record PreparationStepDto
     [DataMember]
     public int Id { get; init; }
     [DataMember]
-    public string Title { get; init; }
+    public required string Title { get; init; }
     [DataMember]
     public int StepNumber { get; init; }
     [DataMember]
-    public string Step { get; init; }
+    public required string Step { get; init; }
     [DataMember]
     public int RecipeId { get; init; }
 }
@@ -43,7 +44,7 @@ public record RecipeCategoryDto
     [DataMember]
     public int Id { get; init; }
     [DataMember]
-    public string Title { get; init; }
+    public required string Title { get; init; }
     [DataMember]
     public string? Description { get; init; }
 }
@@ -54,11 +55,11 @@ public record RecipeDto
     [DataMember]
     public int Id { get; init; }
     [DataMember]
-    public string Title { get; init; }
+    public required string Title { get; init; }
     [DataMember]
     public string? Description { get; init; }
     [DataMember]
-    public RecipeCategoryDto RecipeCategory { get; init; }
+    public required RecipeCategoryDto RecipeCategory { get; init; }
 }
 
 [DataContract]
@@ -67,9 +68,9 @@ public record IngredientForSpecificRecipeDto
     [DataMember]
     public int Id { get; init; }
     [DataMember]
-    public string Name { get; init; }
+    public required string Name { get; init; }
     [DataMember]
     public string? Description { get; init; }
     [DataMember]
-    public string IngredientQuantity { get; init; }
+    public required string IngredientQuantity { get; init; }
 }

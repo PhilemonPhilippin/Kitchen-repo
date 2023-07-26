@@ -24,7 +24,7 @@ public class PreparationStepRepository : GenericRepo<PreparationStep>, IPreparat
     }
 
     public async Task<IEnumerable<PreparationStep>> GetAll(int recipeId) =>
-                            await context.PreparationSteps.Where(p => p.RecipeId == recipeId)
-                                                          .OrderBy(p => p.StepNumber)
-                                                          .ToListAsync();
-}
+                                                            await context.PreparationSteps.Where(p => p.RecipeId == recipeId)
+                                                                                            .OrderBy(p => p.StepNumber)
+                                                                                            .ToListAsync();
+                                }

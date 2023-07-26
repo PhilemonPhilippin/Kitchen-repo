@@ -140,14 +140,14 @@ public class IngredientsController : ControllerBase
     {
         try
         {
-            DbResult<Ingredient> updateResult = await _ingredientService.UpdateWithDbResult(id, updateIngredientRequest);
+            Status updateResult = await _ingredientService.UpdateWithStatus(id, updateIngredientRequest);
 
-            if (updateResult.Status == Status.NotFound)
+            if (updateResult == Status.NotFound)
             {
                 _logger.LogInformation("Ingredient with id {Id} could not be found.", id);
                 return NotFound();
             }
-            if (updateResult.Status == Status.NameConflict)
+            if (updateResult == Status.NameConflict)
             {
                 _logger.LogInformation("Ingredient with id {Id} could not be updated. Name {Name} already exists.", id, updateIngredientRequest.Name);
                 return BadRequest("Name already exists.");

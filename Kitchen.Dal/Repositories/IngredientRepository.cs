@@ -36,14 +36,15 @@ public class IngredientRepository : GenericRepo<Ingredient>, IIngredientReposito
         return await SaveChanges();
     }
 
-    public async Task<DbResult<Ingredient>> UpdateWithDbResult(Ingredient entity)
+    public async Task<Status> UpdateWithStatus(Ingredient entity)
     {
         var entityToUpdate = await Get(entity.Id);
+
         if (entityToUpdate is null)
-            return new DbResult<Ingredient> { Status = Status.NotFound };
+            return Status.NotFound;
 
         if (await context.Ingredients.AnyAsync(i => i.Name == entity.Name && i.Id != entity.Id))
-            return new DbResult<Ingredient> { Status = Status.NameConflict };
+            return Status.NameConflict;
 
         entityToUpdate.Name = entity.Name;
         entityToUpdate.Description = entity.Description;
@@ -51,7 +52,7 @@ public class IngredientRepository : GenericRepo<Ingredient>, IIngredientReposito
 
         await SaveChanges();
 
-        return new DbResult<Ingredient>();
+        return Status.Success;
     }
 
     public async Task<(IEnumerable<Ingredient> ingredients, PaginationMetadata metadata)> GetPage(int pageNumber, int pageSize)
