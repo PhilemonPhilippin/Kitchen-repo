@@ -18,7 +18,7 @@ public class RecipeCategoryRepository : GenericRepo<RecipeCategory>, IRecipeCate
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While getting recipe categories in DB, error = {Ex}", ex.Message);
+            logger.LogCritical("While getting recipe categories in DB, error = {Ex}", ex);
             return Enumerable.Empty<RecipeCategory>();
         }
     }
@@ -46,7 +46,7 @@ public class RecipeCategoryRepository : GenericRepo<RecipeCategory>, IRecipeCate
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While updating recipe category in DB for id = {Id}, error = {Ex}", entity.Id, ex.Message);
+            logger.LogCritical("While updating recipe category in DB for id = {Id}, error = {Ex}", entity.Id, ex);
             return Status.Error;
         }
     }
@@ -59,7 +59,7 @@ public class RecipeCategoryRepository : GenericRepo<RecipeCategory>, IRecipeCate
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While querying if id of recipe category exist for id = {Id}, error = {Ex}", id, ex.Message);
+            logger.LogCritical("While querying if id of recipe category exist for id = {Id}, error = {Ex}", id, ex);
             return false;
         }
     }

@@ -34,7 +34,7 @@ public class PreparationStepRepository : GenericRepo<PreparationStep>, IPreparat
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While updating preparation step in DB for id = {Id}, error = {Ex}", entity.Id, ex.Message);
+            logger.LogCritical("While updating preparation step in DB for id = {Id}, error = {Ex}", entity.Id, ex);
             return Status.Error;
         }
     }
@@ -51,7 +51,7 @@ public class PreparationStepRepository : GenericRepo<PreparationStep>, IPreparat
         }
         catch(Exception ex)
         {
-            logger.LogCritical("While getting preparation steps in DB, error = {Ex}", ex.Message);
+            logger.LogCritical("While getting preparation steps in DB, error = {Ex}", ex);
             return Enumerable.Empty<PreparationStep>();
         }
     }

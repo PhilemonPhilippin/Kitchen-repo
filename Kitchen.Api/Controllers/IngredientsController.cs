@@ -31,7 +31,7 @@ public class IngredientsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While getting the ingredients, error = {Ex}", ex.Message);
+            _logger.LogCritical("While getting the ingredients, error = {Ex}", ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -54,7 +54,7 @@ public class IngredientsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While getting the ingredients, error = {Ex}", ex.Message);
+            _logger.LogCritical("While getting the ingredients, error = {Ex}", ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -80,7 +80,7 @@ public class IngredientsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While getting the ingredients, error = {Ex}", ex.Message);
+            _logger.LogCritical("While getting the ingredients, error = {Ex}", ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -106,7 +106,7 @@ public class IngredientsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While getting ingredient, for id = {Id}, error = {Ex}", id, ex.Message);
+            _logger.LogCritical("While getting ingredient, for id = {Id}, error = {Ex}", id, ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -136,7 +136,7 @@ public class IngredientsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While creating ingredient, for ingredient name = {Name}, error = {Ex}", createIngredientRequest.Name, ex.Message);
+            _logger.LogCritical("While creating ingredient, for ingredient name = {Name}, error = {Ex}", createIngredientRequest.Name, ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -168,7 +168,7 @@ public class IngredientsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While updating ingredient, for ingredient id = {Id}, error = {Ex}", id, ex.Message);
+            _logger.LogCritical("While updating ingredient, for ingredient id = {Id}, error = {Ex}", id, ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -193,7 +193,7 @@ public class IngredientsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While deleting ingredient, for ingredient id = {Id}, error = {Ex}", id, ex.Message);
+            _logger.LogCritical("While deleting ingredient, for ingredient id = {Id}, error = {Ex}", id, ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }

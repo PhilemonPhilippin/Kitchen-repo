@@ -50,7 +50,7 @@ public class PreparationStepsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While getting preparation steps, for recipe id = {RecipeId}, error = {Ex}",recipeId, ex.Message);
+            _logger.LogCritical("While getting preparation steps, for recipe id = {RecipeId}, error = {Ex}",recipeId, ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -85,7 +85,7 @@ public class PreparationStepsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While getting a preparation step, for recipe id = {RecipeId} and preparation step id = {PreparationStepId}, error = {Ex}", recipeId, preparationStepId, ex.Message);
+            _logger.LogCritical("While getting a preparation step, for recipe id = {RecipeId} and preparation step id = {PreparationStepId}, error = {Ex}", recipeId, preparationStepId, ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -124,7 +124,7 @@ public class PreparationStepsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While creating a preparation step, for recipe id = {RecipeId} and preparation step title = {Title}, error = {Ex}", recipeId, createPreparationStepRequest.Title, ex.Message);
+            _logger.LogCritical("While creating a preparation step, for recipe id = {RecipeId} and preparation step title = {Title}, error = {Ex}", recipeId, createPreparationStepRequest.Title, ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -159,7 +159,7 @@ public class PreparationStepsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While updating a preparation step, for recipe id = {RecipeId} and preparation step id = {PreparationStepId}, error = {Ex}", recipeId, preparationStepId, ex.Message);
+            _logger.LogCritical("While updating a preparation step, for recipe id = {RecipeId} and preparation step id = {PreparationStepId}, error = {Ex}", recipeId, preparationStepId, ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -193,7 +193,7 @@ public class PreparationStepsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While deleting a preparation step, for recipe id = {RecipeId} and preparation step id = {PreparationStepId}, error = {Ex}", recipeId, preparationStepId, ex.Message);
+            _logger.LogCritical("While deleting a preparation step, for recipe id = {RecipeId} and preparation step id = {PreparationStepId}, error = {Ex}", recipeId, preparationStepId, ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }

@@ -17,7 +17,7 @@ public class IngredientRepository : GenericRepo<Ingredient>, IIngredientReposito
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While querying if id of ingredient exist for id = {Id}, error = {Ex}", id, ex.Message);
+            logger.LogCritical("While querying if id of ingredient exist for id = {Id}, error = {Ex}", id, ex);
             return false;
         }
     }
@@ -25,11 +25,14 @@ public class IngredientRepository : GenericRepo<Ingredient>, IIngredientReposito
     {
         try
         {
+            if (string.IsNullOrEmpty(name))
+                return false;
+
             return await context.Ingredients.AsNoTracking().AnyAsync(i => i.Name.ToLower() == name.ToLower());
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While querying if name of ingredient exist for name = {Name}, error = {Ex}", name, ex.Message);
+            logger.LogCritical("While querying if name of ingredient exist for name = {Name}, error = {Ex}", name, ex);
             return false;
         }
     }
@@ -46,7 +49,7 @@ public class IngredientRepository : GenericRepo<Ingredient>, IIngredientReposito
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While adding ingredient in DB, error = {Ex}", ex.Message);
+            logger.LogCritical("While adding ingredient in DB, error = {Ex}", ex);
             return new DbResult<Ingredient> { Status = Status.Error };
         }
     }
@@ -77,7 +80,7 @@ public class IngredientRepository : GenericRepo<Ingredient>, IIngredientReposito
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While updating ingredient in DB for id = {Id}, error = {Ex}", entity.Id, ex.Message);
+            logger.LogCritical("While updating ingredient in DB for id = {Id}, error = {Ex}", entity.Id, ex);
             return Status.Error;
         }
     }
@@ -101,7 +104,7 @@ public class IngredientRepository : GenericRepo<Ingredient>, IIngredientReposito
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While getting ingredients in DB, error = {Ex}", ex.Message);
+            logger.LogCritical("While getting ingredients in DB, error = {Ex}", ex);
             return (Enumerable.Empty<Ingredient>(), new PaginationMetadata(0, 0, 0));
         }
     }
@@ -120,7 +123,7 @@ public class IngredientRepository : GenericRepo<Ingredient>, IIngredientReposito
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While getting ingredients without description in DB, error = {Ex}", ex.Message);
+            logger.LogCritical("While getting ingredients without description in DB, error = {Ex}", ex);
             return Enumerable.Empty<Ingredient>();
         }
     }

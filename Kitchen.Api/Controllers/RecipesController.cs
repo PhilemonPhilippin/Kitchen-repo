@@ -42,7 +42,7 @@ public class RecipesController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While getting the recipes, error = {Ex}", ex.Message);
+            _logger.LogCritical("While getting the recipes, error = {Ex}", ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -67,7 +67,7 @@ public class RecipesController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While getting a recipe, for recipe id = {Id}, error = {Ex}", id, ex.Message);
+            _logger.LogCritical("While getting a recipe, for recipe id = {Id}, error = {Ex}", id, ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -96,7 +96,7 @@ public class RecipesController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While creating a recipe, for recipe title = {Title}, error = {Ex}", createRecipeRequest.Title, ex.Message);
+            _logger.LogCritical("While creating a recipe, for recipe title = {Title}, error = {Ex}", createRecipeRequest.Title, ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -123,7 +123,7 @@ public class RecipesController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While updating a recipe, for recipe id = {Id}, error = {Ex}", id, ex.Message);
+            _logger.LogCritical("While updating a recipe, for recipe id = {Id}, error = {Ex}", id, ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -148,7 +148,7 @@ public class RecipesController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While deleting a recipe, for recipe id = {Id}, error = {Ex}", id, ex.Message);
+            _logger.LogCritical("While deleting a recipe, for recipe id = {Id}, error = {Ex}", id, ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }

@@ -26,7 +26,7 @@ public abstract class GenericRepo<T> : IRepository<T> where T : class
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While getting entity in DB for id = {Id}, error = {Ex}", id, ex.Message);
+            logger.LogCritical("While getting entity in DB for id = {Id}, error = {Ex}", id, ex);
             return new DbResult<T> { Status = Status.Error };
         }
     }
@@ -42,7 +42,7 @@ public abstract class GenericRepo<T> : IRepository<T> where T : class
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While adding entity in DB, error = {Ex}", ex.Message);
+            logger.LogCritical("While adding entity in DB, error = {Ex}", ex);
             return new DbResult<T> { Status = Status.Error };
         }
     }
@@ -67,7 +67,7 @@ public abstract class GenericRepo<T> : IRepository<T> where T : class
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While deleting entity in DB, error = {Ex}", ex.Message);
+            logger.LogCritical("While deleting entity in DB, error = {Ex}", ex);
             return Status.Error;
         }
     }
@@ -81,7 +81,7 @@ public abstract class GenericRepo<T> : IRepository<T> where T : class
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While saving changes to the DB, error = {Ex}", ex.Message);
+            logger.LogCritical("While saving changes to the DB, error = {Ex}", ex);
             return false;
         }
     }

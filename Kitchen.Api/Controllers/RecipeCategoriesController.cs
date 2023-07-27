@@ -38,7 +38,7 @@ public class RecipeCategoriesController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While getting the recipe categories, error = {Ex}", ex.Message);
+            _logger.LogCritical("While getting the recipe categories, error = {Ex}", ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -63,7 +63,7 @@ public class RecipeCategoriesController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While getting the recipe category with id = {Id}, error = {Ex}", id, ex.Message);
+            _logger.LogCritical("While getting the recipe category with id = {Id}, error = {Ex}", id, ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -91,7 +91,7 @@ public class RecipeCategoriesController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While creating the recipe category with title = {Title}, error = {Ex}", createRecipeCategoryRequest.Title, ex.Message);
+            _logger.LogCritical("While creating the recipe category with title = {Title}, error = {Ex}", createRecipeCategoryRequest.Title, ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -117,7 +117,7 @@ public class RecipeCategoriesController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While updating the recipe category with id = {Id}, error = {Ex}", id, ex.Message);
+            _logger.LogCritical("While updating the recipe category with id = {Id}, error = {Ex}", id, ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -141,7 +141,7 @@ public class RecipeCategoriesController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While deleting the recipe category with id = {Id}, error = {Ex}", id, ex.Message);
+            _logger.LogCritical("While deleting the recipe category with id = {Id}, error = {Ex}", id, ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }

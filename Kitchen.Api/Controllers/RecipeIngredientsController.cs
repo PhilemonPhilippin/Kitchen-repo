@@ -44,7 +44,7 @@ public class RecipeIngredientsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While getting recipe ingredients, for recipe id = {RecipeId}, error = {Ex}", recipeId, ex.Message);
+            _logger.LogCritical("While getting recipe ingredients, for recipe id = {RecipeId}, error = {Ex}", recipeId, ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -82,7 +82,7 @@ public class RecipeIngredientsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While associating an ingredient with a recipe, for recipe id = {RecipeId} and ingredient id = {IngredientId}, error = {Ex}", recipeId, createRecipeIngredientRequest.IngredientId, ex.Message);
+            _logger.LogCritical("While associating an ingredient with a recipe, for recipe id = {RecipeId} and ingredient id = {IngredientId}, error = {Ex}", recipeId, createRecipeIngredientRequest.IngredientId, ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -121,7 +121,7 @@ public class RecipeIngredientsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While updating the association between the recipe id = {RecipeId} and ingredient id = {IngredientId}, error = {Ex}", recipeId, ingredientId, ex.Message);
+            _logger.LogCritical("While updating the association between the recipe id = {RecipeId} and ingredient id = {IngredientId}, error = {Ex}", recipeId, ingredientId, ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
@@ -154,7 +154,7 @@ public class RecipeIngredientsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While deleting the association between the recipe with id = {RecipeId} and ingredient with id = {IngredientId}, error = {Ex}", recipeId, ingredientId, ex.Message);
+            _logger.LogCritical("While deleting the association between the recipe with id = {RecipeId} and ingredient with id = {IngredientId}, error = {Ex}", recipeId, ingredientId, ex);
             return StatusCode(500, "A problem occured while handling the request.");
         }
     }
