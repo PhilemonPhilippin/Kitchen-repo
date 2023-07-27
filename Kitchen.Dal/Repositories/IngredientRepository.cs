@@ -1,82 +1,127 @@
 ﻿
+using Microsoft.Extensions.Logging;
+
 namespace Kitchen.Dal.Repositories;
 
 public class IngredientRepository : GenericRepo<Ingredient>, IIngredientRepository
 {
-    public IngredientRepository(KitchenContext context) : base(context)
+    public IngredientRepository(KitchenContext context, ILogger<IngredientRepository> logger) : base(context, logger)
     {
     }
 
-    public async Task<bool> IdExist(int id) => await context.Ingredients.AnyAsync(i => i.Id == id);
-    public async Task<bool> NameExist(string name) => await context.Ingredients.AnyAsync(i => i.Name.ToLower() == name.ToLower());
-
-    public override async Task<Ingredient?> Add(Ingredient entity)
+    public async Task<bool> IdExist(int id)
     {
-        bool nameExist = await NameExist(entity.Name);
-        if (nameExist)
-            return null;
-
-        return await base.Add(entity);
-    }
-
-    public override async Task<bool> Update(Ingredient entity)
-    {
-        var entityToUpdate = await Get(entity.Id);
-
-        if (entityToUpdate is null)
+        try
+        {
+            return await context.Ingredients.AsNoTracking().AnyAsync(i => i.Id == id);
+        }
+        catch (Exception ex)
+        {
+            logger.LogCritical("While querying if id of ingredient exist for id = {Id}, error = {Ex}", id, ex.Message);
             return false;
-
-        if (await context.Ingredients.AnyAsync(i => i.Name == entity.Name && i.Id != entity.Id))
+        }
+    }
+    public async Task<bool> NameExist(string name) 
+    {
+        try
+        {
+            return await context.Ingredients.AsNoTracking().AnyAsync(i => i.Name.ToLower() == name.ToLower());
+        }
+        catch (Exception ex)
+        {
+            logger.LogCritical("While querying if name of ingredient exist for name = {Name}, error = {Ex}", name, ex.Message);
             return false;
-
-        entityToUpdate.Name = entity.Name;
-        entityToUpdate.Description = entity.Description;
-        entityToUpdate.ModifiedOn = entity.ModifiedOn;
-
-        return await SaveChanges();
+        }
     }
 
-    public async Task<Status> UpdateWithStatus(Ingredient entity)
+    public override async Task<DbResult<Ingredient>> Add(Ingredient entity)
     {
-        var entityToUpdate = await Get(entity.Id);
+        try
+        {
+            bool nameExist = await NameExist(entity.Name);
+            if (nameExist)
+                return new DbResult<Ingredient> { Status = Status.NameConflict };
 
-        if (entityToUpdate is null)
-            return Status.NotFound;
+            return await base.Add(entity);
+        }
+        catch (Exception ex)
+        {
+            logger.LogCritical("While adding ingredient in DB, error = {Ex}", ex.Message);
+            return new DbResult<Ingredient> { Status = Status.Error };
+        }
+    }
 
-        if (await context.Ingredients.AnyAsync(i => i.Name == entity.Name && i.Id != entity.Id))
-            return Status.NameConflict;
+    public override async Task<Status> Update(Ingredient entity)
+    {
+        try
+        {
+            var dbResult = await Get(entity.Id);
 
-        entityToUpdate.Name = entity.Name;
-        entityToUpdate.Description = entity.Description;
-        entityToUpdate.ModifiedOn = entity.ModifiedOn;
+            if (dbResult.Status == Status.Error)
+                return Status.Error;
 
-        await SaveChanges();
+            if (dbResult.Status == Status.NotFound)
+                return Status.NotFound;
 
-        return Status.Success;
+            var entityToUpdate = dbResult.Entity!;
+
+            if (await context.Ingredients.AsNoTracking().AnyAsync(i => i.Name == entity.Name && i.Id != entity.Id))
+                return Status.NameConflict;
+
+            entityToUpdate.Name = entity.Name;
+            entityToUpdate.Description = entity.Description;
+            entityToUpdate.ModifiedOn = entity.ModifiedOn;
+
+            await SaveChanges();
+            return Status.Success;
+        }
+        catch (Exception ex)
+        {
+            logger.LogCritical("While updating ingredient in DB for id = {Id}, error = {Ex}", entity.Id, ex.Message);
+            return Status.Error;
+        }
     }
 
     public async Task<(IEnumerable<Ingredient> ingredients, PaginationMetadata metadata)> GetPage(int pageNumber, int pageSize)
     {
-        IEnumerable<Ingredient> ingredients = await context.Ingredients
-                                                .OrderBy(i => i.Name)
-                                                .Skip(pageSize * (pageNumber - 1))
-                                                .Take(pageSize)
-                                                .ToListAsync();
+        try
+        {
+            IEnumerable<Ingredient> ingredients = await context.Ingredients
+                                                            .AsNoTracking()
+                                                            .OrderBy(i => i.Name)
+                                                            .Skip(pageSize * (pageNumber - 1))
+                                                            .Take(pageSize)
+                                                            .ToListAsync();
 
-        int totalItemCount = await context.Ingredients.CountAsync();
+            int totalItemCount = await context.Ingredients.AsNoTracking().CountAsync();
 
-        PaginationMetadata metadata = new(pageNumber, pageSize, totalItemCount);
+            PaginationMetadata metadata = new(pageNumber, pageSize, totalItemCount);
 
-        return (ingredients, metadata);
+            return (ingredients, metadata);
+        }
+        catch (Exception ex)
+        {
+            logger.LogCritical("While getting ingredients in DB, error = {Ex}", ex.Message);
+            return (Enumerable.Empty<Ingredient>(), new PaginationMetadata(0, 0, 0));
+        }
     }
 
     public async Task<IEnumerable<Ingredient>> GetAllNoDescription()
     {
-        IEnumerable<Ingredient> ingredients = await context.Ingredients
-                                                        .OrderBy(i => i.Name)
-                                                        .Select(i => new Ingredient { Id = i.Id, Name = i.Name })
-                                                        .ToListAsync();
+        try
+        {
+            IEnumerable<Ingredient> ingredients = await context.Ingredients
+                                                       .AsNoTracking()
+                                                       .OrderBy(i => i.Name)
+                                                       .Select(i => new Ingredient { Id = i.Id, Name = i.Name })
+                                                       .ToListAsync();
 
-        return ingredients;
+            return ingredients;
+        }
+        catch (Exception ex)
+        {
+            logger.LogCritical("While getting ingredients without description in DB, error = {Ex}", ex.Message);
+            return Enumerable.Empty<Ingredient>();
+        }
     }
 }

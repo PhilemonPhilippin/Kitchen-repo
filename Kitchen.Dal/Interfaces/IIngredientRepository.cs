@@ -6,7 +6,6 @@ public interface IIngredientRepository : IRepository<Ingredient>
 {
     Task<(IEnumerable<Ingredient> ingredients, PaginationMetadata metadata)> GetPage(int pageNumber, int pageSize);
     Task<IEnumerable<Ingredient>> GetAllNoDescription();
-    Task<Status> UpdateWithStatus(Ingredient entity);
     Task<bool> IdExist(int id);
     Task<bool> NameExist(string name);
 }

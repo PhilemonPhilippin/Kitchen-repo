@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Kitchen.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kitchen.Api.Controllers;
@@ -47,14 +48,18 @@ public class RecipeCategoriesController : ControllerBase
     {
         try
         {
-            RecipeCategory? recipeCategory = await _recipeCategoryService.Get(id);
+            DbResult<RecipeCategory> dbResult = await _recipeCategoryService.Get(id);
 
-            if (recipeCategory is null)
+            if (dbResult.Status == Status.NotFound)
             {
                 _logger.LogInformation("Recipe category with id {Id} was not found.", id);
                 return NotFound();
             }
-            return Ok(_mapper.Map<RecipeCategoryDto>(recipeCategory));
+
+            if (dbResult.Status == Status.Error)
+                return StatusCode(500, "A problem occured while handling the request.");
+
+            return Ok(_mapper.Map<RecipeCategoryDto>(dbResult.Entity));
         }
         catch (Exception ex)
         {
@@ -68,19 +73,19 @@ public class RecipeCategoriesController : ControllerBase
     {
         try
         {
-            RecipeCategory? recipeCategory = await _recipeCategoryService.Add(createRecipeCategoryRequest);
+            DbResult<RecipeCategory> dbResult = await _recipeCategoryService.Add(createRecipeCategoryRequest);
 
-            if (recipeCategory is null)
+            if (dbResult.Status == Status.Error)
             {
                 _logger.LogInformation("Could no create the recipe category with title = {Title}", createRecipeCategoryRequest.Title);
-                return BadRequest();
+                return StatusCode(500, "A problem occured while handling the request.");
             }
 
-            RecipeCategoryDto response = _mapper.Map<RecipeCategoryDto>(recipeCategory);
+            RecipeCategoryDto response = _mapper.Map<RecipeCategoryDto>(dbResult.Entity);
 
             return CreatedAtAction(
                     nameof(GetRecipeCategoryById),
-                    new { id = recipeCategory.Id },
+                    new { id = dbResult.Entity!.Id },
                     response
                 );
         }
@@ -97,13 +102,17 @@ public class RecipeCategoriesController : ControllerBase
     {
         try
         {
-            bool isUpdated = await _recipeCategoryService.Update(id, updateRecipeCategoryRequest);
+            Status updateResult = await _recipeCategoryService.Update(id, updateRecipeCategoryRequest);
 
-            if (isUpdated == false)
+            if (updateResult == Status.NotFound)
             {
                 _logger.LogInformation("Recipe category with id {Id} could not be updated.", id);
                 return NotFound();
             }
+
+            if (updateResult == Status.Error)
+                return StatusCode(500, "A problem occured while handling the request.");
+
             return NoContent();
         }
         catch (Exception ex)
@@ -117,13 +126,17 @@ public class RecipeCategoriesController : ControllerBase
     {
         try
         {
-            bool isDeleted = await _recipeCategoryService.Delete(id);
+            Status deleteResult = await _recipeCategoryService.Delete(id);
 
-            if (isDeleted == false)
+            if (deleteResult == Status.NotFound)
             {
                 _logger.LogInformation("Recipe category with id {id} could not be deleted.", id);
                 return NotFound();
             }
+
+            if (deleteResult == Status.Error)
+                return StatusCode(500, "A problem occured while handling the request.");
+
             return NoContent();
         }
         catch (Exception ex)

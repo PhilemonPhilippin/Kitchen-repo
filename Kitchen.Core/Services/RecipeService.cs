@@ -1,6 +1,4 @@
-﻿using Kitchen.Models;
-
-namespace Kitchen.Core.Services;
+﻿namespace Kitchen.Core.Services;
 
 public class RecipeService : IRecipeService
 {
@@ -41,44 +39,49 @@ public class RecipeService : IRecipeService
         }
     }
 
-    public async Task<Recipe?> Get(int id) => await _recipeRepository.Get(id);
+    public async Task<DbResult<Recipe>> Get(int id) => await _recipeRepository.Get(id);
 
 
-    public async Task<Recipe?> Add(RecipeRequest createRecipeRequest)
+    public async Task<DbResult<Recipe>> Add(RecipeRequest createRecipeRequest)
     {
         Recipe recipe = new()
         {
             Title = createRecipeRequest.Title,
             Description = createRecipeRequest.Description,
-            RecipeCategoryId = createRecipeRequest.RecipeCategoryId,
+            RecipeCategoryId = (int)createRecipeRequest.RecipeCategoryId!,
             ModifiedOn = DateTime.UtcNow
         };
 
-        RecipeCategory? category = await _recipeCategoryRepository.Get(createRecipeRequest.RecipeCategoryId);
+        bool categoryExist = await _recipeCategoryRepository.IdExist((int)createRecipeRequest.RecipeCategoryId);;
 
-        if (category is null)
-            return null;
+        if (categoryExist == false)
+            return new DbResult<Recipe> { Status = Status.NotFound};
 
-        Recipe? created = await _recipeRepository.Add(recipe);
+        DbResult<Recipe> recipeDbResult = await _recipeRepository.Add(recipe);
 
-        return created;
+        return recipeDbResult;
     }
 
-    public async Task<bool> Update(int id, RecipeRequest updateRecipeRequest)
+    public async Task<Status> Update(int id, RecipeRequest updateRecipeRequest)
     {
         Recipe recipe = new()
         {
             Id = id,
             Title = updateRecipeRequest.Title,
             Description = updateRecipeRequest.Description,
-            RecipeCategoryId = updateRecipeRequest.RecipeCategoryId,
+            RecipeCategoryId = (int)updateRecipeRequest.RecipeCategoryId!,
             ModifiedOn = DateTime.UtcNow
         };
+
+        bool categoryExist = await _recipeCategoryRepository.IdExist((int)updateRecipeRequest.RecipeCategoryId);
+
+        if (categoryExist == false)
+            return Status.NotFound;
 
         return await _recipeRepository.Update(recipe);
     }
 
-    public async Task<bool> Delete(int id) => await _recipeRepository.Delete(id);
+    public async Task<Status> Delete(int id) => await _recipeRepository.Delete(id);
 
     public async Task<bool> IdExist(int id) => await _recipeRepository.IdExist(id);
 

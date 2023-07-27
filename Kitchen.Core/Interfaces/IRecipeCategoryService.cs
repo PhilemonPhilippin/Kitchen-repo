@@ -3,8 +3,8 @@
 public interface IRecipeCategoryService
 {
     Task<IEnumerable<RecipeCategory>> GetAll();
-    Task<RecipeCategory?> Get(int id);
-    Task<RecipeCategory?> Add(RecipeCategoryRequest createRecipeCategoryRequest);
-    Task<bool> Update(int id, RecipeCategoryRequest updateRecipeCategoryRequest);
-    Task<bool> Delete(int id);
+    Task<DbResult<RecipeCategory>> Get(int id);
+    Task<DbResult<RecipeCategory>> Add(RecipeCategoryRequest createRecipeCategoryRequest);
+    Task<Status> Update(int id, RecipeCategoryRequest updateRecipeCategoryRequest);
+    Task<Status> Delete(int id);
 }

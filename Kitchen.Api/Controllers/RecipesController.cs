@@ -52,14 +52,18 @@ public class RecipesController : ControllerBase
     {
         try
         {
-            Recipe? recipe = await _recipeService.Get(id);
+            DbResult<Recipe> dbResult = await _recipeService.Get(id);
 
-            if (recipe is null)
+            if (dbResult.Status == Status.NotFound)
             {
                 _logger.LogInformation("Recipe with id {Id} was not found.", id);
                 return NotFound();
             }
-            return Ok(recipe.MapToRecipeDto());
+
+            if (dbResult.Status == Status.Error)
+                return StatusCode(500, "A problem occured while handling the request.");
+
+            return Ok(dbResult.Entity!.MapToRecipeDto());
         }
         catch (Exception ex)
         {
@@ -72,19 +76,22 @@ public class RecipesController : ControllerBase
     {
         try
         {
-            Recipe? recipe = await _recipeService.Add(createRecipeRequest);
+            DbResult<Recipe> dbResult = await _recipeService.Add(createRecipeRequest);
 
-            if (recipe is null)
+            if (dbResult.Status == Status.NotFound)
+                return NotFound("Recipe category not found.");
+
+            if (dbResult.Status == Status.Error)
             {
                 _logger.LogInformation("Could not create the recipe with title = {Title}", createRecipeRequest.Title);
-                return BadRequest();
+                return StatusCode(500, "A problem occured while handling the request.");
             }
 
-            RecipeDto response = recipe.MapToRecipeDto();
+            RecipeDto response = dbResult.Entity!.MapToRecipeDto();
 
             return CreatedAtAction(
                 nameof(GetRecipeById),
-                new { id = recipe.Id },
+                new { id = dbResult.Entity!.Id },
                 response);
         }
         catch (Exception ex)
@@ -101,13 +108,17 @@ public class RecipesController : ControllerBase
     {
         try
         {
-            bool isUpdated = await _recipeService.Update(id, updateRecipeRequest);
+            Status updateResult = await _recipeService.Update(id, updateRecipeRequest);
 
-            if (isUpdated == false)
+            if (updateResult == Status.NotFound)
             {
                 _logger.LogInformation("Recipe with id {Id} could not be updated.", id);
                 return NotFound();
             }
+
+            if (updateResult == Status.Error)
+                return StatusCode(500, "A problem occured while handling the request.");
+
             return NoContent();
         }
         catch (Exception ex)
@@ -122,13 +133,17 @@ public class RecipesController : ControllerBase
     {
         try
         {
-            bool isDeleted = await _recipeService.Delete(id);
+            Status deleteResult = await _recipeService.Delete(id);
 
-            if (isDeleted == false)
+            if (deleteResult == Status.NotFound)
             {
                 _logger.LogInformation("Recipe with id {Id} could not be deleted.", id);
                 return NotFound();
             }
+
+            if (deleteResult == Status.Error)
+                return StatusCode(500, "A problem occured while handling the request.");
+
             return NoContent();
         }
         catch (Exception ex)

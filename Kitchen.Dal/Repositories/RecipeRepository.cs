@@ -1,98 +1,210 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Extensions.Logging;
 
 namespace Kitchen.Dal.Repositories;
 
 public class RecipeRepository : GenericRepo<Recipe>, IRecipeRepository
 {
-    public RecipeRepository(KitchenContext context) : base(context)
+    private readonly IRecipeCategoryRepository _recipeCategoryRepository;
+
+    public RecipeRepository(KitchenContext context, ILogger<RecipeRepository> logger, IRecipeCategoryRepository recipeCategoryRepository) : base(context, logger)
     {
+        _recipeCategoryRepository = recipeCategoryRepository;
     }
 
-    public async Task<bool> IdExist(int id) => await context.Recipes.AnyAsync(r => r.Id == id);
-
-    public override async Task<Recipe?> Get(int id) => await context.Recipes.Include(r => r.RecipeCategory).FirstOrDefaultAsync(r => r.Id == id);
-    
-    public override async Task<bool> Update(Recipe entity)
+    public async Task<bool> IdExist(int id)
     {
-        var entityToUpdate = await Get(entity.Id);
-
-        if (entityToUpdate is null)
+        try
+        {
+            return await context.Recipes.AsNoTracking().AnyAsync(r => r.Id == id);
+        }
+        catch (Exception ex)
+        {
+            logger.LogCritical("While querying if id of recipe exist for id = {Id}, error = {Ex}", id, ex.Message);
             return false;
+        }
+    }
 
-        entityToUpdate.Title = entity.Title;
-        entityToUpdate.Description = entity.Description;
-        entityToUpdate.RecipeCategoryId = entity.RecipeCategoryId;
-        entityToUpdate.ModifiedOn = entity.ModifiedOn;
+    public override async Task<DbResult<Recipe>> Get(int id)
+    {
+        try
+        {
+            Recipe? recipe = await context.Recipes.Include(r => r.RecipeCategory).FirstOrDefaultAsync(r => r.Id == id);
 
-        return await SaveChanges();
+            if (recipe is null)
+                return new DbResult<Recipe> { Status = Status.NotFound };
+
+            return new DbResult<Recipe> { Entity = recipe };
+        }
+        catch (Exception ex)
+        {
+            logger.LogCritical("While getting recipe in DB for id = {Id}, error = {Ex}", id, ex.Message);
+            return new DbResult<Recipe> { Status = Status.Error };
+        }
+    }
+
+    public override async Task<DbResult<Recipe>> Add(Recipe entity)
+    {
+        try
+        {
+            var addedEntity = context.Recipes.Add(entity).Entity;
+            await SaveChanges();
+
+
+            DbResult<RecipeCategory> dbResult = await _recipeCategoryRepository.Get(entity.RecipeCategoryId);
+
+            if (dbResult.Status == Status.NotFound)
+                return new DbResult<Recipe> { Status = Status.NotFound };
+
+            if (dbResult.Status == Status.Error)
+                return new DbResult<Recipe> { Status = Status.Error };
+
+            addedEntity.RecipeCategory = dbResult.Entity!;
+
+            return new DbResult<Recipe> { Entity = addedEntity };
+        }
+        catch (Exception ex)
+        {
+            logger.LogCritical("While adding recipe in DB, error = {Ex}", ex.Message);
+            return new DbResult<Recipe> { Status = Status.Error };
+        }
+    }
+
+    public override async Task<Status> Update(Recipe entity)
+    {
+        try
+        {
+            var dbResult = await Get(entity.Id);
+
+            if (dbResult.Status == Status.Error)
+                return Status.Error;
+
+            if (dbResult.Status == Status.NotFound)
+                return Status.NotFound;
+
+            var entityToUpdate = dbResult.Entity!;
+
+            entityToUpdate.Title = entity.Title;
+            entityToUpdate.Description = entity.Description;
+            entityToUpdate.RecipeCategoryId = entity.RecipeCategoryId;
+            entityToUpdate.ModifiedOn = entity.ModifiedOn;
+
+            await SaveChanges();
+            return Status.Success;
+        }
+        catch (Exception ex)
+        {
+            logger.LogCritical("While updating recipe in DB for id = {Id}, error = {Ex}", entity.Id, ex.Message);
+            return Status.Error;
+        }
     }
 
     public async Task<(IEnumerable<Recipe> recipes, PaginationMetadata metadata)> GetPage(int pageNumber, int pageSize)
     {
-        IEnumerable<Recipe> recipes = await context.Recipes
-                                .Include(r => r.RecipeCategory)
-                                .OrderBy(r => r.Title)
-                                .Skip(pageSize * (pageNumber - 1))
-                                .Take(pageSize)
-                                .ToListAsync();
+        try
+        {
+            IEnumerable<Recipe> recipes =
+            await context.Recipes
+            .AsNoTracking()
+            .Include(r => r.RecipeCategory)
+            .OrderBy(r => r.Title)
+            .Skip(pageSize * (pageNumber - 1))
+            .Take(pageSize)
+            .ToListAsync();
 
-        int totalItemCount = await context.Recipes.CountAsync();
-        PaginationMetadata metadata = new(pageNumber, pageSize, totalItemCount);
+            int totalItemCount = await context.Recipes.AsNoTracking().CountAsync();
+            PaginationMetadata metadata = new(pageNumber, pageSize, totalItemCount);
 
-        return (recipes, metadata);
+            return (recipes, metadata);
+        }
+        catch (Exception ex)
+        {
+            logger.LogCritical("While getting recipes in DB, error = {Ex}", ex.Message);
+            return (Enumerable.Empty<Recipe>(), new PaginationMetadata(0, 0, 0));
+        }
     }
 
     public async Task<(IEnumerable<Recipe> recipes, PaginationMetadata metadata)> GetPageWithFilter(int pageNumber, int pageSize, string title)
     {
-        IEnumerable<Recipe> recipes = await context.Recipes
-                        .Where(r => r.Title == title)
-                        .Include(r => r.RecipeCategory)
-                        .OrderBy(r => r.Title)
-                        .Skip(pageSize * (pageNumber - 1))
-                        .Take(pageSize)
-                        .ToListAsync();
+        try
+        {
+            IEnumerable<Recipe> recipes =
+                await context.Recipes
+                .AsNoTracking()
+                .Where(r => r.Title == title)
+                .Include(r => r.RecipeCategory)
+                .OrderBy(r => r.Title)
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
+                .ToListAsync();
 
-        int totalItemCount = await context.Recipes.Where(r => r.Title == title).CountAsync();
-        PaginationMetadata metadata = new(pageNumber, pageSize, totalItemCount);
+            int totalItemCount = await context.Recipes.AsNoTracking().Where(r => r.Title == title).CountAsync();
+            PaginationMetadata metadata = new(pageNumber, pageSize, totalItemCount);
 
-        return (recipes, metadata);
+            return (recipes, metadata);
+        }
+        catch (Exception ex)
+        {
+            logger.LogCritical("While getting recipes in DB, error = {Ex}", ex.Message);
+            return (Enumerable.Empty<Recipe>(), new PaginationMetadata(0, 0, 0));
+        }
     }
 
     public async Task<(IEnumerable<Recipe> recipes, PaginationMetadata metadata)> GetPageWithSearch(int pageNumber, int pageSize, string searchQuery)
     {
-        IQueryable<Recipe> collection = context.Recipes;
+        try
+        {
+            IQueryable<Recipe> collection = context.Recipes;
 
-        collection = collection.Where(r => r.Title.Contains(searchQuery) || (r.Description != null && r.Description.Contains(searchQuery)));
+            collection = collection.AsNoTracking().Where(r => r.Title.Contains(searchQuery) || (r.Description != null && r.Description.Contains(searchQuery)));
 
-        int totalItemCount = await collection.CountAsync();
-        PaginationMetadata metadata = new(pageNumber, pageSize, totalItemCount);
+            int totalItemCount = await collection.CountAsync();
+            PaginationMetadata metadata = new(pageNumber, pageSize, totalItemCount);
 
-        IEnumerable<Recipe> recipes = await collection.Include(r => r.RecipeCategory)
-                        .OrderBy(r => r.Title)
-                        .Skip(pageSize * (pageNumber - 1))
-                        .Take(pageSize)
-                        .ToListAsync();
+            IEnumerable<Recipe> recipes =
+                await collection
+                .Include(r => r.RecipeCategory)
+                .OrderBy(r => r.Title)
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
+                .ToListAsync();
 
-        return (recipes, metadata);
+            return (recipes, metadata);
+        }
+        catch (Exception ex)
+        {
+            logger.LogCritical("While getting recipes in DB, error = {Ex}", ex.Message);
+            return (Enumerable.Empty<Recipe>(), new PaginationMetadata(0, 0, 0));
+        }
     }
 
     public async Task<(IEnumerable<Recipe> recipes, PaginationMetadata metadata)> GetPage(int pageNumber, int pageSize, string title, string searchQuery)
     {
-        IQueryable<Recipe> collection = context.Recipes;
+        try
+        {
+            IQueryable<Recipe> collection = context.Recipes.AsNoTracking();
 
-        collection = collection
-            .Where(r => (r.Title.Contains(searchQuery) || (r.Description != null && r.Description.Contains(searchQuery)))
-            && r.Title == title);
+            collection = collection
+                .Where(r =>
+                (r.Title.Contains(searchQuery) || (r.Description != null && r.Description.Contains(searchQuery)))
+                && r.Title == title);
 
-        int totalItemCount = await collection.CountAsync();
-        PaginationMetadata metadata = new(pageNumber, pageSize, totalItemCount);
+            int totalItemCount = await collection.CountAsync();
+            PaginationMetadata metadata = new(pageNumber, pageSize, totalItemCount);
 
-        IEnumerable<Recipe> recipes = await context.Recipes.Include(r => r.RecipeCategory)
-                        .OrderBy(r => r.Title)
-                        .Skip(pageSize * (pageNumber - 1))
-                        .Take(pageSize)
-                        .ToListAsync();
+            IEnumerable<Recipe> recipes =
+                await collection
+                .Include(r => r.RecipeCategory)
+                .OrderBy(r => r.Title)
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
+                .ToListAsync();
 
-        return (recipes, metadata);
+            return (recipes, metadata);
+        }
+        catch (Exception ex)
+        {
+            logger.LogCritical("While getting recipes in DB, error = {Ex}", ex.Message);
+            return (Enumerable.Empty<Recipe>(), new PaginationMetadata(0, 0, 0));
+        }
     }
 }

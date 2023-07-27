@@ -62,7 +62,7 @@ public class RecipeIngredientsController : ControllerBase
                 return NotFound();
             }
 
-            bool ingredientExists = await _ingredientService.IdExist(createRecipeIngredientRequest.IngredientId);
+            bool ingredientExists = await _ingredientService.IdExist((int)createRecipeIngredientRequest.IngredientId!);
             if (ingredientExists == false)
             {
                 _logger.LogInformation("Ingredient with id = {IngredientId} was not found when associating with the recipe with id {RecipeId}.", createRecipeIngredientRequest.IngredientId, recipeId);

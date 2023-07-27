@@ -90,15 +90,19 @@ public class IngredientsController : ControllerBase
     {
         try
         {
-            Ingredient? ingredient = await _ingredientService.Get(id);
+            DbResult<Ingredient> dbResult = await _ingredientService.Get(id);
 
-            if (ingredient is null)
+            if (dbResult.Status == Status.NotFound)
             {
                 _logger.LogInformation("Ingredient with id {Id} was not found.", id);
                 return NotFound();
             }
 
-            return Ok(_mapper.Map<IngredientDto>(ingredient));
+            if (dbResult.Status == Status.Error)
+                return StatusCode(500, "A problem occured while handling the request.");
+            
+
+            return Ok(_mapper.Map<IngredientDto>(dbResult.Entity));
         }
         catch (Exception ex)
         {
@@ -112,19 +116,22 @@ public class IngredientsController : ControllerBase
     {
         try
         {
-            Ingredient? ingredient = await _ingredientService.Add(createIngredientRequest);
+            DbResult<Ingredient> dbResult = await _ingredientService.Add(createIngredientRequest);
 
-            if (ingredient is null)
+            if (dbResult.Status == Status.NameConflict)
             {
                 _logger.LogInformation("Could not create the ingredient with name = {Name}", createIngredientRequest.Name);
-                return BadRequest();
+                return BadRequest("The name already exists.");
             }
 
-            IngredientDto response = _mapper.Map<IngredientDto>(ingredient);
+            if (dbResult.Status == Status.Error)
+                return StatusCode(500, "A problem occured while handling the request.");
+
+            IngredientDto response = _mapper.Map<IngredientDto>(dbResult.Entity);
 
             return CreatedAtAction(
                 nameof(GetIngredientById),
-                new { id = ingredient.Id },
+                new { id = dbResult.Entity!.Id },
                 response);
         }
         catch (Exception ex)
@@ -140,18 +147,23 @@ public class IngredientsController : ControllerBase
     {
         try
         {
-            Status updateResult = await _ingredientService.UpdateWithStatus(id, updateIngredientRequest);
+            Status updateResult = await _ingredientService.Update(id, updateIngredientRequest);
 
             if (updateResult == Status.NotFound)
             {
                 _logger.LogInformation("Ingredient with id {Id} could not be found.", id);
                 return NotFound();
             }
+
             if (updateResult == Status.NameConflict)
             {
                 _logger.LogInformation("Ingredient with id {Id} could not be updated. Name {Name} already exists.", id, updateIngredientRequest.Name);
                 return BadRequest("Name already exists.");
             }
+
+            if (updateResult == Status.Error)
+                return StatusCode(500, "A problem occured while handling the request.");
+
             return NoContent();
         }
         catch (Exception ex)
@@ -166,13 +178,17 @@ public class IngredientsController : ControllerBase
     {
         try
         {
-            bool isDeleted = await _ingredientService.Delete(id);
+            Status deleteResult = await _ingredientService.Delete(id);
 
-            if (isDeleted == false)
+            if (deleteResult == Status.NotFound)
             {
                 _logger.LogInformation("Ingredient with id {Id} could not be deleted.", id);
                 return NotFound();
             }
+
+            if (deleteResult == Status.Error)
+                return StatusCode(500, "A problem occured while handling the request.");
+
             return NoContent();
         }
         catch (Exception ex)

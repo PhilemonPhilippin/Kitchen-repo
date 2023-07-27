@@ -11,6 +11,7 @@ public class RecipeIngredientRepo : IRecipeIngredientRepo
 
     public async Task<IEnumerable<RecipeIngredient>> GetRecipeIngredientsAsync(int recipeId) =>
         await _context.RecipeIngredients
+        .AsNoTracking()
         .Where(ri => ri.RecipeId == recipeId)
         .Include(ri => ri.Ingredient)
         .ToListAsync();
@@ -26,7 +27,7 @@ public class RecipeIngredientRepo : IRecipeIngredientRepo
 
     public async Task<bool> RecipeIngredientExistsAsync(RecipeIngredient recipeIngredient)
     {
-        return await _context.RecipeIngredients.AnyAsync(
+        return await _context.RecipeIngredients.AsNoTracking().AnyAsync(
             ri => ri.IngredientId == recipeIngredient.IngredientId && ri.RecipeId == recipeIngredient.RecipeId);
     }
 

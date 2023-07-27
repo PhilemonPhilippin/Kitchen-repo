@@ -3,41 +3,32 @@ namespace Kitchen.Core.Services;
 
 public class PreparationStepService : IPreparationStepService
 {
-    private readonly IRecipeRepository _recipeRepository;
     private readonly IPreparationStepRepository _preparationStepRepository;
 
-    public PreparationStepService(IPreparationStepRepository preparationStepRepository, IRecipeRepository recipeRepository)
+    public PreparationStepService(IPreparationStepRepository preparationStepRepository)
     {
         _preparationStepRepository = preparationStepRepository;
-        _recipeRepository = recipeRepository;
     }
-    public async Task<IEnumerable<PreparationStep>> GetAll(int recipeId) =>
-                            await _preparationStepRepository.GetAll(recipeId);
+    public async Task<IEnumerable<PreparationStep>> GetAll(int recipeId) => await _preparationStepRepository.GetAll(recipeId);
 
-    public async Task<PreparationStep?> Get(int preparationStepId) =>
-                            await _preparationStepRepository.Get(preparationStepId);
+    public async Task<DbResult<PreparationStep>> Get(int preparationStepId) => await _preparationStepRepository.Get(preparationStepId);
 
-    public async Task<PreparationStep?> Add(int recipeId, PreparationStepRequest createPreparationStepRequest)
+    public async Task<DbResult<PreparationStep>> Add(int recipeId, PreparationStepRequest createPreparationStepRequest)
     {
         PreparationStep preparationStep = new()
         {
             Title = createPreparationStepRequest.Title,
             Step = createPreparationStepRequest.Step,
-            StepNumber = createPreparationStepRequest.StepNumber,
+            StepNumber = (int)createPreparationStepRequest.StepNumber!,
             RecipeId = recipeId,
             ModifiedOn = DateTime.UtcNow
         };
 
-        Recipe? recipe = await _recipeRepository.Get(recipeId);
-
-        if (recipe is null)
-            return null;
-
-        PreparationStep? created = await _preparationStepRepository.Add(preparationStep);
-        return created;
+        DbResult<PreparationStep> preparationStepDbResult = await _preparationStepRepository.Add(preparationStep);
+        return preparationStepDbResult;
     }
 
-    public async Task<bool> Update(
+    public async Task<Status> Update(
         int recipeId, int preparationStepId, PreparationStepRequest updatePreparationStepRequest)
     {
         PreparationStep preparationStep = new()
@@ -45,7 +36,7 @@ public class PreparationStepService : IPreparationStepService
             Id = preparationStepId,
             Title = updatePreparationStepRequest.Title,
             Step = updatePreparationStepRequest.Step,
-            StepNumber = updatePreparationStepRequest.StepNumber,
+            StepNumber = (int)updatePreparationStepRequest.StepNumber!,
             RecipeId = recipeId,
             ModifiedOn = DateTime.UtcNow
         };
@@ -53,7 +44,6 @@ public class PreparationStepService : IPreparationStepService
         return await _preparationStepRepository.Update(preparationStep);
     }
 
-    public async Task<bool> Delete(int preparationStepId) =>
-                    await _preparationStepRepository.Delete(preparationStepId);
+    public async Task<Status> Delete(int preparationStepId) => await _preparationStepRepository.Delete(preparationStepId);
 
 }

@@ -6,7 +6,7 @@ namespace Kitchen.Contracts.Requests;
 public record RecipeRequest(
     [Required][MaxLength(50)] string Title,
     [MaxLength(500)] string? Description,
-    [Required] int RecipeCategoryId);
+    [Required] int? RecipeCategoryId);
 
 public record IngredientRequest(
     [Required][MaxLength(50)] string Name,
@@ -14,7 +14,7 @@ public record IngredientRequest(
 
 public record PreparationStepRequest(
     [Required][MaxLength(50)] string Title,
-    [Required] int StepNumber,
+    [Required] int? StepNumber,
     [Required][MaxLength(500)] string Step);
 
 public record RecipeCategoryRequest(
@@ -24,5 +24,5 @@ public record RecipeCategoryRequest(
 public record UpdateRecipeIngredientRequest(
     [Required][MaxLength(50)] string IngredientQuantity);
 public record CreateRecipeIngredientRequest(
-    [Required] int IngredientId,
+    [Required] int? IngredientId,
     [Required][MaxLength(50)] string IngredientQuantity);

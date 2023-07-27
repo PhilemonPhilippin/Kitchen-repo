@@ -1,6 +1,4 @@
-﻿using Kitchen.Models;
-
-namespace Kitchen.Core.Services;
+﻿namespace Kitchen.Core.Services;
 
 public class IngredientService : IIngredientService
 {
@@ -21,9 +19,9 @@ public class IngredientService : IIngredientService
 
     public async Task<IEnumerable<Ingredient>> GetAllNoDescription() => await _ingredientRepository.GetAllNoDescription();
 
-    public async Task<Ingredient?> Get(int id) => await _ingredientRepository.Get(id);
+    public async Task<DbResult<Ingredient>> Get(int id) => await _ingredientRepository.Get(id);
 
-    public async Task<Ingredient?> Add(IngredientRequest createIngredientRequest)
+    public async Task<DbResult<Ingredient>> Add(IngredientRequest createIngredientRequest)
     {
         Ingredient ingredient = new()
         {
@@ -32,11 +30,11 @@ public class IngredientService : IIngredientService
             ModifiedOn = DateTime.UtcNow
         };
 
-        Ingredient? created = await _ingredientRepository.Add(ingredient);
-        return created;
+        DbResult<Ingredient> ingredientDbResult = await _ingredientRepository.Add(ingredient);
+        return ingredientDbResult;
     }
 
-    public async Task<bool> Update(int id, IngredientRequest updateIngredientRequest)
+    public async Task<Status> Update(int id, IngredientRequest updateIngredientRequest)
     {
         Ingredient ingredient = new()
         {
@@ -49,20 +47,7 @@ public class IngredientService : IIngredientService
         return await _ingredientRepository.Update(ingredient);
     }
 
-    public async Task<Status> UpdateWithStatus(int id, IngredientRequest updateIngredientRequest)
-    {
-        Ingredient ingredient = new()
-        {
-            Id = id,
-            Name = updateIngredientRequest.Name,
-            Description = updateIngredientRequest.Description,
-            ModifiedOn = DateTime.UtcNow
-        };
-
-        return await _ingredientRepository.UpdateWithStatus(ingredient);
-    }
-
-    public async Task<bool> Delete(int id) => await _ingredientRepository.Delete(id);
+    public async Task<Status> Delete(int id) => await _ingredientRepository.Delete(id);
 
     public async Task<bool> IdExist(int id) => await _ingredientRepository.IdExist(id);
 

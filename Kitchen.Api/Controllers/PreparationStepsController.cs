@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Kitchen.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kitchen.Api.Controllers;
@@ -34,10 +35,17 @@ public class PreparationStepsController : ControllerBase
             if (recipeExists == false)
             {
                 _logger.LogInformation("Recipe with id {RecipeId} was not found when accessing Preparation steps.", recipeId);
-                return NotFound();
+                return NotFound("Recipe not found.");
             }
 
             IEnumerable<PreparationStep> preparationSteps = await _preparationStepService.GetAll(recipeId);
+
+            if (preparationSteps.Any() == false)
+            {
+                _logger.LogInformation("Preparation steps were not found.");
+                return NotFound("Preparation steps not found.");
+            }
+
             return Ok(_mapper.Map<IEnumerable<PreparationStepDto>>(preparationSteps));
         }
         catch (Exception ex)
@@ -59,17 +67,21 @@ public class PreparationStepsController : ControllerBase
             if (recipeExists == false)
             {
                 _logger.LogInformation("Recipe with id {RecipeId} was not found when accessing Preparation step.", recipeId);
-                return NotFound();
+                return NotFound("Recipe not found.");
             }
 
-            PreparationStep? preparationStep = await _preparationStepService.Get(preparationStepId);
+            DbResult<PreparationStep> dbResult = await _preparationStepService.Get(preparationStepId);
 
-            if (preparationStep is null)
+            if (dbResult.Status == Status.NotFound)
             {
                 _logger.LogInformation("Preparation step with id {PreparationStepId} was not found.", preparationStepId);
-                return NotFound();
+                return NotFound("Preparation step not found");
             }
-            return Ok(_mapper.Map<PreparationStepDto>(preparationStep));
+
+            if (dbResult.Status == Status.Error)
+                return StatusCode(500, "A problem occured while handling the request.");
+
+            return Ok(_mapper.Map<PreparationStepDto>(dbResult.Entity));
         }
         catch (Exception ex)
         {
@@ -89,24 +101,24 @@ public class PreparationStepsController : ControllerBase
             if (recipeExists == false)
             {
                 _logger.LogInformation("Recipe with id {RecipeId} was not found when creating Preparation step.", recipeId);
-                return NotFound();
+                return NotFound("Recipe not found.");
             }
-            PreparationStep? preparationStep = await _preparationStepService.Add(recipeId, createPreparationStepRequest);
+            DbResult<PreparationStep> dbResult = await _preparationStepService.Add(recipeId, createPreparationStepRequest);
 
-            if (preparationStep is null)
+            if (dbResult.Status == Status.Error)
             {
                 _logger.LogInformation("Could not create the preparation step with title = {Title}", createPreparationStepRequest.Title);
-                return BadRequest();
+                return StatusCode(500, "A problem occured while handling the request.");
             }
 
-            PreparationStepDto response = _mapper.Map<PreparationStepDto>(preparationStep);
+            PreparationStepDto response = _mapper.Map<PreparationStepDto>(dbResult.Entity);
 
             return CreatedAtAction(
                 nameof(GetPreparationStep),
                 new
                 {
                     recipeId = recipeId,
-                    preparationStepId = preparationStep.Id
+                    preparationStepId = dbResult.Entity!.Id
                 },
                 response);
         }
@@ -129,16 +141,20 @@ public class PreparationStepsController : ControllerBase
             if (recipeExists == false)
             {
                 _logger.LogInformation("Recipe with id {RecipeId} was not found when updating Preparation step.", recipeId);
-                return NotFound();
+                return NotFound("Recipe not found.");
             }
              
-            bool isUpdated = await _preparationStepService.Update(recipeId, preparationStepId, updatePreparationStepRequest);
+            Status updateResult = await _preparationStepService.Update(recipeId, preparationStepId, updatePreparationStepRequest);
 
-            if (isUpdated == false)
+            if (updateResult == Status.NotFound)
             {
                 _logger.LogInformation("Preparation step with id {PreparationStepId} could not be updated.", preparationStepId);
-                return NotFound();
+                return NotFound("Preparation step not found.");
             }
+
+            if (updateResult  == Status.Error)
+                return StatusCode(500, "A problem occured while handling the request.");
+
             return NoContent();
         }
         catch (Exception ex)
@@ -159,16 +175,20 @@ public class PreparationStepsController : ControllerBase
             if (recipeExists == false)
             {
                 _logger.LogInformation("Recipe with id {RecipeId} was not found when deleting Preparation step.", recipeId);
-                return NotFound();
+                return NotFound("Recipe not found.");
             }
 
-            bool isDeleted = await _preparationStepService.Delete(preparationStepId);
+            Status deleteResult = await _preparationStepService.Delete(preparationStepId);
 
-            if (isDeleted == false)
+            if (deleteResult == Status.NotFound)
             {
                 _logger.LogInformation("PreparationStep with id {PreparationStepId} could not be deleted.", preparationStepId);
-                return NotFound();
+                return NotFound("Preparation step not found.");
             }
+
+            if (deleteResult == Status.Error)
+                return StatusCode(500, "A problem occured while handling the request.");
+
             return NoContent();
         }
         catch (Exception ex)

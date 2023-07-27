@@ -18,7 +18,7 @@ public class RecipeIngredientService : IRecipeIngredientService
         RecipeIngredient recipeIngredient = new()
         {
             RecipeId = recipeId,
-            IngredientId = createRecipeIngredientRequest.IngredientId,
+            IngredientId = (int)createRecipeIngredientRequest.IngredientId!,
             IngredientQuantity = createRecipeIngredientRequest.IngredientQuantity,
             CreatedOn = DateTime.UtcNow,
             ModifiedOn = DateTime.UtcNow
