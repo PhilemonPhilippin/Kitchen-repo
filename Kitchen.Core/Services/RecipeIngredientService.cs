@@ -9,11 +9,11 @@ public class RecipeIngredientService : IRecipeIngredientService
         _recipeIngredientRepo = recipeIngredientRepo;
     }
 
-    public async Task<IEnumerable<RecipeIngredient>> GetRecipeIngredientAsync(int recipeId) =>
-        await _recipeIngredientRepo.GetRecipeIngredientsAsync(recipeId);
+    public async Task<IEnumerable<RecipeIngredient>> GetAll(int recipeId) =>
+        await _recipeIngredientRepo.GetAll(recipeId);
 
 
-    public async Task<bool> CreateRecipeIngredientAsync(int recipeId, CreateRecipeIngredientRequest createRecipeIngredientRequest)
+    public async Task<bool> Add(int recipeId, CreateRecipeIngredientRequest createRecipeIngredientRequest)
     {
         RecipeIngredient recipeIngredient = new()
         {
@@ -24,15 +24,15 @@ public class RecipeIngredientService : IRecipeIngredientService
             ModifiedOn = DateTime.UtcNow
         };
 
-        bool recipeIngredientExists = await _recipeIngredientRepo.RecipeIngredientExistsAsync(recipeIngredient);
+        DbResult<bool> dbResult = await _recipeIngredientRepo.RecipeIngredientExist(recipeIngredient);
 
-        if (recipeIngredientExists)
+        if (dbResult.Status == Status.Error || (dbResult.Status == Status.Success && dbResult.Entity == true))
             return false;
-
-        return await _recipeIngredientRepo.CreateRecipeIngredientAsync(recipeIngredient);
+        
+        return await _recipeIngredientRepo.Add(recipeIngredient);
     }
 
-    public async Task<bool> UpdateRecipeIngredientAsync(int recipeId, int ingredientId, string ingredientQuantity)
+    public async Task<Status> Update(int recipeId, int ingredientId, string ingredientQuantity)
     {
         RecipeIngredient recipeIngredient = new()
         {
@@ -42,10 +42,9 @@ public class RecipeIngredientService : IRecipeIngredientService
             ModifiedOn = DateTime.UtcNow
         };
 
-        return await _recipeIngredientRepo.UpdateRecipeIngredientAsync(recipeIngredient);
+        return await _recipeIngredientRepo.Update(recipeIngredient);
     }
 
-    public async Task<bool> DeleteRecipeIngredientAsync(int recipeId, int ingredientId) =>
-        await _recipeIngredientRepo.DeleteRecipeIngredientAsync(recipeId, ingredientId);
+    public async Task<Status> Delete(int recipeId, int ingredientId) => await _recipeIngredientRepo.Delete(recipeId, ingredientId);
 
 }
