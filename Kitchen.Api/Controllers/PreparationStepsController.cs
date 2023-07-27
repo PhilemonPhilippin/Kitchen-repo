@@ -51,7 +51,7 @@ public class PreparationStepsController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogCritical("While getting preparation steps, for recipe id = {RecipeId}, error = {Ex}",recipeId, ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
 
@@ -79,14 +79,14 @@ public class PreparationStepsController : ControllerBase
             }
 
             if (dbResult.Status == Status.Error)
-                return StatusCode(500, "A problem occured while handling the request.");
+                return this.InternalErrorCustom();
 
             return Ok(_mapper.Map<PreparationStepDto>(dbResult.Entity));
         }
         catch (Exception ex)
         {
             _logger.LogCritical("While getting a preparation step, for recipe id = {RecipeId} and preparation step id = {PreparationStepId}, error = {Ex}", recipeId, preparationStepId, ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
     [HttpPost]
@@ -108,7 +108,7 @@ public class PreparationStepsController : ControllerBase
             if (dbResult.Status == Status.Error)
             {
                 _logger.LogInformation("Could not create the preparation step with title = {Title}", createPreparationStepRequest.Title);
-                return StatusCode(500, "A problem occured while handling the request.");
+                return this.InternalErrorCustom();
             }
 
             PreparationStepDto response = _mapper.Map<PreparationStepDto>(dbResult.Entity);
@@ -125,7 +125,7 @@ public class PreparationStepsController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogCritical("While creating a preparation step, for recipe id = {RecipeId} and preparation step title = {Title}, error = {Ex}", recipeId, createPreparationStepRequest.Title, ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
     [HttpPut("{preparationstepid:int}")]
@@ -153,14 +153,14 @@ public class PreparationStepsController : ControllerBase
             }
 
             if (updateResult  == Status.Error)
-                return StatusCode(500, "A problem occured while handling the request.");
+                return this.InternalErrorCustom();
 
             return NoContent();
         }
         catch (Exception ex)
         {
             _logger.LogCritical("While updating a preparation step, for recipe id = {RecipeId} and preparation step id = {PreparationStepId}, error = {Ex}", recipeId, preparationStepId, ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
     [HttpDelete("{preparationstepid:int}")]
@@ -187,14 +187,14 @@ public class PreparationStepsController : ControllerBase
             }
 
             if (deleteResult == Status.Error)
-                return StatusCode(500, "A problem occured while handling the request.");
+                return this.InternalErrorCustom();
 
             return NoContent();
         }
         catch (Exception ex)
         {
             _logger.LogCritical("While deleting a preparation step, for recipe id = {RecipeId} and preparation step id = {PreparationStepId}, error = {Ex}", recipeId, preparationStepId, ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
 }

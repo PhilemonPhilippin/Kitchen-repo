@@ -32,7 +32,7 @@ public class IngredientsController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogCritical("While getting the ingredients, error = {Ex}", ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
 
@@ -55,7 +55,7 @@ public class IngredientsController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogCritical("While getting the ingredients, error = {Ex}", ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
 
@@ -81,7 +81,7 @@ public class IngredientsController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogCritical("While getting the ingredients, error = {Ex}", ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
 
@@ -99,7 +99,7 @@ public class IngredientsController : ControllerBase
             }
 
             if (dbResult.Status == Status.Error)
-                return StatusCode(500, "A problem occured while handling the request.");
+                return this.InternalErrorCustom();
             
 
             return Ok(_mapper.Map<IngredientDto>(dbResult.Entity));
@@ -107,7 +107,7 @@ public class IngredientsController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogCritical("While getting ingredient, for id = {Id}, error = {Ex}", id, ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
 
@@ -125,7 +125,7 @@ public class IngredientsController : ControllerBase
             }
 
             if (dbResult.Status == Status.Error)
-                return StatusCode(500, "A problem occured while handling the request.");
+                return this.InternalErrorCustom();
 
             IngredientDto response = _mapper.Map<IngredientDto>(dbResult.Entity);
 
@@ -137,7 +137,7 @@ public class IngredientsController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogCritical("While creating ingredient, for ingredient name = {Name}, error = {Ex}", createIngredientRequest.Name, ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
     [HttpPut("{id:int}")]
@@ -162,14 +162,14 @@ public class IngredientsController : ControllerBase
             }
 
             if (updateResult == Status.Error)
-                return StatusCode(500, "A problem occured while handling the request.");
+                return this.InternalErrorCustom();
 
             return NoContent();
         }
         catch (Exception ex)
         {
             _logger.LogCritical("While updating ingredient, for ingredient id = {Id}, error = {Ex}", id, ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
 
@@ -187,14 +187,14 @@ public class IngredientsController : ControllerBase
             }
 
             if (deleteResult == Status.Error)
-                return StatusCode(500, "A problem occured while handling the request.");
+                return this.InternalErrorCustom();
 
             return NoContent();
         }
         catch (Exception ex)
         {
             _logger.LogCritical("While deleting ingredient, for ingredient id = {Id}, error = {Ex}", id, ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
 }

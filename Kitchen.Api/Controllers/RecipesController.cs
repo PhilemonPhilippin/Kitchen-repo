@@ -43,7 +43,7 @@ public class RecipesController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogCritical("While getting the recipes, error = {Ex}", ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
 
@@ -61,14 +61,14 @@ public class RecipesController : ControllerBase
             }
 
             if (dbResult.Status == Status.Error)
-                return StatusCode(500, "A problem occured while handling the request.");
+                return this.InternalErrorCustom();
 
             return Ok(dbResult.Entity!.MapToRecipeDto());
         }
         catch (Exception ex)
         {
             _logger.LogCritical("While getting a recipe, for recipe id = {Id}, error = {Ex}", id, ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
     [HttpPost]
@@ -84,7 +84,7 @@ public class RecipesController : ControllerBase
             if (dbResult.Status == Status.Error)
             {
                 _logger.LogInformation("Could not create the recipe with title = {Title}", createRecipeRequest.Title);
-                return StatusCode(500, "A problem occured while handling the request.");
+                return this.InternalErrorCustom();
             }
 
             RecipeDto response = dbResult.Entity!.MapToRecipeDto();
@@ -97,7 +97,7 @@ public class RecipesController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogCritical("While creating a recipe, for recipe title = {Title}, error = {Ex}", createRecipeRequest.Title, ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
 
@@ -117,14 +117,14 @@ public class RecipesController : ControllerBase
             }
 
             if (updateResult == Status.Error)
-                return StatusCode(500, "A problem occured while handling the request.");
+                return this.InternalErrorCustom();
 
             return NoContent();
         }
         catch (Exception ex)
         {
             _logger.LogCritical("While updating a recipe, for recipe id = {Id}, error = {Ex}", id, ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
 
@@ -142,14 +142,14 @@ public class RecipesController : ControllerBase
             }
 
             if (deleteResult == Status.Error)
-                return StatusCode(500, "A problem occured while handling the request.");
+                return this.InternalErrorCustom();
 
             return NoContent();
         }
         catch (Exception ex)
         {
             _logger.LogCritical("While deleting a recipe, for recipe id = {Id}, error = {Ex}", id, ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
 }

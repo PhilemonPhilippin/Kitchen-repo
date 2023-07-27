@@ -39,7 +39,7 @@ public class RecipeCategoriesController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogCritical("While getting the recipe categories, error = {Ex}", ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
 
@@ -57,14 +57,14 @@ public class RecipeCategoriesController : ControllerBase
             }
 
             if (dbResult.Status == Status.Error)
-                return StatusCode(500, "A problem occured while handling the request.");
+                return this.InternalErrorCustom();
 
             return Ok(_mapper.Map<RecipeCategoryDto>(dbResult.Entity));
         }
         catch (Exception ex)
         {
             _logger.LogCritical("While getting the recipe category with id = {Id}, error = {Ex}", id, ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
     [HttpPost]
@@ -78,7 +78,7 @@ public class RecipeCategoriesController : ControllerBase
             if (dbResult.Status == Status.Error)
             {
                 _logger.LogInformation("Could no create the recipe category with title = {Title}", createRecipeCategoryRequest.Title);
-                return StatusCode(500, "A problem occured while handling the request.");
+                return this.InternalErrorCustom();
             }
 
             RecipeCategoryDto response = _mapper.Map<RecipeCategoryDto>(dbResult.Entity);
@@ -92,7 +92,7 @@ public class RecipeCategoriesController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogCritical("While creating the recipe category with title = {Title}, error = {Ex}", createRecipeCategoryRequest.Title, ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
     [HttpPut("{id:int}")]
@@ -111,14 +111,14 @@ public class RecipeCategoriesController : ControllerBase
             }
 
             if (updateResult == Status.Error)
-                return StatusCode(500, "A problem occured while handling the request.");
+                return this.InternalErrorCustom();
 
             return NoContent();
         }
         catch (Exception ex)
         {
             _logger.LogCritical("While updating the recipe category with id = {Id}, error = {Ex}", id, ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
     [HttpDelete("{id:int}")]
@@ -135,14 +135,14 @@ public class RecipeCategoriesController : ControllerBase
             }
 
             if (deleteResult == Status.Error)
-                return StatusCode(500, "A problem occured while handling the request.");
+                return this.InternalErrorCustom();
 
             return NoContent();
         }
         catch (Exception ex)
         {
             _logger.LogCritical("While deleting the recipe category with id = {Id}, error = {Ex}", id, ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
 }

@@ -45,7 +45,7 @@ public class RecipeIngredientsController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogCritical("While getting recipe ingredients, for recipe id = {RecipeId}, error = {Ex}", recipeId, ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
 
@@ -75,7 +75,7 @@ public class RecipeIngredientsController : ControllerBase
             if (added == false)
             {
                 _logger.LogInformation("Could not create the association between recipe with id = {RecipeId} and ingredient with id = {IngredientId}.", recipeId, createRecipeIngredientRequest.IngredientId);
-                return StatusCode(500, "A problem occured while handling the request.");
+                return this.InternalErrorCustom();
             }
 
             return NoContent();
@@ -83,7 +83,7 @@ public class RecipeIngredientsController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogCritical("While associating an ingredient with a recipe, for recipe id = {RecipeId} and ingredient id = {IngredientId}, error = {Ex}", recipeId, createRecipeIngredientRequest.IngredientId, ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
 
@@ -115,14 +115,14 @@ public class RecipeIngredientsController : ControllerBase
             }
 
             if (updateResult == Status.Error)
-                return StatusCode(500, "A problem occured while handling the request.");
+                return this.InternalErrorCustom();
 
             return NoContent();
         }
         catch (Exception ex)
         {
             _logger.LogCritical("While updating the association between the recipe id = {RecipeId} and ingredient id = {IngredientId}, error = {Ex}", recipeId, ingredientId, ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
 
@@ -148,14 +148,14 @@ public class RecipeIngredientsController : ControllerBase
             }
 
             if (deleteResult == Status.Error)
-                return StatusCode(500, "A problem occured while handling the request.");
+                return this.InternalErrorCustom();
 
             return NoContent();
         }
         catch (Exception ex)
         {
             _logger.LogCritical("While deleting the association between the recipe with id = {RecipeId} and ingredient with id = {IngredientId}, error = {Ex}", recipeId, ingredientId, ex);
-            return StatusCode(500, "A problem occured while handling the request.");
+            return this.InternalErrorCustom();
         }
     }
 }
