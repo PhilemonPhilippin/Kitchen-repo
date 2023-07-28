@@ -1,5 +1,4 @@
-﻿using Kitchen.Entities;
-
+﻿
 namespace Kitchen.Api.Tools
 {
     public static class LogMessageHandler
