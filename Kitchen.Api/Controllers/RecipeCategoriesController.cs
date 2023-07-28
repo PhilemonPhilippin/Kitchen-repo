@@ -30,7 +30,7 @@ public class RecipeCategoriesController : ControllerBase
 
             if (recipeCategories is null || recipeCategories.Any() == false)
             {
-                _logger.LogInformation("Recipe categories were not found.");
+                _logger.LogInformationGetAll(nameof(RecipeCategory));
                 return NotFound();
             }
             IEnumerable<RecipeCategoryDto> response = _mapper.Map<IEnumerable<RecipeCategoryDto>>(recipeCategories);
@@ -38,7 +38,7 @@ public class RecipeCategoriesController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While getting the recipe categories, error = {Ex}", ex);
+            _logger.LogCriticalGetAll(nameof(RecipeCategory), ex);
             return this.InternalErrorCustom();
         }
     }
@@ -52,7 +52,7 @@ public class RecipeCategoriesController : ControllerBase
 
             if (dbResult.Status == Status.NotFound)
             {
-                _logger.LogInformation("Recipe category with id {Id} was not found.", id);
+                _logger.LogInformationGet(nameof(RecipeCategory), id);
                 return NotFound();
             }
 
@@ -63,7 +63,7 @@ public class RecipeCategoriesController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While getting the recipe category with id = {Id}, error = {Ex}", id, ex);
+            _logger.LogCriticalGet(nameof(RecipeCategory), id, ex);
             return this.InternalErrorCustom();
         }
     }
@@ -77,7 +77,7 @@ public class RecipeCategoriesController : ControllerBase
 
             if (dbResult.Status == Status.Error)
             {
-                _logger.LogInformation("Could no create the recipe category with title = {Title}", createRecipeCategoryRequest.Title);
+                _logger.LogInformationCreate(nameof(RecipeCategory), createRecipeCategoryRequest.Title);
                 return this.InternalErrorCustom();
             }
 
@@ -91,7 +91,7 @@ public class RecipeCategoriesController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While creating the recipe category with title = {Title}, error = {Ex}", createRecipeCategoryRequest.Title, ex);
+            _logger.LogCriticalCreate(nameof(RecipeCategory), createRecipeCategoryRequest.Title, ex);
             return this.InternalErrorCustom();
         }
     }
@@ -106,7 +106,7 @@ public class RecipeCategoriesController : ControllerBase
 
             if (updateResult == Status.NotFound)
             {
-                _logger.LogInformation("Recipe category with id {Id} could not be updated.", id);
+                _logger.LogInformationUpdate(nameof(RecipeCategory), id);
                 return NotFound();
             }
 
@@ -117,7 +117,7 @@ public class RecipeCategoriesController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While updating the recipe category with id = {Id}, error = {Ex}", id, ex);
+            _logger.LogCriticalUpdate(nameof(RecipeCategory), id, ex);
             return this.InternalErrorCustom();
         }
     }
@@ -130,7 +130,7 @@ public class RecipeCategoriesController : ControllerBase
 
             if (deleteResult == Status.NotFound)
             {
-                _logger.LogInformation("Recipe category with id {id} could not be deleted.", id);
+                _logger.LogInformationDelete(nameof(RecipeCategory), id);
                 return NotFound();
             }
 
@@ -141,7 +141,7 @@ public class RecipeCategoriesController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While deleting the recipe category with id = {Id}, error = {Ex}", id, ex);
+            _logger.LogCriticalDelete(nameof(RecipeCategory), id, ex);
             return this.InternalErrorCustom();
         }
     }

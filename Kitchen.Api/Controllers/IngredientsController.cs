@@ -31,7 +31,7 @@ public class IngredientsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While getting the ingredients, error = {Ex}", ex);
+            _logger.LogCritical("While querying if ingredient name exist for name = {Name}, error = {Ex}", name ,ex);
             return this.InternalErrorCustom();
         }
     }
@@ -45,7 +45,7 @@ public class IngredientsController : ControllerBase
 
             if (ingredients is null || ingredients.Any() == false)
             {
-                _logger.LogInformation("Ingredients were not found");
+                _logger.LogInformationGetAll(nameof(Ingredient));
                 return NotFound();
             }
 
@@ -54,7 +54,7 @@ public class IngredientsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While getting the ingredients, error = {Ex}", ex);
+            _logger.LogCriticalGetAll(nameof(Ingredient), ex);
             return this.InternalErrorCustom();
         }
     }
@@ -69,7 +69,7 @@ public class IngredientsController : ControllerBase
 
             if (ingredients is null || ingredients.Any() == false)
             {
-                _logger.LogInformation("Ingredients were not found");
+                _logger.LogInformationGetAll(nameof(Ingredient));
                 return NotFound();
             }
 
@@ -80,7 +80,7 @@ public class IngredientsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While getting the ingredients, error = {Ex}", ex);
+            _logger.LogCriticalGetAll(nameof(Ingredient), ex);
             return this.InternalErrorCustom();
         }
     }
@@ -94,7 +94,7 @@ public class IngredientsController : ControllerBase
 
             if (dbResult.Status == Status.NotFound)
             {
-                _logger.LogInformation("Ingredient with id {Id} was not found.", id);
+                _logger.LogInformationGet(nameof(Ingredient), id);
                 return NotFound();
             }
 
@@ -106,7 +106,7 @@ public class IngredientsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While getting ingredient, for id = {Id}, error = {Ex}", id, ex);
+            _logger.LogCriticalGet(nameof(Ingredient), id, ex);
             return this.InternalErrorCustom();
         }
     }
@@ -120,7 +120,7 @@ public class IngredientsController : ControllerBase
 
             if (dbResult.Status == Status.NameConflict)
             {
-                _logger.LogInformation("Could not create the ingredient with name = {Name}", createIngredientRequest.Name);
+                _logger.LogInformationCreate(nameof(Ingredient), createIngredientRequest.Name);
                 return BadRequest("The name already exists.");
             }
 
@@ -136,7 +136,7 @@ public class IngredientsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While creating ingredient, for ingredient name = {Name}, error = {Ex}", createIngredientRequest.Name, ex);
+            _logger.LogCriticalCreate(nameof(Ingredient), createIngredientRequest.Name, ex);
             return this.InternalErrorCustom();
         }
     }
@@ -151,7 +151,7 @@ public class IngredientsController : ControllerBase
 
             if (updateResult == Status.NotFound)
             {
-                _logger.LogInformation("Ingredient with id {Id} could not be found.", id);
+                _logger.LogInformationGet(nameof(Ingredient), id);
                 return NotFound();
             }
 
@@ -168,7 +168,7 @@ public class IngredientsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While updating ingredient, for ingredient id = {Id}, error = {Ex}", id, ex);
+            _logger.LogCriticalUpdate(nameof(Ingredient), id, ex);
             return this.InternalErrorCustom();
         }
     }
@@ -182,7 +182,7 @@ public class IngredientsController : ControllerBase
 
             if (deleteResult == Status.NotFound)
             {
-                _logger.LogInformation("Ingredient with id {Id} could not be deleted.", id);
+                _logger.LogInformationDelete(nameof(Ingredient), id);
                 return NotFound();
             }
 
@@ -193,7 +193,7 @@ public class IngredientsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While deleting ingredient, for ingredient id = {Id}, error = {Ex}", id, ex);
+            _logger.LogCriticalDelete(nameof(Ingredient), id, ex);
             return this.InternalErrorCustom();
         }
     }

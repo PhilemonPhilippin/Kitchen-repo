@@ -34,7 +34,7 @@ public class PreparationStepsController : ControllerBase
 
             if (recipeExists == false)
             {
-                _logger.LogInformation("Recipe with id {RecipeId} was not found when accessing Preparation steps.", recipeId);
+                _logger.LogInformationGet(nameof(Recipe), recipeId);
                 return NotFound("Recipe not found.");
             }
 
@@ -42,7 +42,7 @@ public class PreparationStepsController : ControllerBase
 
             if (preparationSteps.Any() == false)
             {
-                _logger.LogInformation("Preparation steps were not found.");
+                _logger.LogInformationGetAll(nameof(PreparationStep));
                 return NotFound("Preparation steps not found.");
             }
 
@@ -50,7 +50,7 @@ public class PreparationStepsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While getting preparation steps, for recipe id = {RecipeId}, error = {Ex}",recipeId, ex);
+            _logger.LogCriticalGetAllForSpecificRecipe(nameof(PreparationStep), recipeId, ex);
             return this.InternalErrorCustom();
         }
     }
@@ -66,7 +66,7 @@ public class PreparationStepsController : ControllerBase
 
             if (recipeExists == false)
             {
-                _logger.LogInformation("Recipe with id {RecipeId} was not found when accessing Preparation step.", recipeId);
+                _logger.LogInformationGet(nameof(Recipe), recipeId);
                 return NotFound("Recipe not found.");
             }
 
@@ -74,7 +74,7 @@ public class PreparationStepsController : ControllerBase
 
             if (dbResult.Status == Status.NotFound)
             {
-                _logger.LogInformation("Preparation step with id {PreparationStepId} was not found.", preparationStepId);
+                _logger.LogInformationGet(nameof(PreparationStep), preparationStepId);
                 return NotFound("Preparation step not found");
             }
 
@@ -100,14 +100,14 @@ public class PreparationStepsController : ControllerBase
 
             if (recipeExists == false)
             {
-                _logger.LogInformation("Recipe with id {RecipeId} was not found when creating Preparation step.", recipeId);
+                _logger.LogInformationGet(nameof(Recipe), recipeId);
                 return NotFound("Recipe not found.");
             }
             DbResult<PreparationStep> dbResult = await _preparationStepService.Add(recipeId, createPreparationStepRequest);
 
             if (dbResult.Status == Status.Error)
             {
-                _logger.LogInformation("Could not create the preparation step with title = {Title}", createPreparationStepRequest.Title);
+                _logger.LogInformationCreate(nameof(PreparationStep), createPreparationStepRequest.Title);
                 return this.InternalErrorCustom();
             }
 
@@ -140,7 +140,7 @@ public class PreparationStepsController : ControllerBase
 
             if (recipeExists == false)
             {
-                _logger.LogInformation("Recipe with id {RecipeId} was not found when updating Preparation step.", recipeId);
+                _logger.LogInformationGet(nameof(Recipe), recipeId);
                 return NotFound("Recipe not found.");
             }
              
@@ -148,7 +148,7 @@ public class PreparationStepsController : ControllerBase
 
             if (updateResult == Status.NotFound)
             {
-                _logger.LogInformation("Preparation step with id {PreparationStepId} could not be updated.", preparationStepId);
+                _logger.LogInformationUpdate(nameof(PreparationStep), preparationStepId);
                 return NotFound("Preparation step not found.");
             }
 
@@ -159,7 +159,7 @@ public class PreparationStepsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While updating a preparation step, for recipe id = {RecipeId} and preparation step id = {PreparationStepId}, error = {Ex}", recipeId, preparationStepId, ex);
+            _logger.LogCriticalUpdateForSpecificRecipe(nameof(PreparationStep), recipeId, preparationStepId, ex);
             return this.InternalErrorCustom();
         }
     }
@@ -174,7 +174,7 @@ public class PreparationStepsController : ControllerBase
 
             if (recipeExists == false)
             {
-                _logger.LogInformation("Recipe with id {RecipeId} was not found when deleting Preparation step.", recipeId);
+                _logger.LogInformationGet(nameof(Recipe), recipeId);
                 return NotFound("Recipe not found.");
             }
 
@@ -182,7 +182,7 @@ public class PreparationStepsController : ControllerBase
 
             if (deleteResult == Status.NotFound)
             {
-                _logger.LogInformation("PreparationStep with id {PreparationStepId} could not be deleted.", preparationStepId);
+                _logger.LogInformationDelete(nameof(PreparationStep), preparationStepId);
                 return NotFound("Preparation step not found.");
             }
 
@@ -193,7 +193,7 @@ public class PreparationStepsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While deleting a preparation step, for recipe id = {RecipeId} and preparation step id = {PreparationStepId}, error = {Ex}", recipeId, preparationStepId, ex);
+            _logger.LogCriticalDeleteForSpecificRecipe(nameof(PreparationStep), recipeId, preparationStepId, ex);
             return this.InternalErrorCustom();
         }
     }

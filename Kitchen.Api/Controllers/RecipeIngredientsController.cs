@@ -34,7 +34,7 @@ public class RecipeIngredientsController : ControllerBase
 
             if (recipeExists == false)
             {
-                _logger.LogInformation("Recipe with id {RecipeId} was not found when accessing Recipe ingredients", recipeId);
+                _logger.LogInformationGet(nameof(Recipe), recipeId);
                 return NotFound();
             }
             IEnumerable<RecipeIngredient> recipeIngredients = await _recipeIngredientService.GetAll(recipeId);
@@ -44,7 +44,7 @@ public class RecipeIngredientsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While getting recipe ingredients, for recipe id = {RecipeId}, error = {Ex}", recipeId, ex);
+            _logger.LogCriticalGetAllForSpecificRecipe(nameof(RecipeIngredient), recipeId, ex);
             return this.InternalErrorCustom();
         }
     }
@@ -59,14 +59,14 @@ public class RecipeIngredientsController : ControllerBase
             bool recipeExists = await _recipeService.IdExist(recipeId);
             if (recipeExists == false)
             {
-                _logger.LogInformation("Recipe with id = {RecipeId} was not found when associating an ingredient with the recipe.", recipeId);
+                _logger.LogInformationGet(nameof(Recipe), recipeId);
                 return NotFound("Recipe not found.");
             }
 
             bool ingredientExists = await _ingredientService.IdExist((int)createRecipeIngredientRequest.IngredientId!);
             if (ingredientExists == false)
             {
-                _logger.LogInformation("Ingredient with id = {IngredientId} was not found when associating with the recipe with id {RecipeId}.", createRecipeIngredientRequest.IngredientId, recipeId);
+                _logger.LogInformationGet(nameof(Ingredient), (int)createRecipeIngredientRequest.IngredientId);
                 return NotFound("Ingredient not found.");
             }
 
@@ -99,7 +99,7 @@ public class RecipeIngredientsController : ControllerBase
 
             if (recipeExists == false)
             {
-                _logger.LogInformation("Recipe with id {RecipeId} was not found when updating association between the recipe and the ingredient with id {IngredientId}.", recipeId, ingredientId);
+                _logger.LogInformationGet(nameof(Recipe), recipeId);
                 return NotFound();
             }
 
@@ -121,7 +121,7 @@ public class RecipeIngredientsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While updating the association between the recipe id = {RecipeId} and ingredient id = {IngredientId}, error = {Ex}", recipeId, ingredientId, ex);
+            _logger.LogCriticalUpdateForSpecificRecipe(nameof(RecipeIngredient), recipeId, ingredientId, ex);
             return this.InternalErrorCustom();
         }
     }
@@ -135,7 +135,7 @@ public class RecipeIngredientsController : ControllerBase
 
             if (recipeExists == false)
             {
-                _logger.LogInformation("Recipe with id {RecipeId} was not found when deleting association between the recipe and the ingredient with id {IngredientId}.", recipeId, ingredientId);
+                _logger.LogInformationGet(nameof(Recipe), recipeId);
                 return NotFound();
             }
 
@@ -154,7 +154,7 @@ public class RecipeIngredientsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While deleting the association between the recipe with id = {RecipeId} and ingredient with id = {IngredientId}, error = {Ex}", recipeId, ingredientId, ex);
+            _logger.LogCriticalDeleteForSpecificRecipe(nameof(RecipeIngredient), recipeId, ingredientId, ex);
             return this.InternalErrorCustom();
         }
     }
