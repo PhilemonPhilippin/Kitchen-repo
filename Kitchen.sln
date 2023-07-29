@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kitchen.Contracts", "Kitche
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kitchen.Models", "Kitchen.Models\Kitchen.Models.csproj", "{1C0A45B4-258E-4736-86D4-6E7469DE1F92}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kitchen.ApiTests", "Kitchen.ApiTests\Kitchen.ApiTests.csproj", "{CFC91AA9-370E-4FF1-826D-1AB029D495D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{1C0A45B4-258E-4736-86D4-6E7469DE1F92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C0A45B4-258E-4736-86D4-6E7469DE1F92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C0A45B4-258E-4736-86D4-6E7469DE1F92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFC91AA9-370E-4FF1-826D-1AB029D495D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFC91AA9-370E-4FF1-826D-1AB029D495D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFC91AA9-370E-4FF1-826D-1AB029D495D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFC91AA9-370E-4FF1-826D-1AB029D495D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
