@@ -39,6 +39,8 @@ public static class ServicesDependencyInjection
 
         services.AddDbContext<KitchenContext>(options => options.UseSqlServer(configuration.GetConnectionString("Default")));
 
+        services.AddHealthChecks();
+
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
         return services;
