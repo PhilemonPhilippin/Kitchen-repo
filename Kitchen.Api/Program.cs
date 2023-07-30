@@ -36,5 +36,5 @@ app.MapHealthChecks("/health");
 
 app.Run();
 
-// Makes my Program public so i can expose it to my Integration tests project.
+// Make my Program public to expose it to my Integration tests project.
 public partial class Program { }

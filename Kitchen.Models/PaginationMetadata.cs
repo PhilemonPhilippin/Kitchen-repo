@@ -1,4 +1,5 @@
-﻿
+﻿using System.Text.Json.Serialization;
+
 namespace Kitchen.Models;
 
 public class PaginationMetadata
@@ -14,5 +15,14 @@ public class PaginationMetadata
         PageSize = pageSize;
         TotalItemCount = itemCount;
         TotalPageCount = (int)Math.Ceiling(itemCount / (double)pageSize);
+    }
+
+    [JsonConstructor]
+    public PaginationMetadata(int pageNumber, int pageSize, int totalItemCount, int totalPageCount)
+    {
+        PageNumber = pageNumber;
+        PageSize = pageSize;
+        TotalItemCount = totalItemCount;
+        TotalPageCount = totalPageCount;
     }
 }
