@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "KitchenIntegrationTests": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:57308;http://localhost:57309"
+    }
+  }
+}

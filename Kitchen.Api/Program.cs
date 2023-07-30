@@ -2,7 +2,7 @@ using Serilog;
 
 const string AllowKitchenNG = "_allowKitchenNG";
 
-// Serilog Configuration
+// Serilog Configuration.
 Log.Logger = new LoggerConfiguration()
 .MinimumLevel.Debug()
 .WriteTo.Console()
@@ -35,3 +35,6 @@ app.MapControllers();
 app.MapHealthChecks("/health");
 
 app.Run();
+
+// Makes my Program public so i can expose it to my Integration tests project.
+public partial class Program { }
