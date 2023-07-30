@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Kitchen.Dal.Tools;
 
 namespace Kitchen.Dal.Repositories;
 
@@ -18,7 +18,7 @@ public class RecipeCategoryRepository : GenericRepo<RecipeCategory>, IRecipeCate
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While getting recipe categories in DB, error = {Ex}", ex);
+            logger.LogCriticalGetAll(nameof(RecipeCategory), ex);
             return Enumerable.Empty<RecipeCategory>();
         }
     }
@@ -46,7 +46,7 @@ public class RecipeCategoryRepository : GenericRepo<RecipeCategory>, IRecipeCate
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While updating recipe category in DB for id = {Id}, error = {Ex}", entity.Id, ex);
+            logger.LogCriticalUpdate(nameof(RecipeCategory), entity.Id, ex);
             return Status.Error;
         }
     }
@@ -59,8 +59,10 @@ public class RecipeCategoryRepository : GenericRepo<RecipeCategory>, IRecipeCate
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While querying if id of recipe category exist for id = {Id}, error = {Ex}", id, ex);
+            logger.LogCriticalExist(nameof(RecipeCategory), id, ex);
             return false;
         }
     }
+
+    public override string EntityName { get; } = nameof(RecipeCategory);
 }

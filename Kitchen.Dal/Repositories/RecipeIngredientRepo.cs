@@ -25,7 +25,7 @@ public class RecipeIngredientRepo : IRecipeIngredientRepo
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While getting ingredients in DB for recipe id = {RecipeId}, error = {Ex}", recipeId, ex);
+            _logger.LogCritical("While getting RecipeIngredients in DB for Recipe id = {RecipeId}, error = {Ex}", recipeId, ex);
             return Enumerable.Empty<RecipeIngredient>();
         }
     }
@@ -43,7 +43,7 @@ public class RecipeIngredientRepo : IRecipeIngredientRepo
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While adding recipe ingredient in DB for recipe id = {RecipeId} and ingredient id = {IngredientId}, error = {Ex}", recipeIngredient.RecipeId, recipeIngredient.IngredientId, ex);
+            _logger.LogCritical("While adding RecipeIngredient in DB for Recipe id = {RecipeId} and Ingredient id = {IngredientId}, error = {Ex}", recipeIngredient.RecipeId, recipeIngredient.IngredientId, ex);
             return false;
         }
     }
@@ -57,7 +57,7 @@ public class RecipeIngredientRepo : IRecipeIngredientRepo
         }
         catch (Exception ex) 
         {
-            _logger.LogCritical("While querying if recipe ingredient exist for recipe id = {RecipeId} and ingredient id  = {IngredientId}, error = {Ex}", recipeIngredient.RecipeId, recipeIngredient.IngredientId, ex);
+            _logger.LogCritical("While querying if RecipeIngredient exist for Recipe id = {RecipeId} and Ingredient id = {IngredientId}, error = {Ex}", recipeIngredient.RecipeId, recipeIngredient.IngredientId, ex);
             return new DbResult<bool> { Status = Status.Error};
         }
     }
@@ -84,7 +84,7 @@ public class RecipeIngredientRepo : IRecipeIngredientRepo
         } 
         catch (Exception ex)
         {
-            _logger.LogCritical("While updating recipe ingredient in DB for recipe id = {RecipeId} and ingredient id = {IngredientId}, error = {Ex}", recipeIngredient.RecipeId, recipeIngredient.IngredientId, ex);
+            _logger.LogCritical("While updating RecipeIngredient in DB for Recipe id = {RecipeId} and Ingredient id = {IngredientId}, error = {Ex}", recipeIngredient.RecipeId, recipeIngredient.IngredientId, ex);
             return Status.Error;
         }
 
@@ -106,7 +106,7 @@ public class RecipeIngredientRepo : IRecipeIngredientRepo
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While deleting Recipe Ingredient association in DB, error = {Ex}", ex);
+            _logger.LogCritical("While deleting RecipeIngredient association in DB for Recipe id = {RecipeId} and Ingredient id = {IngredientId}, error = {Ex}", recipeId, ingredientId, ex);
             return Status.Error;
         }
     }
@@ -119,7 +119,7 @@ public class RecipeIngredientRepo : IRecipeIngredientRepo
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("While fetching recipe ingredient exist for recipe id = {RecipeId} and ingredient id = {IngredientId}, error = {Ex}", recipeId, ingredientId, ex);
+            _logger.LogCritical("While fetching RecipeIngredient for Recipe id = {RecipeId} and Ingredient id = {IngredientId}, error = {Ex}", recipeId, ingredientId, ex);
             return null;
         }
     }

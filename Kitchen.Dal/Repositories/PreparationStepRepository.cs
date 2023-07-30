@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Kitchen.Dal.Tools;
 
 namespace Kitchen.Dal.Repositories;
 
@@ -34,7 +34,7 @@ public class PreparationStepRepository : GenericRepo<PreparationStep>, IPreparat
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While updating preparation step in DB for id = {Id}, error = {Ex}", entity.Id, ex);
+            logger.LogCriticalUpdate(nameof(PreparationStep), entity.Id, ex);
             return Status.Error;
         }
     }
@@ -51,8 +51,10 @@ public class PreparationStepRepository : GenericRepo<PreparationStep>, IPreparat
         }
         catch(Exception ex)
         {
-            logger.LogCritical("While getting preparation steps in DB, error = {Ex}", ex);
+            logger.LogCriticalGetAll(nameof(PreparationStep), ex);
             return Enumerable.Empty<PreparationStep>();
         }
     }
+
+    public override string EntityName { get; } = nameof(PreparationStep);
 }

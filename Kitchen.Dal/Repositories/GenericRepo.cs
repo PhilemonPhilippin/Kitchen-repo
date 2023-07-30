@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Kitchen.Dal.Tools;
 
 namespace Kitchen.Dal.Repositories;
 
@@ -26,7 +26,7 @@ public abstract class GenericRepo<T> : IRepository<T> where T : class
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While getting entity in DB for id = {Id}, error = {Ex}", id, ex);
+            logger.LogCriticalGet(EntityName, id, ex);
             return new DbResult<T> { Status = Status.Error };
         }
     }
@@ -42,7 +42,7 @@ public abstract class GenericRepo<T> : IRepository<T> where T : class
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While adding entity in DB, error = {Ex}", ex);
+            logger.LogCriticalAdd(EntityName, ex);
             return new DbResult<T> { Status = Status.Error };
         }
     }
@@ -67,7 +67,7 @@ public abstract class GenericRepo<T> : IRepository<T> where T : class
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While deleting entity in DB, error = {Ex}", ex);
+            logger.LogCriticalDelete(EntityName, id, ex);
             return Status.Error;
         }
     }
@@ -81,9 +81,11 @@ public abstract class GenericRepo<T> : IRepository<T> where T : class
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While saving changes to the DB, error = {Ex}", ex);
+            logger.LogCriticalSaveChanges(EntityName, ex);
             return false;
         }
     }
     public abstract Task<Status> Update(T entity);
+
+    public abstract string EntityName { get; }
 }

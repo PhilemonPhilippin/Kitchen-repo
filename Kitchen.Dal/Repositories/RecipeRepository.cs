@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Kitchen.Dal.Tools;
 
 namespace Kitchen.Dal.Repositories;
 
@@ -19,7 +19,7 @@ public class RecipeRepository : GenericRepo<Recipe>, IRecipeRepository
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While querying if id of recipe exist for id = {Id}, error = {Ex}", id, ex);
+            logger.LogCriticalExist(nameof(Recipe), id, ex);
             return false;
         }
     }
@@ -37,7 +37,7 @@ public class RecipeRepository : GenericRepo<Recipe>, IRecipeRepository
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While getting recipe in DB for id = {Id}, error = {Ex}", id, ex);
+            logger.LogCriticalGet(nameof(Recipe), id, ex);
             return new DbResult<Recipe> { Status = Status.Error };
         }
     }
@@ -64,7 +64,7 @@ public class RecipeRepository : GenericRepo<Recipe>, IRecipeRepository
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While adding recipe in DB, error = {Ex}", ex);
+            logger.LogCriticalAdd(nameof(Recipe), ex);
             return new DbResult<Recipe> { Status = Status.Error };
         }
     }
@@ -93,7 +93,7 @@ public class RecipeRepository : GenericRepo<Recipe>, IRecipeRepository
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While updating recipe in DB for id = {Id}, error = {Ex}", entity.Id, ex);
+            logger.LogCriticalUpdate(nameof(Recipe), entity.Id, ex);
             return Status.Error;
         }
     }
@@ -118,7 +118,7 @@ public class RecipeRepository : GenericRepo<Recipe>, IRecipeRepository
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While getting recipes in DB, error = {Ex}", ex);
+            logger.LogCriticalGetAll(nameof(Recipe), ex);
             return (Enumerable.Empty<Recipe>(), new PaginationMetadata(0, 0, 0));
         }
     }
@@ -144,7 +144,7 @@ public class RecipeRepository : GenericRepo<Recipe>, IRecipeRepository
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While getting recipes in DB, error = {Ex}", ex);
+            logger.LogCriticalGetAll(nameof(Recipe), ex);
             return (Enumerable.Empty<Recipe>(), new PaginationMetadata(0, 0, 0));
         }
     }
@@ -172,7 +172,7 @@ public class RecipeRepository : GenericRepo<Recipe>, IRecipeRepository
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While getting recipes in DB, error = {Ex}", ex);
+            logger.LogCriticalGetAll(nameof(Recipe), ex);
             return (Enumerable.Empty<Recipe>(), new PaginationMetadata(0, 0, 0));
         }
     }
@@ -203,8 +203,10 @@ public class RecipeRepository : GenericRepo<Recipe>, IRecipeRepository
         }
         catch (Exception ex)
         {
-            logger.LogCritical("While getting recipes in DB, error = {Ex}", ex);
+            logger.LogCriticalGetAll(nameof(Recipe), ex);
             return (Enumerable.Empty<Recipe>(), new PaginationMetadata(0, 0, 0));
         }
     }
+
+    public override string EntityName { get; } = nameof(Recipe);
 }
