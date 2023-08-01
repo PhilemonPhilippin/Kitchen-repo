@@ -37,7 +37,8 @@ public static class ServicesDependencyInjection
         services.AddTransient<IIngredientService, IngredientService>();
         services.AddTransient<IRecipeIngredientService, RecipeIngredientService>();
 
-        services.AddDbContext<KitchenContext>(options => options.UseSqlServer(configuration.GetConnectionString("Default")));
+        string kitchenConnectionString = Environment.GetEnvironmentVariable("KitchenConnectionString", EnvironmentVariableTarget.User) ?? "Environment variable for Kitchen not found.";
+        services.AddDbContext<KitchenContext>(options => options.UseSqlServer(kitchenConnectionString));
 
         services.AddHealthChecks();
 

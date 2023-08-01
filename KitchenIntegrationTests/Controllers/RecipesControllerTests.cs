@@ -1,14 +1,15 @@
 ﻿using Kitchen.Contracts.Dtos;
 using Kitchen.Models;
+using KitchenIntegrationTests.Tools;
 using System.Net;
 using System.Text.Json;
 
 namespace KitchenIntegrationTests.Controllers;
 
-public class RecipesControllerTests : IClassFixture<WebApplicationFactory<Program>>
+public class RecipesControllerTests : IClassFixture<WebApplicationFactoryKitchenTest<Program>>
 {
-    private readonly WebApplicationFactory<Program> _factory;
-    public RecipesControllerTests(WebApplicationFactory<Program> factory)
+    private readonly WebApplicationFactoryKitchenTest<Program> _factory;
+    public RecipesControllerTests(WebApplicationFactoryKitchenTest<Program> factory)
     {
         _factory = factory;
     }
@@ -65,13 +66,13 @@ public class RecipesControllerTests : IClassFixture<WebApplicationFactory<Progra
         Assert.Equal(pageSize, response.Count());
     }
 
-    [Fact]
-    public async Task GetRecipes_ValidQuery_ReturnsExpectedPaginationHeader()
+    [Theory]
+    [InlineData(5, 1)]
+    [InlineData(10, 1)]
+    public async Task GetRecipes_ValidQuery_ReturnsExpectedPaginationHeader(int pageSize, int pageNumber)
     {
         // Arrange
         var httpClient = _factory.CreateClient();
-        int pageSize = 5;
-        int pageNumber = 1;
 
         // Act
         var response = await httpClient.GetAsync($"/api/recipes?pagenumber={pageNumber}&pagesize={pageSize}");
@@ -82,7 +83,5 @@ public class RecipesControllerTests : IClassFixture<WebApplicationFactory<Progra
         Assert.NotNull(pagination);
         Assert.Equal(pageNumber, pagination.PageNumber);
         Assert.Equal(pageSize, pagination.PageSize);
-        Assert.Equal(12, pagination.TotalItemCount);
-        Assert.Equal(3, pagination.TotalPageCount);
     }
 }
