@@ -37,8 +37,18 @@ public static class ServicesDependencyInjection
         services.AddTransient<IIngredientService, IngredientService>();
         services.AddTransient<IRecipeIngredientService, RecipeIngredientService>();
 
-        string kitchenConnectionString = Environment.GetEnvironmentVariable("KitchenConnectionString", EnvironmentVariableTarget.User) ?? "Environment variable for Kitchen not found.";
-        services.AddDbContext<KitchenContext>(options => options.UseSqlServer(kitchenConnectionString));
+        // Choose main DataBase all the time, except when updating Test DataBase is required. If so, choose second.
+        // Use this main connection string for the DataBase Kitchen.
+        string databaseToUse = "KitchenConnectionString";
+
+        //// Use this second connection string to Update-Database for the test DataBase "KitchenTest".
+        //// Comment first databaseToUse and uncomment the second.
+        //// Then run the Update-Database nuGet command, then reverse the comments.
+        //string databaseToUse = "KitchenTestConnectionString";
+
+        string connectionString = Environment.GetEnvironmentVariable(databaseToUse, EnvironmentVariableTarget.User) ?? "Environment variable for Database connection string not found.";
+        services.AddDbContext<KitchenContext>(options => options.UseSqlServer(connectionString));
+
 
         services.AddHealthChecks();
 
