@@ -28,7 +28,7 @@ public class RecipeCategoriesController : ControllerBase
         {
             IEnumerable<RecipeCategory> recipeCategories = await _recipeCategoryService.GetAll();
 
-            if (recipeCategories is null || recipeCategories.Any() == false)
+            if (recipeCategories.Any() == false)
             {
                 _logger.LogInformationGetAll(nameof(RecipeCategory));
                 return NotFound();

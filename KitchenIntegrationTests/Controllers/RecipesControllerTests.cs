@@ -1,6 +1,4 @@
-﻿using Kitchen.Contracts.Dtos;
-using Kitchen.Models;
-using System.Net;
+﻿using System.Net;
 
 namespace KitchenIntegrationTests.Controllers;
 
@@ -33,7 +31,7 @@ public class RecipesControllerTests : IClassFixture<WebApplicationFactoryKitchen
     {
         var httpClient = _factory.CreateClient();
 
-        var response = await httpClient.GetFromJsonAsync<RecipeDto>($"/api/recipes/{id}");
+        var response = await httpClient.GetFromJsonAsync<ExpectedRecipeDto>($"/api/recipes/{id}");
 
         Assert.NotNull(response);
         Assert.Equal(id, response.Id);
@@ -57,7 +55,7 @@ public class RecipesControllerTests : IClassFixture<WebApplicationFactoryKitchen
     {
         var httpClient = _factory.CreateClient();
 
-        var response = await httpClient.GetFromJsonAsync<IEnumerable<RecipeDto>>($"/api/recipes?pagenumber=1&pagesize={pageSize}");
+        var response = await httpClient.GetFromJsonAsync<IEnumerable<ExpectedRecipeDto>>($"/api/recipes?pagenumber=1&pagesize={pageSize}");
 
         Assert.NotNull(response);
         Assert.NotEmpty(response);
@@ -77,7 +75,7 @@ public class RecipesControllerTests : IClassFixture<WebApplicationFactoryKitchen
         var header = response.Headers.FirstOrDefault(h => h.Key == "X-Pagination").Value.FirstOrDefault();
 
         // Assert
-        var pagination = JsonSerializer.Deserialize<PaginationMetadata>(header);
+        var pagination = JsonSerializer.Deserialize<ExpectedPaginationMetadata>(header);
         Assert.NotNull(pagination);
         Assert.Equal(pageNumber, pagination.PageNumber);
         Assert.Equal(pageSize, pagination.PageSize);

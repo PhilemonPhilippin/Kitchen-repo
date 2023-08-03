@@ -29,7 +29,7 @@ public class RecipesController : ControllerBase
         {
             (IEnumerable<Recipe> recipes, PaginationMetadata metadata) = await _recipeService.GetPage(pageNumber, pageSize, title, searchQuery);
 
-            if (recipes is null || recipes.Any() == false)
+            if (recipes.Any() == false)
             {
                 _logger.LogInformationGetAll(nameof(Recipe));
                 return NotFound();

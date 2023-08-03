@@ -43,7 +43,7 @@ public class IngredientsController : ControllerBase
         {
             IEnumerable<Ingredient> ingredients = await _ingredientService.GetAllNoDescription();
 
-            if (ingredients is null || ingredients.Any() == false)
+            if (ingredients.Any() == false)
             {
                 _logger.LogInformationGetAll(nameof(Ingredient));
                 return NotFound();
@@ -67,7 +67,7 @@ public class IngredientsController : ControllerBase
             (IEnumerable<Ingredient> ingredients, PaginationMetadata metadata) =
                 await _ingredientService.GetPage(pageNumber, pageSize);
 
-            if (ingredients is null || ingredients.Any() == false)
+            if (ingredients.Any() == false)
             {
                 _logger.LogInformationGetAll(nameof(Ingredient));
                 return NotFound();
