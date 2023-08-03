@@ -1,13 +1,13 @@
-﻿using System.Net;
-
+﻿
 namespace KitchenIntegrationTests.Controllers;
 
 public class RecipesControllerTests : IClassFixture<WebApplicationFactoryKitchenTest<Program>>
 {
-    private readonly WebApplicationFactoryKitchenTest<Program> _factory;
+    private readonly HttpClient _httpClient;
     public RecipesControllerTests(WebApplicationFactoryKitchenTest<Program> factory)
     {
-        _factory = factory;
+        factory.ClientOptions.BaseAddress = new Uri("https://localhost:7049/api/recipes/");
+        _httpClient = factory.CreateClient();
     }
 
     [Theory]
@@ -15,9 +15,7 @@ public class RecipesControllerTests : IClassFixture<WebApplicationFactoryKitchen
     [InlineData(10000)]
     public async Task GetRecipeById_InvalidId_ReturnsNotFound(int id)
     {
-        var httpClient = _factory.CreateClient();
-
-        var response = await httpClient.GetAsync($"/api/recipes/{id}");
+        var response = await _httpClient.GetAsync(id.ToString());
         var status = response.StatusCode;
 
         Assert.Equal(HttpStatusCode.NotFound, status);
@@ -29,9 +27,7 @@ public class RecipesControllerTests : IClassFixture<WebApplicationFactoryKitchen
     [InlineData(10)]
     public async Task GetRecipeById_ValidId_ReturnsExpectedResponse(int id)
     {
-        var httpClient = _factory.CreateClient();
-
-        var response = await httpClient.GetFromJsonAsync<ExpectedRecipeDto>($"/api/recipes/{id}");
+        var response = await _httpClient.GetFromJsonAsync<ExpectedRecipeDto>(id.ToString());
 
         Assert.NotNull(response);
         Assert.Equal(id, response.Id);
@@ -40,9 +36,7 @@ public class RecipesControllerTests : IClassFixture<WebApplicationFactoryKitchen
     [Fact]
     public async Task GetRecipes_Zero_ReturnsNotFound()
     {
-        var httpClient = _factory.CreateClient();
-
-        var response = await httpClient.GetAsync($"/api/recipes?pagenumber=1&pagesize=0");
+        var response = await _httpClient.GetAsync($"?pagenumber=1&pagesize=0");
         var status = response.StatusCode;
 
         Assert.Equal(HttpStatusCode.NotFound, status);
@@ -53,9 +47,7 @@ public class RecipesControllerTests : IClassFixture<WebApplicationFactoryKitchen
     [InlineData(10)]
     public async Task GetRecipes_ValidQuery_ReturnsExpectedResponse(int pageSize)
     {
-        var httpClient = _factory.CreateClient();
-
-        var response = await httpClient.GetFromJsonAsync<IEnumerable<ExpectedRecipeDto>>($"/api/recipes?pagenumber=1&pagesize={pageSize}");
+        var response = await _httpClient.GetFromJsonAsync<IEnumerable<ExpectedRecipeDto>>($"?pagenumber=1&pagesize={pageSize}");
 
         Assert.NotNull(response);
         Assert.NotEmpty(response);
@@ -67,11 +59,8 @@ public class RecipesControllerTests : IClassFixture<WebApplicationFactoryKitchen
     [InlineData(10, 1)]
     public async Task GetRecipes_ValidQuery_ReturnsExpectedPaginationHeader(int pageSize, int pageNumber)
     {
-        // Arrange
-        var httpClient = _factory.CreateClient();
-
         // Act
-        var response = await httpClient.GetAsync($"/api/recipes?pagenumber={pageNumber}&pagesize={pageSize}");
+        var response = await _httpClient.GetAsync($"?pagenumber={pageNumber}&pagesize={pageSize}");
         var header = response.Headers.FirstOrDefault(h => h.Key == "X-Pagination").Value.FirstOrDefault();
 
         // Assert
