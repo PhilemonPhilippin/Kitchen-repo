@@ -2,11 +2,11 @@
 
 namespace KitchenIntegrationTests;
 
-public class HealthCheckTests : IClassFixture<WebApplicationFactory<Program>>
+public class HealthCheckTests : IClassFixture<WebApplicationFactoryKitchenTest<Program>>
 {
-    private readonly WebApplicationFactory<Program> _factory;
+    private readonly WebApplicationFactoryKitchenTest<Program> _factory;
 
-    public HealthCheckTests(WebApplicationFactory<Program> factory)
+    public HealthCheckTests(WebApplicationFactoryKitchenTest<Program> factory)
     {
         _factory = factory;
     }
