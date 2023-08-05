@@ -1,4 +1,5 @@
 ﻿
+using Kitchen.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KitchenIntegrationTests.Controllers;
@@ -90,7 +91,7 @@ public class RecipesControllerTests : IClassFixture<WebApplicationFactoryKitchen
     public async Task GetRecipes_SearchQuery_ReturnsExpectedCount()
     {
         var response = await _httpClient.GetFromJsonAsync<IEnumerable<ExpectedRecipeDto>>("?pageNumber=1&pageSize=5&searchQuery=soup");
-        
+
         Assert.NotNull(response);
         Assert.NotEmpty(response);
         Assert.Equal(3, response.Count());
@@ -211,6 +212,201 @@ public class RecipesControllerTests : IClassFixture<WebApplicationFactoryKitchen
             Assert.Equal("The RecipeCategoryId field is required.", error);
         });
     }
+
+    [Fact]
+    public async Task CreateRecipe_ValidRecipe_ReturnsCreatedResultThatCanBeRetrieved()
+    {
+        var recipe = GetValidRecipeRequestInput();
+        var content = JsonContent.Create(recipe);
+        var response = await _httpClient.PostAsync("", content);
+
+        var location = response.Headers.Location?.ToString();
+        response.EnsureSuccessStatusCode();
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+        var getResponse = await _httpClient.GetAsync(location);
+        getResponse.EnsureSuccessStatusCode();
+    }
+    #endregion
+
+    #region Update
+
+    [Fact]
+    public async Task UpdateRecipe_NoTitle_ReturnsBadRequest()
+    {
+        var recipes = await GetAddedTestRecipes();
+        if (recipes is not null)
+        {
+            int? id = recipes.ToList().FirstOrDefault()?.Id;
+
+            var content = GetValidRecipeRequestInput().CloneWith(r => { 
+                r.Title = null;
+                r.Description += "(UPDATED)";
+            });
+            var response = await _httpClient.PutAsJsonAsync(id.ToString(), content, JsonSerializerHelper.DefaultSerialisationOptions());
+
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+    }
+
+    [Fact]
+    public async Task UpdateRecipe_NoTitle_ReturnsTitleIsRequired()
+    {
+        var recipes = await GetAddedTestRecipes();
+        if (recipes is not null)
+        {
+            int? id = recipes.ToList().FirstOrDefault()?.Id;
+
+            var content = GetValidRecipeRequestInput().CloneWith(r =>
+            {
+                r.Title = null;
+                r.Description += "(UPDATED)";
+            });
+            var response = await _httpClient.PutAsJsonAsync(id.ToString(), content, JsonSerializerHelper.DefaultSerialisationOptions());
+
+            var problemDetails = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>();
+            Assert.NotNull(problemDetails);
+            Assert.Collection(problemDetails.Errors, kvp =>
+            {
+                Assert.Equal("Title", kvp.Key);
+                var error = Assert.Single(kvp.Value);
+                Assert.Equal("The Title field is required.", error);
+            });
+        }
+    }
+
+    [Fact]
+    public async Task UpdateRecipe_TitleTooLong_ReturnsTitleTooLong()
+    {
+        var recipes = await GetAddedTestRecipes();
+        if (recipes is not null)
+        {
+            int? id = recipes.ToList().FirstOrDefault()?.Id;
+
+            var content = GetValidRecipeRequestInput().CloneWith(r => {
+                r.Title = new string('a', 51);
+                r.Description += "(UPDATED)";
+            });
+            var response = await _httpClient.PutAsJsonAsync(id.ToString(), content, JsonSerializerHelper.DefaultSerialisationOptions());
+
+            var problemDetails = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>();
+            Assert.NotNull(problemDetails);
+            Assert.Collection(problemDetails.Errors, kvp =>
+            {
+                Assert.Equal("Title", kvp.Key);
+                var error = Assert.Single(kvp.Value);
+                Assert.Equal("The field Title must be a string or array type with a maximum length of '50'.", error);
+            });
+        }
+    }
+
+    [Fact]
+    public async Task UpdateRecipe_DescriptionTooLong_ReturnsDescriptionTooLong()
+    {
+        var recipes = await GetAddedTestRecipes();
+        if (recipes is not null)
+        {
+            int? id = recipes.ToList().FirstOrDefault()?.Id;
+
+            var content = GetValidRecipeRequestInput().CloneWith(r => r.Description = new string('a', 501) + "(UPDATED)");
+            var response = await _httpClient.PutAsJsonAsync(id.ToString(), content, JsonSerializerHelper.DefaultSerialisationOptions());
+
+            var problemDetails = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>();
+            Assert.NotNull(problemDetails);
+            Assert.Collection(problemDetails.Errors, kvp =>
+            {
+                Assert.Equal("Description", kvp.Key);
+                var error = Assert.Single(kvp.Value);
+                Assert.Equal("The field Description must be a string or array type with a maximum length of '500'.", error);
+            });
+        }
+    }
+
+    [Fact]
+    public async Task UpdateRecipe_NoCategoryId_ReturnsCategoryIdIsRequired()
+    {
+        var recipes = await GetAddedTestRecipes();
+        if (recipes is not null)
+        {
+            int? id = recipes.ToList().FirstOrDefault()?.Id;
+
+            var content = GetValidRecipeRequestInput().CloneWith(r => { 
+                r.RecipeCategoryId = null;
+                r.Description += "(UPDATED)";
+            });
+            var response = await _httpClient.PutAsJsonAsync(id.ToString(), content, JsonSerializerHelper.DefaultSerialisationOptions());
+
+            var problemDetails = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>();
+            Assert.NotNull(problemDetails);
+            Assert.Collection(problemDetails.Errors, kvp =>
+            {
+                Assert.Equal("RecipeCategoryId", kvp.Key);
+                var error = Assert.Single(kvp.Value);
+                Assert.Equal("The RecipeCategoryId field is required.", error);
+            });
+        }
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(10000)]
+    public async Task UpdateRecipe_InvalidId_ReturnsNotFound(int id)
+    {
+        var recipe = GetValidRecipeRequestInput().CloneWith(r => r.Description += "(UPDATED)");
+        var response = await _httpClient.PutAsJsonAsync(id.ToString(), recipe);
+        var status = response.StatusCode;
+
+        Assert.Equal(HttpStatusCode.NotFound, status);
+    }
+
+    [Fact]
+    public async Task UpdateRecipe_Valid_ReturnsNoContent()
+    {
+        var recipes = await GetAddedTestRecipes();
+        if (recipes is not null)
+        {
+            int? id = recipes.ToList().FirstOrDefault()?.Id;
+
+            var content = GetValidRecipeRequestInput().CloneWith(r => r.Description += "(UPDATED)");
+
+            var response = await _httpClient.PutAsJsonAsync(id.ToString(), content);
+
+            response.EnsureSuccessStatusCode();
+            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+        }
+    }
+    #endregion
+
+    #region Delete
+    [Theory]
+    [InlineData(0)]
+    [InlineData(10000)]
+    public async Task DeleteRecipe_InvalidId_ReturnsNotFound(int id)
+    {
+        var response = await _httpClient.DeleteAsync(id.ToString());
+        var status = response.StatusCode;
+
+        Assert.Equal(HttpStatusCode.NotFound, status);
+    }
+
+    [Fact]
+    public async Task DeleteRecipe_ValidId_ReturnsNoContent()
+    {
+        // Arrange
+        var recipes = await GetAddedTestRecipes();
+        int? id = null;
+        if (recipes is not null)
+        {
+            id = recipes.FirstOrDefault()?.Id;
+        }
+
+        // Act
+        var response = await _httpClient.DeleteAsync(id.ToString());
+        var status = response.StatusCode;
+
+        // Assert
+        response.EnsureSuccessStatusCode();
+        Assert.Equal(HttpStatusCode.NoContent, status);
+    }
     #endregion
 
     private static RecipeRequestInput GetValidRecipeRequestInput()
@@ -221,5 +417,11 @@ public class RecipesControllerTests : IClassFixture<WebApplicationFactoryKitchen
             Description = "Some description",
             RecipeCategoryId = "1"
         };
+    }
+
+    private async Task<IEnumerable<ExpectedRecipeDto>> GetAddedTestRecipes()
+    {
+        var recipes = await _httpClient.GetFromJsonAsync<IEnumerable<ExpectedRecipeDto>>("?pageNumber=1&pageSize=20&title=Some%20recipe");
+        return recipes?.OrderByDescending(r => r.Id);
     }
 }
