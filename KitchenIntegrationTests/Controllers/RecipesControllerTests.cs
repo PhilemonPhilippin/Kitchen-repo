@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.AspNetCore.Mvc;
+
 namespace KitchenIntegrationTests.Controllers;
 
 public class RecipesControllerTests : IClassFixture<WebApplicationFactoryKitchenTest<Program>>
@@ -10,6 +12,7 @@ public class RecipesControllerTests : IClassFixture<WebApplicationFactoryKitchen
         _httpClient = factory.CreateClient();
     }
 
+    #region Get
     [Theory]
     [InlineData(0)]
     [InlineData(10000)]
@@ -32,9 +35,11 @@ public class RecipesControllerTests : IClassFixture<WebApplicationFactoryKitchen
         Assert.NotNull(response);
         Assert.Equal(id, response.Id);
     }
+    #endregion
 
+    #region GetAll
     [Fact]
-    public async Task GetRecipes_Zero_ReturnsNotFound()
+    public async Task GetRecipes_ZeroPagesize_ReturnsNotFound()
     {
         var response = await _httpClient.GetAsync($"?pagenumber=1&pagesize=0");
         var status = response.StatusCode;
@@ -43,9 +48,20 @@ public class RecipesControllerTests : IClassFixture<WebApplicationFactoryKitchen
     }
 
     [Theory]
+    [InlineData(0)]
+    [InlineData(10000)]
+    public async Task GetRecipes_InvalidPageNumber_ReturnsNotFound(int pageNumber)
+    {
+        var response = await _httpClient.GetAsync($"?pagenumber={pageNumber}&pagesize=5");
+        var status = response.StatusCode;
+
+        Assert.Equal(HttpStatusCode.NotFound, status);
+    }
+
+    [Theory]
     [InlineData(1)]
     [InlineData(10)]
-    public async Task GetRecipes_ValidQuery_ReturnsExpectedResponse(int pageSize)
+    public async Task GetRecipes_ValidQuery_ReturnsExpectedCount(int pageSize)
     {
         var response = await _httpClient.GetFromJsonAsync<IEnumerable<ExpectedRecipeDto>>($"?pagenumber=1&pagesize={pageSize}");
 
@@ -57,7 +73,7 @@ public class RecipesControllerTests : IClassFixture<WebApplicationFactoryKitchen
     [Theory]
     [InlineData(5, 1)]
     [InlineData(10, 1)]
-    public async Task GetRecipes_ValidQuery_ReturnsExpectedPaginationHeader(int pageSize, int pageNumber)
+    public async Task GetRecipes_ValidQuery_ReturnsExpectedPagination(int pageSize, int pageNumber)
     {
         // Act
         var response = await _httpClient.GetAsync($"?pagenumber={pageNumber}&pagesize={pageSize}");
@@ -68,5 +84,142 @@ public class RecipesControllerTests : IClassFixture<WebApplicationFactoryKitchen
         Assert.NotNull(pagination);
         Assert.Equal(pageNumber, pagination.PageNumber);
         Assert.Equal(pageSize, pagination.PageSize);
+    }
+
+    [Fact]
+    public async Task GetRecipes_SearchQuery_ReturnsExpectedCount()
+    {
+        var response = await _httpClient.GetFromJsonAsync<IEnumerable<ExpectedRecipeDto>>("?pageNumber=1&pageSize=5&searchQuery=soup");
+        
+        Assert.NotNull(response);
+        Assert.NotEmpty(response);
+        Assert.Equal(3, response.Count());
+    }
+
+    [Fact]
+    public async Task GetRecipes_SearchQuery_ReturnsExpectedTotalItemCount()
+    {
+        var response = await _httpClient.GetAsync("?pageNumber=1&pageSize=5&searchQuery=soup");
+        var header = response.Headers.FirstOrDefault(h => h.Key == "X-Pagination").Value.FirstOrDefault();
+
+        var pagination = JsonSerializer.Deserialize<ExpectedPaginationMetadata>(header);
+        Assert.NotNull(pagination);
+        Assert.Equal(3, pagination.TotalItemCount);
+    }
+
+    [Fact]
+    public async Task GetRecipes_ValidTitle_ReturnsEnglishBreakfast()
+    {
+        var response = await _httpClient.GetFromJsonAsync<IEnumerable<ExpectedRecipeDto>>("?pageNumber=1&pageSize=5&title=English%20breakfast");
+
+        Assert.NotNull(response);
+        Assert.NotEmpty(response);
+        Assert.Single(response);
+        Assert.Equal(1, response.SingleOrDefault()?.Id);
+        Assert.Equal("English breakfast", response.SingleOrDefault()?.Title);
+    }
+
+    [Fact]
+    public async Task GetRecipes_InvalidTitle_ReturnsNotFound()
+    {
+        var response = await _httpClient.GetAsync("?pageNumber=1&pageSize=5&title=Double%20whopper%20cheese");
+        var status = response.StatusCode;
+
+        Assert.Equal(HttpStatusCode.NotFound, status);
+    }
+
+    [Fact]
+    public async Task GetRecipes_InvalidSearchQuery_ReturnsNotFound()
+    {
+        var response = await _httpClient.GetAsync("?pageNumber=1&pageSize=5&searchQuery=Double%20whopper%20cheese");
+        var status = response.StatusCode;
+
+        Assert.Equal(HttpStatusCode.NotFound, status);
+    }
+    #endregion
+
+    #region Post
+    [Fact]
+    public async Task CreateRecipe_NoTitle_ReturnsBadRequest()
+    {
+        var recipe = GetValidRecipeRequestInput().CloneWith(r => r.Title = null);
+        var response = await _httpClient.PostAsJsonAsync("", recipe, JsonSerializerHelper.DefaultSerialisationOptions());
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task CreateRecipe_NoTitle_ReturnsTitleIsRequired()
+    {
+        var recipe = GetValidRecipeRequestInput().CloneWith(r => r.Title = null);
+        var response = await _httpClient.PostAsJsonAsync("", recipe, JsonSerializerHelper.DefaultSerialisationOptions());
+
+        var problemDetails = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>();
+        Assert.NotNull(problemDetails);
+        Assert.Collection(problemDetails.Errors, kvp =>
+        {
+            Assert.Equal("Title", kvp.Key);
+            var error = Assert.Single(kvp.Value);
+            Assert.Equal("The Title field is required.", error);
+        });
+    }
+
+    [Fact]
+    public async Task CreateRecipe_TitleTooLong_ReturnsTitleTooLong()
+    {
+        var recipe = GetValidRecipeRequestInput().CloneWith(r => r.Title = new string('a', 51));
+        var response = await _httpClient.PostAsJsonAsync("", recipe, JsonSerializerHelper.DefaultSerialisationOptions());
+
+        var problemDetails = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>();
+        Assert.NotNull(problemDetails);
+        Assert.Collection(problemDetails.Errors, kvp =>
+        {
+            Assert.Equal("Title", kvp.Key);
+            var error = Assert.Single(kvp.Value);
+            Assert.Equal("The field Title must be a string or array type with a maximum length of '50'.", error);
+        });
+    }
+
+    [Fact]
+    public async Task CreateRecipe_DescriptionTooLong_ReturnsDescriptionTooLong()
+    {
+        var recipe = GetValidRecipeRequestInput().CloneWith(r => r.Description = new string('a', 501));
+        var response = await _httpClient.PostAsJsonAsync("", recipe, JsonSerializerHelper.DefaultSerialisationOptions());
+
+        var problemDetails = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>();
+        Assert.NotNull(problemDetails);
+        Assert.Collection(problemDetails.Errors, kvp =>
+        {
+            Assert.Equal("Description", kvp.Key);
+            var error = Assert.Single(kvp.Value);
+            Assert.Equal("The field Description must be a string or array type with a maximum length of '500'.", error);
+        });
+    }
+
+    [Fact]
+    public async Task CreateRecipe_NoCategoryId_ReturnsCategoryIdIsRequired()
+    {
+        var recipe = GetValidRecipeRequestInput().CloneWith(r => r.RecipeCategoryId = null);
+        var response = await _httpClient.PostAsJsonAsync("", recipe, JsonSerializerHelper.DefaultSerialisationOptions());
+
+        var problemDetails = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>();
+        Assert.NotNull(problemDetails);
+        Assert.Collection(problemDetails.Errors, kvp =>
+        {
+            Assert.Equal("RecipeCategoryId", kvp.Key);
+            var error = Assert.Single(kvp.Value);
+            Assert.Equal("The RecipeCategoryId field is required.", error);
+        });
+    }
+    #endregion
+
+    private static RecipeRequestInput GetValidRecipeRequestInput()
+    {
+        return new RecipeRequestInput
+        {
+            Title = "Some recipe",
+            Description = "Some description",
+            RecipeCategoryId = "1"
+        };
     }
 }
