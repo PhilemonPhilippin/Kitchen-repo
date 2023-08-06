@@ -5,6 +5,7 @@ namespace Kitchen.Dal.Repositories;
 public class RecipeRepository : GenericRepo<Recipe>, IRecipeRepository
 {
     private readonly IRecipeCategoryRepository _recipeCategoryRepository;
+    public override string EntityName { get; } = nameof(Recipe);
 
     public RecipeRepository(KitchenContext context, ILogger<RecipeRepository> logger, IRecipeCategoryRepository recipeCategoryRepository) : base(context, logger)
     {
@@ -19,7 +20,7 @@ public class RecipeRepository : GenericRepo<Recipe>, IRecipeRepository
         }
         catch (Exception ex)
         {
-            logger.LogCriticalExist(nameof(Recipe), id, ex);
+            logger.LogCriticalExist(EntityName, id, ex);
             return false;
         }
     }
@@ -37,7 +38,7 @@ public class RecipeRepository : GenericRepo<Recipe>, IRecipeRepository
         }
         catch (Exception ex)
         {
-            logger.LogCriticalGet(nameof(Recipe), id, ex);
+            logger.LogCriticalGet(EntityName, id, ex);
             return new DbResult<Recipe> { Status = Status.Error };
         }
     }
@@ -64,7 +65,7 @@ public class RecipeRepository : GenericRepo<Recipe>, IRecipeRepository
         }
         catch (Exception ex)
         {
-            logger.LogCriticalAdd(nameof(Recipe), ex);
+            logger.LogCriticalAdd(EntityName, ex);
             return new DbResult<Recipe> { Status = Status.Error };
         }
     }
@@ -93,7 +94,7 @@ public class RecipeRepository : GenericRepo<Recipe>, IRecipeRepository
         }
         catch (Exception ex)
         {
-            logger.LogCriticalUpdate(nameof(Recipe), entity.Id, ex);
+            logger.LogCriticalUpdate(EntityName, entity.Id, ex);
             return Status.Error;
         }
     }
@@ -118,7 +119,7 @@ public class RecipeRepository : GenericRepo<Recipe>, IRecipeRepository
         }
         catch (Exception ex)
         {
-            logger.LogCriticalGetAll(nameof(Recipe), ex);
+            logger.LogCriticalGetAll(EntityName, ex);
             return (Enumerable.Empty<Recipe>(), new PaginationMetadata(0, 0, 0));
         }
     }
@@ -144,7 +145,7 @@ public class RecipeRepository : GenericRepo<Recipe>, IRecipeRepository
         }
         catch (Exception ex)
         {
-            logger.LogCriticalGetAll(nameof(Recipe), ex);
+            logger.LogCriticalGetAll(EntityName, ex);
             return (Enumerable.Empty<Recipe>(), new PaginationMetadata(0, 0, 0));
         }
     }
@@ -172,7 +173,7 @@ public class RecipeRepository : GenericRepo<Recipe>, IRecipeRepository
         }
         catch (Exception ex)
         {
-            logger.LogCriticalGetAll(nameof(Recipe), ex);
+            logger.LogCriticalGetAll(EntityName, ex);
             return (Enumerable.Empty<Recipe>(), new PaginationMetadata(0, 0, 0));
         }
     }
@@ -203,10 +204,8 @@ public class RecipeRepository : GenericRepo<Recipe>, IRecipeRepository
         }
         catch (Exception ex)
         {
-            logger.LogCriticalGetAll(nameof(Recipe), ex);
+            logger.LogCriticalGetAll(EntityName, ex);
             return (Enumerable.Empty<Recipe>(), new PaginationMetadata(0, 0, 0));
         }
     }
-
-    public override string EntityName { get; } = nameof(Recipe);
 }

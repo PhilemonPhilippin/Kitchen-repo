@@ -4,6 +4,7 @@ namespace Kitchen.Dal.Repositories;
 
 public class IngredientRepository : GenericRepo<Ingredient>, IIngredientRepository
 {
+    public override string EntityName { get; } = nameof(Ingredient);
     public IngredientRepository(KitchenContext context, ILogger<IngredientRepository> logger) : base(context, logger)
     {
     }
@@ -16,7 +17,7 @@ public class IngredientRepository : GenericRepo<Ingredient>, IIngredientReposito
         }
         catch (Exception ex)
         {
-            logger.LogCriticalExist(nameof(Ingredient), id, ex);
+            logger.LogCriticalExist(EntityName, id, ex);
             return false;
         }
     }
@@ -48,7 +49,7 @@ public class IngredientRepository : GenericRepo<Ingredient>, IIngredientReposito
         }
         catch (Exception ex)
         {
-            logger.LogCriticalAdd(nameof(Ingredient), ex);
+            logger.LogCriticalAdd(EntityName, ex);
             return new DbResult<Ingredient> { Status = Status.Error };
         }
     }
@@ -79,7 +80,7 @@ public class IngredientRepository : GenericRepo<Ingredient>, IIngredientReposito
         }
         catch (Exception ex)
         {
-            logger.LogCriticalUpdate(nameof(Ingredient), entity.Id, ex);
+            logger.LogCriticalUpdate(EntityName, entity.Id, ex);
             return Status.Error;
         }
     }
@@ -103,7 +104,7 @@ public class IngredientRepository : GenericRepo<Ingredient>, IIngredientReposito
         }
         catch (Exception ex)
         {
-            logger.LogCriticalGetAll(nameof(Ingredient),  ex);
+            logger.LogCriticalGetAll(EntityName,  ex);
             return (Enumerable.Empty<Ingredient>(), new PaginationMetadata(0, 0, 0));
         }
     }
@@ -122,10 +123,8 @@ public class IngredientRepository : GenericRepo<Ingredient>, IIngredientReposito
         }
         catch (Exception ex)
         {
-            logger.LogCriticalGetAll(nameof(Ingredient), ex);
+            logger.LogCriticalGetAll(EntityName, ex);
             return Enumerable.Empty<Ingredient>();
         }
     }
-
-    public override string EntityName { get; } = nameof(Ingredient);
 }

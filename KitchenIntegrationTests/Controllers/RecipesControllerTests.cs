@@ -1,5 +1,4 @@
 ﻿
-using Kitchen.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KitchenIntegrationTests.Controllers;

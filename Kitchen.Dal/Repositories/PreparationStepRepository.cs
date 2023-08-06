@@ -4,7 +4,7 @@ namespace Kitchen.Dal.Repositories;
 
 public class PreparationStepRepository : GenericRepo<PreparationStep>, IPreparationStepRepository
 {
-
+    public override string EntityName { get; } = nameof(PreparationStep);
     public PreparationStepRepository(KitchenContext context, ILogger<PreparationStepRepository> logger) : base(context, logger)
     {
     }
@@ -34,7 +34,7 @@ public class PreparationStepRepository : GenericRepo<PreparationStep>, IPreparat
         }
         catch (Exception ex)
         {
-            logger.LogCriticalUpdate(nameof(PreparationStep), entity.Id, ex);
+            logger.LogCriticalUpdate(EntityName, entity.Id, ex);
             return Status.Error;
         }
     }
@@ -51,10 +51,8 @@ public class PreparationStepRepository : GenericRepo<PreparationStep>, IPreparat
         }
         catch(Exception ex)
         {
-            logger.LogCriticalGetAll(nameof(PreparationStep), ex);
+            logger.LogCriticalGetAll(EntityName, ex);
             return Enumerable.Empty<PreparationStep>();
         }
     }
-
-    public override string EntityName { get; } = nameof(PreparationStep);
 }

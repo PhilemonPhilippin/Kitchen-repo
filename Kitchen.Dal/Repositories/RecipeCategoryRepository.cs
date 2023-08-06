@@ -4,6 +4,8 @@ namespace Kitchen.Dal.Repositories;
 
 public class RecipeCategoryRepository : GenericRepo<RecipeCategory>, IRecipeCategoryRepository
 {
+    public override string EntityName { get; } = nameof(RecipeCategory);
+
     public RecipeCategoryRepository(KitchenContext context, ILogger<RecipeCategoryRepository> logger) : base(context, logger)
     {
     }
@@ -18,7 +20,7 @@ public class RecipeCategoryRepository : GenericRepo<RecipeCategory>, IRecipeCate
         }
         catch (Exception ex)
         {
-            logger.LogCriticalGetAll(nameof(RecipeCategory), ex);
+            logger.LogCriticalGetAll(EntityName, ex);
             return Enumerable.Empty<RecipeCategory>();
         }
     }
@@ -46,7 +48,7 @@ public class RecipeCategoryRepository : GenericRepo<RecipeCategory>, IRecipeCate
         }
         catch (Exception ex)
         {
-            logger.LogCriticalUpdate(nameof(RecipeCategory), entity.Id, ex);
+            logger.LogCriticalUpdate(EntityName, entity.Id, ex);
             return Status.Error;
         }
     }
@@ -59,10 +61,8 @@ public class RecipeCategoryRepository : GenericRepo<RecipeCategory>, IRecipeCate
         }
         catch (Exception ex)
         {
-            logger.LogCriticalExist(nameof(RecipeCategory), id, ex);
+            logger.LogCriticalExist(EntityName, id, ex);
             return false;
         }
     }
-
-    public override string EntityName { get; } = nameof(RecipeCategory);
 }
