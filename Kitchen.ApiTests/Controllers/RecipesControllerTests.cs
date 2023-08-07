@@ -12,13 +12,13 @@ public class RecipesControllerTests
     {
 
         // Arrange
-        Tools.RecipeService recipeService = new Tools.RecipeService();
+        Tools.RecipeService recipeService = new();
         RecipesController controller = new (new NullLogger<RecipesController>(), recipeService);
 
         // Act
         ActionResult<IEnumerable<RecipeDto>> response = await controller.GetRecipes(1, 5, null, null);
         var result = response.Result;
-
+        
         // Assert
         Assert.NotNull(result);
         Assert.IsType<NotFoundResult>(result);

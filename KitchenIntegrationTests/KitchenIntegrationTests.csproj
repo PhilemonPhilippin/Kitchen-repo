@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -23,6 +23,11 @@
     </PackageReference>
   </ItemGroup>
 
+	<ItemGroup>
+		<Using Include="System.Text.Json"/>
+		<Using Include="System.Net"/>
+	</ItemGroup>
+	
   <ItemGroup>
     <ProjectReference Include="..\Kitchen.Api\Kitchen.Api.csproj" />
   </ItemGroup>
