@@ -66,7 +66,7 @@ public class IngredientRepository : GenericRepo<Ingredient>, IIngredientReposito
             if (dbResult.Status == Status.NotFound)
                 return Status.NotFound;
 
-            var entityToUpdate = dbResult.Entity!;
+            var entityToUpdate = dbResult.Entity;
 
             if (await context.Ingredients.AsNoTracking().AnyAsync(i => i.Name == entity.Name && i.Id != entity.Id))
                 return Status.NameConflict;

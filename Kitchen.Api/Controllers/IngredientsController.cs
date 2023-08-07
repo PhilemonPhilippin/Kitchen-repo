@@ -131,7 +131,7 @@ public class IngredientsController : ControllerBase
 
             return CreatedAtAction(
                 nameof(GetIngredientById),
-                new { id = dbResult.Entity!.Id },
+                new { id = dbResult.Entity.Id },
                 response);
         }
         catch (Exception ex)

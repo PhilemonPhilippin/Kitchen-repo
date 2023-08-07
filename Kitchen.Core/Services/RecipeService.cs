@@ -48,11 +48,11 @@ public class RecipeService : IRecipeService
         {
             Title = createRecipeRequest.Title,
             Description = createRecipeRequest.Description,
-            RecipeCategoryId = (int)createRecipeRequest.RecipeCategoryId!,
+            RecipeCategoryId = (int)createRecipeRequest.RecipeCategoryId,
             ModifiedOn = DateTime.UtcNow
         };
 
-        bool categoryExist = await _recipeCategoryRepository.IdExist((int)createRecipeRequest.RecipeCategoryId);;
+        bool categoryExist = await _recipeCategoryRepository.IdExist((int)createRecipeRequest.RecipeCategoryId);
 
         if (categoryExist == false)
             return new DbResult<Recipe> { Status = Status.NotFound};
@@ -69,7 +69,7 @@ public class RecipeService : IRecipeService
             Id = id,
             Title = updateRecipeRequest.Title,
             Description = updateRecipeRequest.Description,
-            RecipeCategoryId = (int)updateRecipeRequest.RecipeCategoryId!,
+            RecipeCategoryId = (int)updateRecipeRequest.RecipeCategoryId,
             ModifiedOn = DateTime.UtcNow
         };
 

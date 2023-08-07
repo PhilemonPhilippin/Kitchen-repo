@@ -37,7 +37,7 @@ public class RecipeCategoryRepository : GenericRepo<RecipeCategory>, IRecipeCate
             if (dbResult.Status == Status.NotFound)
                 return Status.NotFound;
 
-            var entityToUpdate = dbResult.Entity!;
+            var entityToUpdate = dbResult.Entity;
 
             entityToUpdate.Title = entity.Title;
             entityToUpdate.Description = entity.Description;

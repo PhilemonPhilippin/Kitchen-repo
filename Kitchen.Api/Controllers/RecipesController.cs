@@ -63,7 +63,7 @@ public class RecipesController : ControllerBase
             if (dbResult.Status == Status.Error)
                 return this.InternalErrorCustom();
 
-            return Ok(dbResult.Entity!.MapToRecipeDto());
+            return Ok(dbResult.Entity.MapToRecipeDto());
         }
         catch (Exception ex)
         {
@@ -80,7 +80,7 @@ public class RecipesController : ControllerBase
 
             if (dbResult.Status == Status.NotFound)
             {
-                _logger.LogInformationGet(nameof(RecipeCategory), (int)createRecipeRequest.RecipeCategoryId!);
+                _logger.LogInformationGet(nameof(RecipeCategory), (int)createRecipeRequest.RecipeCategoryId);
                 return NotFound("Recipe category not found.");
             }
 
@@ -90,11 +90,11 @@ public class RecipesController : ControllerBase
                 return this.InternalErrorCustom();
             }
 
-            RecipeDto response = dbResult.Entity!.MapToRecipeDto();
+            RecipeDto response = dbResult.Entity.MapToRecipeDto();
 
             return CreatedAtAction(
                 nameof(GetRecipeById),
-                new { id = dbResult.Entity!.Id },
+                new { id = dbResult.Entity.Id },
                 response);
         }
         catch (Exception ex)

@@ -21,7 +21,7 @@ public class PreparationStepRepository : GenericRepo<PreparationStep>, IPreparat
             if (dbResult.Status == Status.NotFound)
                 return Status.NotFound;
 
-            var entityToUpdate = dbResult.Entity!;
+            var entityToUpdate = dbResult.Entity;
 
             entityToUpdate.Title = entity.Title;
             entityToUpdate.Step = entity.Step;

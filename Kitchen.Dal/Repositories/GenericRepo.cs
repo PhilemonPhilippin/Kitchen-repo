@@ -59,7 +59,7 @@ public abstract class GenericRepo<T> : IRepository<T> where T : class
             if (dbResult.Status == Status.Error)
                 return Status.Error;
 
-            T entity = dbResult.Entity!;
+            T entity = dbResult.Entity;
 
             context.Remove(entity);
             await SaveChanges();

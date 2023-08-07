@@ -85,7 +85,7 @@ public class RecipeCategoriesController : ControllerBase
 
             return CreatedAtAction(
                     nameof(GetRecipeCategoryById),
-                    new { id = dbResult.Entity!.Id },
+                    new { id = dbResult.Entity.Id },
                     response
                 );
         }

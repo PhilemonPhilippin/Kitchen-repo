@@ -118,7 +118,7 @@ public class PreparationStepsController : ControllerBase
                 new
                 {
                     recipeId = recipeId,
-                    preparationStepId = dbResult.Entity!.Id
+                    preparationStepId = dbResult.Entity.Id
                 },
                 response);
         }

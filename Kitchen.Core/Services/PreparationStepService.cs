@@ -19,7 +19,7 @@ public class PreparationStepService : IPreparationStepService
         {
             Title = createPreparationStepRequest.Title,
             Step = createPreparationStepRequest.Step,
-            StepNumber = (int)createPreparationStepRequest.StepNumber!,
+            StepNumber = (int)createPreparationStepRequest.StepNumber,
             RecipeId = recipeId,
             ModifiedOn = DateTime.UtcNow
         };
@@ -36,7 +36,7 @@ public class PreparationStepService : IPreparationStepService
             Id = preparationStepId,
             Title = updatePreparationStepRequest.Title,
             Step = updatePreparationStepRequest.Step,
-            StepNumber = (int)updatePreparationStepRequest.StepNumber!,
+            StepNumber = (int)updatePreparationStepRequest.StepNumber,
             RecipeId = recipeId,
             ModifiedOn = DateTime.UtcNow
         };
