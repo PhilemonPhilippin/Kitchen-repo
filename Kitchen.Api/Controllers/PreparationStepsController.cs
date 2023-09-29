@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿//using AutoMapper;
 using Kitchen.Api.Mappers.Customs;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +15,7 @@ public class PreparationStepsController : ControllerBase
 
     public PreparationStepsController(
         ILogger<PreparationStepsController> logger,
-        IMapper mapper,
+        //IMapper mapper,
         IPreparationStepRepository preparationStepRepo,
         IRecipeRepository recipeRepo)
     {

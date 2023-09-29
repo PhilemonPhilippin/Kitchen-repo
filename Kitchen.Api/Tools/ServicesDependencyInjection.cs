@@ -47,8 +47,6 @@ public static class ServicesDependencyInjection
 
         services.AddHealthChecks();
 
-        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
         return services;
     }
 }

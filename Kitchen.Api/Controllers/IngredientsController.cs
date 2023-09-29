@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿//using AutoMapper;
+using Kitchen.Api.Mappers.Customs;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
@@ -10,15 +11,16 @@ namespace Kitchen.Api.Controllers;
 public class IngredientsController : ControllerBase
 {
     private readonly ILogger<IngredientsController> _logger;
-    private readonly IMapper _mapper;
+    //private readonly IMapper _mapper;
     private readonly IIngredientRepository _ingredientRepo;
     private const int _maxPageSize = 40;
 
-    public IngredientsController(ILogger<IngredientsController> logger, IMapper mapper, 
+    public IngredientsController(ILogger<IngredientsController> logger, 
+        //IMapper mapper, 
         IIngredientRepository ingredientRepo)
     {
         _logger = logger;
-        _mapper = mapper;
+        //_mapper = mapper;
         _ingredientRepo = ingredientRepo;
     }
 
@@ -50,7 +52,7 @@ public class IngredientsController : ControllerBase
                 return NotFound();
             }
 
-            IEnumerable<IngredientNoDescDto> response = _mapper.Map<IEnumerable<IngredientNoDescDto>>(ingredients);
+            IEnumerable<IngredientNoDescDto> response = ingredients.Select(i => i.MapToIngredientNoDescDto());
             return Ok(response);
         }
         catch (Exception ex)
@@ -77,7 +79,7 @@ public class IngredientsController : ControllerBase
                 return NotFound();
             }
 
-            IEnumerable<IngredientDto> response = _mapper.Map<IEnumerable<IngredientDto>>(ingredients);
+            IEnumerable<IngredientDto> response = ingredients.Select(i => i.MapToIngredientDto());
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metadata));
             return Ok(response);
@@ -106,7 +108,7 @@ public class IngredientsController : ControllerBase
                 return this.InternalErrorCustom();
             
 
-            return Ok(_mapper.Map<IngredientDto>(dbResult.Entity));
+            return Ok(dbResult.Entity.MapToIngredientDto());
         }
         catch (Exception ex)
         {
@@ -138,7 +140,7 @@ public class IngredientsController : ControllerBase
             if (dbResult.Status == Status.Error)
                 return this.InternalErrorCustom();
 
-            IngredientDto response = _mapper.Map<IngredientDto>(dbResult.Entity);
+            IngredientDto response = dbResult.Entity.MapToIngredientDto();
 
             return CreatedAtAction(
                 nameof(GetIngredientById),
