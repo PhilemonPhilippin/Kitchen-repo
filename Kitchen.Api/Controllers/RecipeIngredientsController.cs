@@ -9,7 +9,8 @@ namespace Kitchen.Api.Controllers;
 public class RecipeIngredientsController : ControllerBase
 {
     private readonly ILogger<RecipeIngredientsController> _logger;
-    private readonly IRecipeIngredientService _recipeIngredientService;
+    //private readonly IRecipeIngredientService _recipeIngredientService;
+    private readonly IRecipeIngredientRepo _recipeIngredientRepo;
     //private readonly IRecipeService _recipeService;
     private readonly IRecipeRepository _recipeRepo;
     //private readonly IIngredientService _ingredientService;
@@ -17,14 +18,16 @@ public class RecipeIngredientsController : ControllerBase
 
     public RecipeIngredientsController(
         ILogger<RecipeIngredientsController> logger,
-        IRecipeIngredientService recipeIngredientService,
+        //IRecipeIngredientService recipeIngredientService,
+        IRecipeIngredientRepo recipeIngredientRepo,
         //IRecipeService recipeService,
         IRecipeRepository recipeRepo,
         //IIngredientService ingredientService,
         IIngredientRepository ingredientRepo)
     {
         _logger = logger;
-        _recipeIngredientService = recipeIngredientService;
+        //_recipeIngredientService = recipeIngredientService;
+        _recipeIngredientRepo = recipeIngredientRepo;
         //_recipeService = recipeService;
         _recipeRepo = recipeRepo;
         //_ingredientService = ingredientService;
@@ -43,7 +46,7 @@ public class RecipeIngredientsController : ControllerBase
                 _logger.LogInformationGet(nameof(Recipe), recipeId);
                 return NotFound("Recipe not found.");
             }
-            IEnumerable<RecipeIngredient> recipeIngredients = await _recipeIngredientService.GetAll(recipeId);
+            IEnumerable<RecipeIngredient> recipeIngredients = await _recipeIngredientRepo.GetAll(recipeId);
 
             if (recipeIngredients.Any() == false)
             {
@@ -82,7 +85,24 @@ public class RecipeIngredientsController : ControllerBase
                 return NotFound("Ingredient not found.");
             }
 
-            bool added = await _recipeIngredientService.Add(recipeId, createRecipeIngredientRequest);
+            RecipeIngredient recipeIngredient = new()
+            {
+                RecipeId = recipeId,
+                IngredientId = (int)createRecipeIngredientRequest.IngredientId,
+                IngredientQuantity = createRecipeIngredientRequest.IngredientQuantity,
+                CreatedOn = DateTime.UtcNow,
+                ModifiedOn = DateTime.UtcNow
+            };
+
+            DbResult<bool> dbResult = await _recipeIngredientRepo.RecipeIngredientExist(recipeIngredient);
+
+            if (dbResult.Status == Status.Error || (dbResult.Status == Status.Success && dbResult.Entity == true))
+            {
+                _logger.LogInformation("Could not create the association between recipe with id = {RecipeId} and ingredient with id = {IngredientId}.", recipeId, createRecipeIngredientRequest.IngredientId);
+                return this.InternalErrorCustom();
+            }
+
+            bool added = await _recipeIngredientRepo.Add(recipeIngredient);
 
             if (added == false)
             {
@@ -115,10 +135,15 @@ public class RecipeIngredientsController : ControllerBase
                 return NotFound("Recipe not found");
             }
 
-            Status updateResult = await _recipeIngredientService.Update(
-                recipeId, 
-                ingredientId, 
-                updateRecipeIngredientRequest.IngredientQuantity);
+            RecipeIngredient recipeIngredient = new()
+            {
+                IngredientId = ingredientId,
+                RecipeId = recipeId,
+                IngredientQuantity = updateRecipeIngredientRequest.IngredientQuantity,
+                ModifiedOn = DateTime.UtcNow
+            };
+
+            Status updateResult = await _recipeIngredientRepo.Update(recipeIngredient);
 
             if (updateResult == Status.NotFound)
             {
@@ -151,7 +176,7 @@ public class RecipeIngredientsController : ControllerBase
                 return NotFound("Recipe not found.");
             }
 
-            Status deleteResult = await _recipeIngredientService.Delete(recipeId, ingredientId);
+            Status deleteResult = await _recipeIngredientRepo.Delete(recipeId, ingredientId);
 
             if (deleteResult == Status.NotFound)
             {
