@@ -11,17 +11,14 @@ public class IngredientsController : ControllerBase
 {
     private readonly ILogger<IngredientsController> _logger;
     private readonly IMapper _mapper;
-    //private readonly IIngredientService _ingredientService;
     private readonly IIngredientRepository _ingredientRepo;
     private const int _maxPageSize = 40;
 
     public IngredientsController(ILogger<IngredientsController> logger, IMapper mapper, 
-        //IIngredientService ingredientService, 
         IIngredientRepository ingredientRepo)
     {
         _logger = logger;
         _mapper = mapper;
-        //_ingredientService = ingredientService;
         _ingredientRepo = ingredientRepo;
     }
 

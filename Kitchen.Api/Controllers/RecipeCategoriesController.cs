@@ -9,18 +9,15 @@ public class RecipeCategoriesController : ControllerBase
 {
     private readonly ILogger<RecipeCategoriesController> _logger;
     private readonly IMapper _mapper;
-    //private readonly IRecipeCategoryService _recipeCategoryService;
     private readonly IRecipeCategoryRepository _recipeCategoryRepo;
 
     public RecipeCategoriesController(
         ILogger<RecipeCategoriesController> logger,
         IMapper mapper,
-        //IRecipeCategoryService recipeCategoryService,
         IRecipeCategoryRepository recipeCategoryRepo)
     {
         _logger = logger;
         _mapper = mapper;
-        //_recipeCategoryService = recipeCategoryService;
         _recipeCategoryRepo = recipeCategoryRepo;
     }
     [HttpGet]

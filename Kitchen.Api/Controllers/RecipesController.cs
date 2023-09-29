@@ -8,19 +8,16 @@ namespace Kitchen.Api.Controllers;
 [ApiController]
 public class RecipesController : ControllerBase
 {
-    //private readonly IRecipeService _recipeService;
     private readonly IRecipeRepository _recipeRepo;
     private readonly IRecipeCategoryRepository _recipeCategoryRepo;
     private readonly ILogger<RecipesController> _logger;
     private const int _maxPageSize = 20;
 
     public RecipesController(ILogger<RecipesController> logger, 
-        //IRecipeService recipeService, 
         IRecipeRepository recipeRepo,
         IRecipeCategoryRepository recipeCategoryRepo)
     {
         _logger = logger;
-        //_recipeService = recipeService;
         _recipeRepo = recipeRepo;
         _recipeCategoryRepo = recipeCategoryRepo;
     }
@@ -61,8 +58,6 @@ public class RecipesController : ControllerBase
             }
             IEnumerable<Recipe> recipes = result.recipes;
             PaginationMetadata metadata = result.metadata;
-
-            //(IEnumerable<Recipe> recipes, PaginationMetadata metadata) = await _recipeService.GetPage(pageNumber, pageSize, title, searchQuery);
 
             if (recipes.Any() == false)
             {

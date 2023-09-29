@@ -8,26 +8,20 @@ namespace Kitchen.Api.Controllers;
 public class PreparationStepsController : ControllerBase
 {
     private readonly ILogger<PreparationStepsController> _logger;
-    //private readonly IPreparationStepService _preparationStepService;
     private readonly IPreparationStepRepository _preparationStepRepo;
     private readonly IRecipeRepository _recipeRepo;
-    //private readonly IRecipeService _recipeService;
     private readonly IMapper _mapper;
 
     public PreparationStepsController(
         ILogger<PreparationStepsController> logger,
         IMapper mapper,
-        //IPreparationStepService preparationStepService,
         IPreparationStepRepository preparationStepRepo,
         IRecipeRepository recipeRepo)
-        //IRecipeService recipeService)
     {
         _logger = logger;
         _mapper = mapper;
-        //_preparationStepService = preparationStepService;
         _preparationStepRepo = preparationStepRepo;
         _recipeRepo = recipeRepo;
-        //_recipeService = recipeService;
     }
 
     [HttpGet]

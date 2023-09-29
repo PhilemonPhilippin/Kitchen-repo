@@ -8,28 +8,19 @@ namespace Kitchen.Api.Controllers;
 public class RecipeIngredientsController : ControllerBase
 {
     private readonly ILogger<RecipeIngredientsController> _logger;
-    //private readonly IRecipeIngredientService _recipeIngredientService;
     private readonly IRecipeIngredientRepo _recipeIngredientRepo;
-    //private readonly IRecipeService _recipeService;
     private readonly IRecipeRepository _recipeRepo;
-    //private readonly IIngredientService _ingredientService;
     private readonly IIngredientRepository _ingredientRepo;
 
     public RecipeIngredientsController(
         ILogger<RecipeIngredientsController> logger,
-        //IRecipeIngredientService recipeIngredientService,
         IRecipeIngredientRepo recipeIngredientRepo,
-        //IRecipeService recipeService,
         IRecipeRepository recipeRepo,
-        //IIngredientService ingredientService,
         IIngredientRepository ingredientRepo)
     {
         _logger = logger;
-        //_recipeIngredientService = recipeIngredientService;
         _recipeIngredientRepo = recipeIngredientRepo;
-        //_recipeService = recipeService;
         _recipeRepo = recipeRepo;
-        //_ingredientService = ingredientService;
         _ingredientRepo = ingredientRepo;
     }
 
