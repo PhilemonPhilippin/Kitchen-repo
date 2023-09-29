@@ -11,6 +11,7 @@ public class PreparationStepsController : ControllerBase
     private readonly ILogger<PreparationStepsController> _logger;
     //private readonly IPreparationStepService _preparationStepService;
     private readonly IPreparationStepRepository _preparationStepRepo;
+    private readonly IRecipeRepository _recipeRepo;
     private readonly IRecipeService _recipeService;
     private readonly IMapper _mapper;
 
@@ -19,12 +20,14 @@ public class PreparationStepsController : ControllerBase
         IMapper mapper,
         //IPreparationStepService preparationStepService,
         IPreparationStepRepository preparationStepRepo,
+        IRecipeRepository recipeRepo,
         IRecipeService recipeService)
     {
         _logger = logger;
         _mapper = mapper;
         //_preparationStepService = preparationStepService;
         _preparationStepRepo = preparationStepRepo;
+        _recipeRepo = recipeRepo;
         _recipeService = recipeService;
     }
 
@@ -33,7 +36,7 @@ public class PreparationStepsController : ControllerBase
     {
         try
         {
-            bool recipeExists = await _recipeService.IdExist(recipeId);
+            bool recipeExists = await _recipeRepo.IdExist(recipeId);
 
             if (recipeExists == false)
             {
@@ -65,7 +68,7 @@ public class PreparationStepsController : ControllerBase
     {
         try
         {
-            bool recipeExists = await _recipeService.IdExist(recipeId);
+            bool recipeExists = await _recipeRepo.IdExist(recipeId);
 
             if (recipeExists == false)
             {
@@ -99,7 +102,7 @@ public class PreparationStepsController : ControllerBase
     {
         try
         {
-            bool recipeExists = await _recipeService.IdExist(recipeId);
+            bool recipeExists = await _recipeRepo.IdExist(recipeId);
 
             if (recipeExists == false)
             {
@@ -149,7 +152,7 @@ public class PreparationStepsController : ControllerBase
     {
         try
         {
-            bool recipeExists = await _recipeService.IdExist(recipeId);
+            bool recipeExists = await _recipeRepo.IdExist(recipeId);
 
             if (recipeExists == false)
             {
@@ -193,7 +196,7 @@ public class PreparationStepsController : ControllerBase
     {
         try
         {
-            bool recipeExists = await _recipeService.IdExist(recipeId);
+            bool recipeExists = await _recipeRepo.IdExist(recipeId);
 
             if (recipeExists == false)
             {

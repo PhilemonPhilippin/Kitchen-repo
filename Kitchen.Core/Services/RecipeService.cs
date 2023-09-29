@@ -39,28 +39,28 @@ public class RecipeService : IRecipeService
         }
     }
 
-    public async Task<DbResult<Recipe>> Get(int id) => await _recipeRepository.Get(id);
+    //public async Task<DbResult<Recipe>> Get(int id) => await _recipeRepository.Get(id);
 
 
-    public async Task<DbResult<Recipe>> Add(RecipeRequest createRecipeRequest)
-    {
-        Recipe recipe = new()
-        {
-            Title = createRecipeRequest.Title,
-            Description = createRecipeRequest.Description,
-            RecipeCategoryId = (int)createRecipeRequest.RecipeCategoryId,
-            ModifiedOn = DateTime.UtcNow
-        };
+    //public async Task<DbResult<Recipe>> Add(RecipeRequest createRecipeRequest)
+    //{
+    //    Recipe recipe = new()
+    //    {
+    //        Title = createRecipeRequest.Title,
+    //        Description = createRecipeRequest.Description,
+    //        RecipeCategoryId = (int)createRecipeRequest.RecipeCategoryId,
+    //        ModifiedOn = DateTime.UtcNow
+    //    };
 
-        bool categoryExist = await _recipeCategoryRepository.IdExist((int)createRecipeRequest.RecipeCategoryId);
+    //    bool categoryExist = await _recipeCategoryRepository.IdExist((int)createRecipeRequest.RecipeCategoryId);
 
-        if (categoryExist == false)
-            return new DbResult<Recipe> { Status = Status.NotFound};
+    //    if (categoryExist == false)
+    //        return new DbResult<Recipe> { Status = Status.NotFound};
 
-        DbResult<Recipe> recipeDbResult = await _recipeRepository.Add(recipe);
+    //    DbResult<Recipe> recipeDbResult = await _recipeRepository.Add(recipe);
 
-        return recipeDbResult;
-    }
+    //    return recipeDbResult;
+    //}
 
     public async Task<Status> Update(int id, RecipeRequest updateRecipeRequest)
     {
@@ -83,6 +83,6 @@ public class RecipeService : IRecipeService
 
     public async Task<Status> Delete(int id) => await _recipeRepository.Delete(id);
 
-    public async Task<bool> IdExist(int id) => await _recipeRepository.IdExist(id);
+    //public async Task<bool> IdExist(int id) => await _recipeRepository.IdExist(id);
 
 }

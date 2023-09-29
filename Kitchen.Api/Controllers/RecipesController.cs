@@ -10,12 +10,19 @@ namespace Kitchen.Api.Controllers;
 public class RecipesController : ControllerBase
 {
     private readonly IRecipeService _recipeService;
+    private readonly IRecipeRepository _recipeRepo;
+    private readonly IRecipeCategoryRepository _recipeCategoryRepo;
     private readonly ILogger<RecipesController> _logger;
 
-    public RecipesController(ILogger<RecipesController> logger, IRecipeService recipeService)
+    public RecipesController(ILogger<RecipesController> logger, 
+        IRecipeService recipeService, 
+        IRecipeRepository recipeRepo,
+        IRecipeCategoryRepository recipeCategoryRepo)
     {
         _logger = logger;
         _recipeService = recipeService;
+        _recipeRepo = recipeRepo;
+        _recipeCategoryRepo = recipeCategoryRepo;
     }
 
     [HttpGet]
@@ -52,7 +59,7 @@ public class RecipesController : ControllerBase
     {
         try
         {
-            DbResult<Recipe> dbResult = await _recipeService.Get(id);
+            DbResult<Recipe> dbResult = await _recipeRepo.Get(id);
 
             if (dbResult.Status == Status.NotFound)
             {
@@ -76,13 +83,22 @@ public class RecipesController : ControllerBase
     {
         try
         {
-            DbResult<Recipe> dbResult = await _recipeService.Add(createRecipeRequest);
+            Recipe recipe = new()
+            {
+                Title = createRecipeRequest.Title,
+                Description = createRecipeRequest.Description,
+                RecipeCategoryId = (int)createRecipeRequest.RecipeCategoryId,
+                ModifiedOn = DateTime.UtcNow
+            };
 
-            if (dbResult.Status == Status.NotFound)
+            bool categoryExist = await _recipeCategoryRepo.IdExist((int)createRecipeRequest.RecipeCategoryId);
+            if (categoryExist == false)
             {
                 _logger.LogInformationGet(nameof(RecipeCategory), (int)createRecipeRequest.RecipeCategoryId);
                 return NotFound("Recipe category not found.");
             }
+
+            DbResult<Recipe> dbResult = await _recipeRepo.Add(recipe);
 
             if (dbResult.Status == Status.Error)
             {

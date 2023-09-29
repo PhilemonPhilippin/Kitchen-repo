@@ -11,6 +11,7 @@ public class RecipeIngredientsController : ControllerBase
     private readonly ILogger<RecipeIngredientsController> _logger;
     private readonly IRecipeIngredientService _recipeIngredientService;
     private readonly IRecipeService _recipeService;
+    private readonly IRecipeRepository _recipeRepo;
     //private readonly IIngredientService _ingredientService;
     private readonly IIngredientRepository _ingredientRepo;
 
@@ -18,12 +19,14 @@ public class RecipeIngredientsController : ControllerBase
         ILogger<RecipeIngredientsController> logger,
         IRecipeIngredientService recipeIngredientService,
         IRecipeService recipeService,
+        IRecipeRepository recipeRepo,
         //IIngredientService ingredientService,
         IIngredientRepository ingredientRepo)
     {
         _logger = logger;
         _recipeIngredientService = recipeIngredientService;
         _recipeService = recipeService;
+        _recipeRepo = recipeRepo;
         //_ingredientService = ingredientService;
         _ingredientRepo = ingredientRepo;
     }
@@ -33,7 +36,7 @@ public class RecipeIngredientsController : ControllerBase
     {
         try
         {
-            bool recipeExists = await _recipeService.IdExist(recipeId);
+            bool recipeExists = await _recipeRepo.IdExist(recipeId);
 
             if (recipeExists == false)
             {
@@ -65,7 +68,7 @@ public class RecipeIngredientsController : ControllerBase
     {
         try
         {
-            bool recipeExists = await _recipeService.IdExist(recipeId);
+            bool recipeExists = await _recipeRepo.IdExist(recipeId);
             if (recipeExists == false)
             {
                 _logger.LogInformationGet(nameof(Recipe), recipeId);
@@ -104,7 +107,7 @@ public class RecipeIngredientsController : ControllerBase
     {
         try
         {
-            bool recipeExists = await _recipeService.IdExist(recipeId);
+            bool recipeExists = await _recipeRepo.IdExist(recipeId);
 
             if (recipeExists == false)
             {
@@ -140,7 +143,7 @@ public class RecipeIngredientsController : ControllerBase
     {
         try
         {
-            bool recipeExists = await _recipeService.IdExist(recipeId);
+            bool recipeExists = await _recipeRepo.IdExist(recipeId);
 
             if (recipeExists == false)
             {
