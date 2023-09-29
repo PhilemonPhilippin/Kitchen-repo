@@ -33,7 +33,7 @@ public static class ServicesDependencyInjection
         services.AddTransient<IPreparationStepRepository, PreparationStepRepository>();
         services.AddTransient<IRecipeService, RecipeService>();
         services.AddTransient<IPreparationStepService, PreparationStepService>();
-        services.AddTransient<IRecipeCategoryService, RecipeCategoryService>();
+        //services.AddTransient<IRecipeCategoryService, RecipeCategoryService>();
         //services.AddTransient<IIngredientService, IngredientService>();
         services.AddTransient<IRecipeIngredientService, RecipeIngredientService>();
 
