@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Kitchen.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kitchen.Api.Controllers;

@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-
-namespace Kitchen.Contracts.Requests;
+﻿namespace Kitchen.Entities.Contracts;
 
 public record RecipeRequest(
     [Required][MaxLength(50)] string Title,

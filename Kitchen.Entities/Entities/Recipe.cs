@@ -1,7 +1,7 @@
-﻿namespace Kitchen.Entities;
+﻿namespace Kitchen.Entities.Entities;
 
-[Table(nameof(PreparationStep))]
-public class PreparationStep
+[Table(nameof(Recipe))]
+public class Recipe
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -9,18 +9,16 @@ public class PreparationStep
     [Required]
     [MaxLength(50)]
     public string Title { get; set; } = string.Empty;
-    [Required]
-    public int StepNumber { get; set; }
-
-    [Required]
     [MaxLength(500)]
-    public string Step { get; set; } = string.Empty;
+    public string? Description { get; set; }
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
     public DateTime ModifiedOn { get; set; }
     public Guid UniqueId { get; set; } = Guid.NewGuid();
 
-    [ForeignKey("RecipeId")]
-    public Recipe Recipe { get; set; }
-    public int RecipeId { get; set; }
+    [ForeignKey("RecipeCategoryId")]
+    public RecipeCategory RecipeCategory { get; set; }
+    public int RecipeCategoryId { get; set; }
+
+    public ICollection<RecipeIngredient> RecipeIngredients { get; set; } = new List<RecipeIngredient>();
 
 }

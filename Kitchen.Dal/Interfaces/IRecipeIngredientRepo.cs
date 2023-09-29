@@ -1,4 +1,6 @@
-﻿namespace Kitchen.Dal.Interfaces;
+﻿using Kitchen.Entities.Entities;
+
+namespace Kitchen.Dal.Interfaces;
 
 public interface IRecipeIngredientRepo
 {

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Kitchen.Entities.Entities;
 
 namespace Kitchen.Api.Mappers.Profiles;
 

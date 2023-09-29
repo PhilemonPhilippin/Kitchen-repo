@@ -1,4 +1,6 @@
 ﻿
+using Kitchen.Entities.Entities;
+
 namespace Kitchen.Dal.Interfaces;
 
 public interface IRecipeCategoryRepository : IRepository<RecipeCategory>

@@ -1,5 +1,4 @@
 ﻿using Kitchen.Api.Mappers.Customs;
-using Kitchen.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kitchen.Api.Controllers;

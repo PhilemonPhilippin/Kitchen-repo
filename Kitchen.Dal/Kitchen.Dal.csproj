@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Kitchen.Entities\Kitchen.Entities.csproj" />
-    <ProjectReference Include="..\Kitchen.Models\Kitchen.Models.csproj" />
   </ItemGroup>
 
 </Project>

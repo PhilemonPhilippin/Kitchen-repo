@@ -1,4 +1,5 @@
 ﻿using Kitchen.Dal.Tools;
+using Kitchen.Entities.Entities;
 
 namespace Kitchen.Dal.Repositories;
 

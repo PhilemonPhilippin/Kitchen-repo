@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
-namespace Kitchen.Contracts.Dtos;
+namespace Kitchen.Entities.Contracts;
 
 [DataContract]
 public record IngredientDto

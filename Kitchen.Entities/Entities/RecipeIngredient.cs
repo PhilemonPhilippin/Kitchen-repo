@@ -1,9 +1,9 @@
-﻿namespace Kitchen.Entities;
+﻿namespace Kitchen.Entities.Entities;
 
 [Table(nameof(RecipeIngredient))]
 public class RecipeIngredient
 {
-    public int IngredientId{ get; set; }
+    public int IngredientId { get; set; }
     public Ingredient Ingredient { get; set; }
     public int RecipeId { get; set; }
     public Recipe Recipe { get; set; }

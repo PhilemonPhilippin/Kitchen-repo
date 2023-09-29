@@ -1,4 +1,6 @@
-﻿namespace Kitchen.Api.Mappers.Customs;
+﻿using Kitchen.Entities.Entities;
+
+namespace Kitchen.Api.Mappers.Customs;
 
 public static class RecipeIngredientMapper
 {
