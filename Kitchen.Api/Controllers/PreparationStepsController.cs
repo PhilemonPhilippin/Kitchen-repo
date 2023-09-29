@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Kitchen.Api.Mappers.Customs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kitchen.Api.Controllers;
@@ -10,7 +11,7 @@ public class PreparationStepsController : ControllerBase
     private readonly ILogger<PreparationStepsController> _logger;
     private readonly IPreparationStepRepository _preparationStepRepo;
     private readonly IRecipeRepository _recipeRepo;
-    private readonly IMapper _mapper;
+    //private readonly IMapper _mapper;
 
     public PreparationStepsController(
         ILogger<PreparationStepsController> logger,
@@ -19,7 +20,7 @@ public class PreparationStepsController : ControllerBase
         IRecipeRepository recipeRepo)
     {
         _logger = logger;
-        _mapper = mapper;
+        //_mapper = mapper;
         _preparationStepRepo = preparationStepRepo;
         _recipeRepo = recipeRepo;
     }
@@ -45,7 +46,8 @@ public class PreparationStepsController : ControllerBase
                 return NotFound("Preparation steps not found.");
             }
 
-            return Ok(_mapper.Map<IEnumerable<PreparationStepDto>>(preparationSteps));
+            //return Ok(_mapper.Map<IEnumerable<PreparationStepDto>>(preparationSteps));
+            return Ok(preparationSteps.Select(ps => ps.MapToPreparationStepDto()));
         }
         catch (Exception ex)
         {
@@ -80,7 +82,8 @@ public class PreparationStepsController : ControllerBase
             if (dbResult.Status == Status.Error)
                 return this.InternalErrorCustom();
 
-            return Ok(_mapper.Map<PreparationStepDto>(dbResult.Entity));
+            //return Ok(_mapper.Map<PreparationStepDto>(dbResult.Entity));
+            return Ok(dbResult.Entity.MapToPreparationStepDto());
         }
         catch (Exception ex)
         {
@@ -120,7 +123,8 @@ public class PreparationStepsController : ControllerBase
                 return this.InternalErrorCustom();
             }
 
-            PreparationStepDto response = _mapper.Map<PreparationStepDto>(dbResult.Entity);
+            //PreparationStepDto response = _mapper.Map<PreparationStepDto>(dbResult.Entity);
+            PreparationStepDto response = dbResult.Entity.MapToPreparationStepDto();
 
             return CreatedAtAction(
                 nameof(GetPreparationStep),
