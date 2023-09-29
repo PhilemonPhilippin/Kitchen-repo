@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Kitchen.Api.Mappers.Customs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kitchen.Api.Controllers;
@@ -8,7 +9,7 @@ namespace Kitchen.Api.Controllers;
 public class RecipeCategoriesController : ControllerBase
 {
     private readonly ILogger<RecipeCategoriesController> _logger;
-    private readonly IMapper _mapper;
+    //private readonly IMapper _mapper;
     private readonly IRecipeCategoryRepository _recipeCategoryRepo;
 
     public RecipeCategoriesController(
@@ -17,7 +18,7 @@ public class RecipeCategoriesController : ControllerBase
         IRecipeCategoryRepository recipeCategoryRepo)
     {
         _logger = logger;
-        _mapper = mapper;
+        //_mapper = mapper;
         _recipeCategoryRepo = recipeCategoryRepo;
     }
     [HttpGet]
@@ -32,7 +33,8 @@ public class RecipeCategoriesController : ControllerBase
                 _logger.LogInformationGetAll(nameof(RecipeCategory));
                 return NotFound();
             }
-            IEnumerable<RecipeCategoryDto> response = _mapper.Map<IEnumerable<RecipeCategoryDto>>(recipeCategories);
+            //IEnumerable<RecipeCategoryDto> response = _mapper.Map<IEnumerable<RecipeCategoryDto>>(recipeCategories);
+            IEnumerable<RecipeCategoryDto> response = recipeCategories.Select(rc => rc.MapToRecipeCategoryDto());
             return Ok(response);
         }
         catch (Exception ex)
@@ -58,7 +60,8 @@ public class RecipeCategoriesController : ControllerBase
             if (dbResult.Status == Status.Error)
                 return this.InternalErrorCustom();
 
-            return Ok(_mapper.Map<RecipeCategoryDto>(dbResult.Entity));
+            //return Ok(_mapper.Map<RecipeCategoryDto>(dbResult.Entity));
+            return Ok(dbResult.Entity.MapToRecipeCategoryDto());
         }
         catch (Exception ex)
         {
@@ -87,7 +90,8 @@ public class RecipeCategoriesController : ControllerBase
                 return this.InternalErrorCustom();
             }
 
-            RecipeCategoryDto response = _mapper.Map<RecipeCategoryDto>(dbResult.Entity);
+            //RecipeCategoryDto response = _mapper.Map<RecipeCategoryDto>(dbResult.Entity);
+            RecipeCategoryDto response = dbResult.Entity.MapToRecipeCategoryDto();
 
             return CreatedAtAction(
                     nameof(GetRecipeCategoryById),
