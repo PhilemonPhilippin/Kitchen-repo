@@ -12,7 +12,7 @@ public class PreparationStepsController : ControllerBase
     //private readonly IPreparationStepService _preparationStepService;
     private readonly IPreparationStepRepository _preparationStepRepo;
     private readonly IRecipeRepository _recipeRepo;
-    private readonly IRecipeService _recipeService;
+    //private readonly IRecipeService _recipeService;
     private readonly IMapper _mapper;
 
     public PreparationStepsController(
@@ -20,15 +20,15 @@ public class PreparationStepsController : ControllerBase
         IMapper mapper,
         //IPreparationStepService preparationStepService,
         IPreparationStepRepository preparationStepRepo,
-        IRecipeRepository recipeRepo,
-        IRecipeService recipeService)
+        IRecipeRepository recipeRepo)
+        //IRecipeService recipeService)
     {
         _logger = logger;
         _mapper = mapper;
         //_preparationStepService = preparationStepService;
         _preparationStepRepo = preparationStepRepo;
         _recipeRepo = recipeRepo;
-        _recipeService = recipeService;
+        //_recipeService = recipeService;
     }
 
     [HttpGet]

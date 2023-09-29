@@ -9,18 +9,19 @@ namespace Kitchen.Api.Controllers;
 [ApiController]
 public class RecipesController : ControllerBase
 {
-    private readonly IRecipeService _recipeService;
+    //private readonly IRecipeService _recipeService;
     private readonly IRecipeRepository _recipeRepo;
     private readonly IRecipeCategoryRepository _recipeCategoryRepo;
     private readonly ILogger<RecipesController> _logger;
+    private const int _maxPageSize = 20;
 
     public RecipesController(ILogger<RecipesController> logger, 
-        IRecipeService recipeService, 
+        //IRecipeService recipeService, 
         IRecipeRepository recipeRepo,
         IRecipeCategoryRepository recipeCategoryRepo)
     {
         _logger = logger;
-        _recipeService = recipeService;
+        //_recipeService = recipeService;
         _recipeRepo = recipeRepo;
         _recipeCategoryRepo = recipeCategoryRepo;
     }
@@ -34,7 +35,35 @@ public class RecipesController : ControllerBase
     {
         try
         {
-            (IEnumerable<Recipe> recipes, PaginationMetadata metadata) = await _recipeService.GetPage(pageNumber, pageSize, title, searchQuery);
+            if (pageSize > _maxPageSize)
+                pageSize = _maxPageSize;
+
+            (IEnumerable<Recipe> recipes, PaginationMetadata metadata) result;
+
+            if (string.IsNullOrEmpty(title) == false && string.IsNullOrEmpty(searchQuery) == false)
+            {
+                title = title.Trim();
+                searchQuery = searchQuery.Trim();
+                result = await _recipeRepo.GetPage(pageNumber, pageSize, title, searchQuery);
+            }
+            else if (string.IsNullOrEmpty(title) == false)
+            {
+                title = title.Trim();
+                result = await _recipeRepo.GetPageWithFilter(pageNumber, pageSize, title);
+            }
+            else if (string.IsNullOrEmpty(searchQuery) == false)
+            {
+                searchQuery = searchQuery.Trim();
+                result = await _recipeRepo.GetPageWithSearch(pageNumber, pageSize, searchQuery);
+            }
+            else
+            {
+                result = await _recipeRepo.GetPage(pageNumber, pageSize);
+            }
+            IEnumerable<Recipe> recipes = result.recipes;
+            PaginationMetadata metadata = result.metadata;
+
+            //(IEnumerable<Recipe> recipes, PaginationMetadata metadata) = await _recipeService.GetPage(pageNumber, pageSize, title, searchQuery);
 
             if (recipes.Any() == false)
             {
@@ -127,13 +156,24 @@ public class RecipesController : ControllerBase
     {
         try
         {
-            Status updateResult = await _recipeService.Update(id, updateRecipeRequest);
+            Recipe recipe = new()
+            {
+                Id = id,
+                Title = updateRecipeRequest.Title,
+                Description = updateRecipeRequest.Description,
+                RecipeCategoryId = (int)updateRecipeRequest.RecipeCategoryId,
+                ModifiedOn = DateTime.UtcNow
+            };
 
-            if (updateResult == Status.NotFound)
+            bool categoryExist = await _recipeCategoryRepo.IdExist((int)updateRecipeRequest.RecipeCategoryId);
+
+            if (categoryExist == false)
             {
                 _logger.LogInformationUpdate(nameof(Recipe), id);
                 return NotFound();
             }
+
+            Status updateResult = await _recipeRepo.Update(recipe);
 
             if (updateResult == Status.Error)
                 return this.InternalErrorCustom();
@@ -152,7 +192,7 @@ public class RecipesController : ControllerBase
     {
         try
         {
-            Status deleteResult = await _recipeService.Delete(id);
+            Status deleteResult = await _recipeRepo.Delete(id);
 
             if (deleteResult == Status.NotFound)
             {
