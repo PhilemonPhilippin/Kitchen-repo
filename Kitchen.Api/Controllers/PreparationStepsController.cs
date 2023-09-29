@@ -9,19 +9,22 @@ namespace Kitchen.Api.Controllers;
 public class PreparationStepsController : ControllerBase
 {
     private readonly ILogger<PreparationStepsController> _logger;
-    private readonly IPreparationStepService _preparationStepService;
+    //private readonly IPreparationStepService _preparationStepService;
+    private readonly IPreparationStepRepository _preparationStepRepo;
     private readonly IRecipeService _recipeService;
     private readonly IMapper _mapper;
 
     public PreparationStepsController(
         ILogger<PreparationStepsController> logger,
         IMapper mapper,
-        IPreparationStepService preparationStepService,
+        //IPreparationStepService preparationStepService,
+        IPreparationStepRepository preparationStepRepo,
         IRecipeService recipeService)
     {
         _logger = logger;
         _mapper = mapper;
-        _preparationStepService = preparationStepService;
+        //_preparationStepService = preparationStepService;
+        _preparationStepRepo = preparationStepRepo;
         _recipeService = recipeService;
     }
 
@@ -38,7 +41,7 @@ public class PreparationStepsController : ControllerBase
                 return NotFound("Recipe not found.");
             }
 
-            IEnumerable<PreparationStep> preparationSteps = await _preparationStepService.GetAll(recipeId);
+            IEnumerable<PreparationStep> preparationSteps = await _preparationStepRepo.GetAll(recipeId);
 
             if (preparationSteps.Any() == false)
             {
@@ -55,7 +58,7 @@ public class PreparationStepsController : ControllerBase
         }
     }
 
-    [HttpGet("{preparationstepid:int}")]
+    [HttpGet("{preparationStepId:int}")]
     public async Task<ActionResult<PreparationStepDto>> GetPreparationStep(
         [FromRoute] int recipeId,
         [FromRoute] int preparationStepId)
@@ -70,7 +73,7 @@ public class PreparationStepsController : ControllerBase
                 return NotFound("Recipe not found.");
             }
 
-            DbResult<PreparationStep> dbResult = await _preparationStepService.Get(preparationStepId);
+            DbResult<PreparationStep> dbResult = await _preparationStepRepo.Get(preparationStepId);
 
             if (dbResult.Status == Status.NotFound)
             {
@@ -103,7 +106,17 @@ public class PreparationStepsController : ControllerBase
                 _logger.LogInformationGet(nameof(Recipe), recipeId);
                 return NotFound("Recipe not found.");
             }
-            DbResult<PreparationStep> dbResult = await _preparationStepService.Add(recipeId, createPreparationStepRequest);
+
+            PreparationStep preparationStep = new()
+            {
+                Title = createPreparationStepRequest.Title,
+                Step = createPreparationStepRequest.Step,
+                StepNumber = (int)createPreparationStepRequest.StepNumber,
+                RecipeId = recipeId,
+                ModifiedOn = DateTime.UtcNow
+            };
+
+            DbResult<PreparationStep> dbResult = await _preparationStepRepo.Add(preparationStep);
 
             if (dbResult.Status == Status.Error)
             {
@@ -128,7 +141,7 @@ public class PreparationStepsController : ControllerBase
             return this.InternalErrorCustom();
         }
     }
-    [HttpPut("{preparationstepid:int}")]
+    [HttpPut("{preparationStepId:int}")]
     public async Task<ActionResult> UpdatePreparationStep(
         [FromRoute] int recipeId,
         [FromRoute] int preparationStepId,
@@ -143,8 +156,18 @@ public class PreparationStepsController : ControllerBase
                 _logger.LogInformationGet(nameof(Recipe), recipeId);
                 return NotFound("Recipe not found.");
             }
-             
-            Status updateResult = await _preparationStepService.Update(recipeId, preparationStepId, updatePreparationStepRequest);
+
+            PreparationStep preparationStep = new()
+            {
+                Id = preparationStepId,
+                Title = updatePreparationStepRequest.Title,
+                Step = updatePreparationStepRequest.Step,
+                StepNumber = (int)updatePreparationStepRequest.StepNumber,
+                RecipeId = recipeId,
+                ModifiedOn = DateTime.UtcNow
+            };
+
+            Status updateResult = await _preparationStepRepo.Update(preparationStep);
 
             if (updateResult == Status.NotFound)
             {
@@ -163,7 +186,7 @@ public class PreparationStepsController : ControllerBase
             return this.InternalErrorCustom();
         }
     }
-    [HttpDelete("{preparationstepid:int}")]
+    [HttpDelete("{preparationStepId:int}")]
     public async Task<ActionResult> DeletePreparationStep(
         [FromRoute] int recipeId,
         [FromRoute] int preparationStepId)
@@ -178,7 +201,7 @@ public class PreparationStepsController : ControllerBase
                 return NotFound("Recipe not found.");
             }
 
-            Status deleteResult = await _preparationStepService.Delete(preparationStepId);
+            Status deleteResult = await _preparationStepRepo.Delete(preparationStepId);
 
             if (deleteResult == Status.NotFound)
             {
