@@ -11,18 +11,21 @@ public class RecipeIngredientsController : ControllerBase
     private readonly ILogger<RecipeIngredientsController> _logger;
     private readonly IRecipeIngredientService _recipeIngredientService;
     private readonly IRecipeService _recipeService;
-    private readonly IIngredientService _ingredientService;
+    //private readonly IIngredientService _ingredientService;
+    private readonly IIngredientRepository _ingredientRepo;
 
     public RecipeIngredientsController(
         ILogger<RecipeIngredientsController> logger,
         IRecipeIngredientService recipeIngredientService,
         IRecipeService recipeService,
-        IIngredientService ingredientService)
+        //IIngredientService ingredientService,
+        IIngredientRepository ingredientRepo)
     {
         _logger = logger;
         _recipeIngredientService = recipeIngredientService;
         _recipeService = recipeService;
-        _ingredientService = ingredientService;
+        //_ingredientService = ingredientService;
+        _ingredientRepo = ingredientRepo;
     }
 
     [HttpGet]
@@ -69,7 +72,7 @@ public class RecipeIngredientsController : ControllerBase
                 return NotFound("Recipe not found.");
             }
 
-            bool ingredientExists = await _ingredientService.IdExist((int)createRecipeIngredientRequest.IngredientId);
+            bool ingredientExists = await _ingredientRepo.IdExist((int)createRecipeIngredientRequest.IngredientId);
             if (ingredientExists == false)
             {
                 _logger.LogInformationGet(nameof(Ingredient), (int)createRecipeIngredientRequest.IngredientId);
