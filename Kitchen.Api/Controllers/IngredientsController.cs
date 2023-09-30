@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using Kitchen.Models;
+﻿//using AutoMapper;
+using Kitchen.Api.Mappers.Customs;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
@@ -11,14 +11,14 @@ namespace Kitchen.Api.Controllers;
 public class IngredientsController : ControllerBase
 {
     private readonly ILogger<IngredientsController> _logger;
-    private readonly IMapper _mapper;
-    private readonly IIngredientService _ingredientService;
+    private readonly IIngredientRepository _ingredientRepo;
+    private const int _maxPageSize = 40;
 
-    public IngredientsController(ILogger<IngredientsController> logger, IMapper mapper, IIngredientService ingredientService)
+    public IngredientsController(ILogger<IngredientsController> logger, 
+        IIngredientRepository ingredientRepo)
     {
         _logger = logger;
-        _mapper = mapper;
-        _ingredientService = ingredientService;
+        _ingredientRepo = ingredientRepo;
     }
 
     [HttpGet("exist/{name}")]
@@ -26,7 +26,7 @@ public class IngredientsController : ControllerBase
     {
         try
         {
-            bool exist = await _ingredientService.NameExist(name);
+            bool exist = await _ingredientRepo.NameExist(name);
             return Ok(exist);
         }
         catch (Exception ex)
@@ -41,7 +41,7 @@ public class IngredientsController : ControllerBase
     {
         try
         {
-            IEnumerable<Ingredient> ingredients = await _ingredientService.GetAllNoDescription();
+            IEnumerable<Ingredient> ingredients = await _ingredientRepo.GetAllNoDescription();
 
             if (ingredients.Any() == false)
             {
@@ -49,7 +49,7 @@ public class IngredientsController : ControllerBase
                 return NotFound();
             }
 
-            IEnumerable<IngredientNoDescDto> response = _mapper.Map<IEnumerable<IngredientNoDescDto>>(ingredients);
+            IEnumerable<IngredientNoDescDto> response = ingredients.Select(i => i.MapToIngredientNoDescDto());
             return Ok(response);
         }
         catch (Exception ex)
@@ -64,8 +64,11 @@ public class IngredientsController : ControllerBase
     {
         try
         {
+            if (pageSize > _maxPageSize)
+                pageSize = _maxPageSize;
+
             (IEnumerable<Ingredient> ingredients, PaginationMetadata metadata) =
-                await _ingredientService.GetPage(pageNumber, pageSize);
+                await _ingredientRepo.GetPage(pageNumber, pageSize);
 
             if (ingredients.Any() == false)
             {
@@ -73,7 +76,7 @@ public class IngredientsController : ControllerBase
                 return NotFound();
             }
 
-            IEnumerable<IngredientDto> response = _mapper.Map<IEnumerable<IngredientDto>>(ingredients);
+            IEnumerable<IngredientDto> response = ingredients.Select(i => i.MapToIngredientDto());
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metadata));
             return Ok(response);
@@ -90,7 +93,7 @@ public class IngredientsController : ControllerBase
     {
         try
         {
-            DbResult<Ingredient> dbResult = await _ingredientService.Get(id);
+            DbResult<Ingredient> dbResult = await _ingredientRepo.Get(id);
 
             if (dbResult.Status == Status.NotFound)
             {
@@ -102,7 +105,7 @@ public class IngredientsController : ControllerBase
                 return this.InternalErrorCustom();
             
 
-            return Ok(_mapper.Map<IngredientDto>(dbResult.Entity));
+            return Ok(dbResult.Entity.MapToIngredientDto());
         }
         catch (Exception ex)
         {
@@ -116,7 +119,14 @@ public class IngredientsController : ControllerBase
     {
         try
         {
-            DbResult<Ingredient> dbResult = await _ingredientService.Add(createIngredientRequest);
+            Ingredient ingredient = new()
+            {
+                Name = createIngredientRequest.Name,
+                Description = createIngredientRequest.Description,
+                ModifiedOn = DateTime.UtcNow
+            };
+
+            DbResult<Ingredient> dbResult = await _ingredientRepo.Add(ingredient);
 
             if (dbResult.Status == Status.NameConflict)
             {
@@ -127,7 +137,7 @@ public class IngredientsController : ControllerBase
             if (dbResult.Status == Status.Error)
                 return this.InternalErrorCustom();
 
-            IngredientDto response = _mapper.Map<IngredientDto>(dbResult.Entity);
+            IngredientDto response = dbResult.Entity.MapToIngredientDto();
 
             return CreatedAtAction(
                 nameof(GetIngredientById),
@@ -147,7 +157,15 @@ public class IngredientsController : ControllerBase
     {
         try
         {
-            Status updateResult = await _ingredientService.Update(id, updateIngredientRequest);
+            Ingredient ingredient = new()
+            {
+                Id = id,
+                Name = updateIngredientRequest.Name,
+                Description = updateIngredientRequest.Description,
+                ModifiedOn = DateTime.UtcNow
+            };
+
+            Status updateResult = await _ingredientRepo.Update(ingredient);
 
             if (updateResult == Status.NotFound)
             {
@@ -178,7 +196,7 @@ public class IngredientsController : ControllerBase
     {
         try
         {
-            Status deleteResult = await _ingredientService.Delete(id);
+            Status deleteResult = await _ingredientRepo.Delete(id);
 
             if (deleteResult == Status.NotFound)
             {

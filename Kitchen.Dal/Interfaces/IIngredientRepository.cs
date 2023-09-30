@@ -1,5 +1,7 @@
 ﻿
 
+using Kitchen.Entities.Entities;
+
 namespace Kitchen.Dal.Interfaces;
 
 public interface IIngredientRepository : IRepository<Ingredient>

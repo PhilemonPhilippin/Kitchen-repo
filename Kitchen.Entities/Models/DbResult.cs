@@ -1,4 +1,4 @@
-﻿namespace Kitchen.Models;
+﻿namespace Kitchen.Entities.Models;
 public enum Status
 {
     Success,

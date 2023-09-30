@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using Kitchen.Models;
+﻿//using AutoMapper;
+using Kitchen.Api.Mappers.Customs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kitchen.Api.Controllers;
@@ -9,20 +9,17 @@ namespace Kitchen.Api.Controllers;
 public class PreparationStepsController : ControllerBase
 {
     private readonly ILogger<PreparationStepsController> _logger;
-    private readonly IPreparationStepService _preparationStepService;
-    private readonly IRecipeService _recipeService;
-    private readonly IMapper _mapper;
+    private readonly IPreparationStepRepository _preparationStepRepo;
+    private readonly IRecipeRepository _recipeRepo;
 
     public PreparationStepsController(
         ILogger<PreparationStepsController> logger,
-        IMapper mapper,
-        IPreparationStepService preparationStepService,
-        IRecipeService recipeService)
+        IPreparationStepRepository preparationStepRepo,
+        IRecipeRepository recipeRepo)
     {
         _logger = logger;
-        _mapper = mapper;
-        _preparationStepService = preparationStepService;
-        _recipeService = recipeService;
+        _preparationStepRepo = preparationStepRepo;
+        _recipeRepo = recipeRepo;
     }
 
     [HttpGet]
@@ -30,7 +27,7 @@ public class PreparationStepsController : ControllerBase
     {
         try
         {
-            bool recipeExists = await _recipeService.IdExist(recipeId);
+            bool recipeExists = await _recipeRepo.IdExist(recipeId);
 
             if (recipeExists == false)
             {
@@ -38,7 +35,7 @@ public class PreparationStepsController : ControllerBase
                 return NotFound("Recipe not found.");
             }
 
-            IEnumerable<PreparationStep> preparationSteps = await _preparationStepService.GetAll(recipeId);
+            IEnumerable<PreparationStep> preparationSteps = await _preparationStepRepo.GetAll(recipeId);
 
             if (preparationSteps.Any() == false)
             {
@@ -46,7 +43,7 @@ public class PreparationStepsController : ControllerBase
                 return NotFound("Preparation steps not found.");
             }
 
-            return Ok(_mapper.Map<IEnumerable<PreparationStepDto>>(preparationSteps));
+            return Ok(preparationSteps.Select(ps => ps.MapToPreparationStepDto()));
         }
         catch (Exception ex)
         {
@@ -55,14 +52,14 @@ public class PreparationStepsController : ControllerBase
         }
     }
 
-    [HttpGet("{preparationstepid:int}")]
+    [HttpGet("{preparationStepId:int}")]
     public async Task<ActionResult<PreparationStepDto>> GetPreparationStep(
         [FromRoute] int recipeId,
         [FromRoute] int preparationStepId)
     {
         try
         {
-            bool recipeExists = await _recipeService.IdExist(recipeId);
+            bool recipeExists = await _recipeRepo.IdExist(recipeId);
 
             if (recipeExists == false)
             {
@@ -70,7 +67,7 @@ public class PreparationStepsController : ControllerBase
                 return NotFound("Recipe not found.");
             }
 
-            DbResult<PreparationStep> dbResult = await _preparationStepService.Get(preparationStepId);
+            DbResult<PreparationStep> dbResult = await _preparationStepRepo.Get(preparationStepId);
 
             if (dbResult.Status == Status.NotFound)
             {
@@ -81,7 +78,7 @@ public class PreparationStepsController : ControllerBase
             if (dbResult.Status == Status.Error)
                 return this.InternalErrorCustom();
 
-            return Ok(_mapper.Map<PreparationStepDto>(dbResult.Entity));
+            return Ok(dbResult.Entity.MapToPreparationStepDto());
         }
         catch (Exception ex)
         {
@@ -96,14 +93,24 @@ public class PreparationStepsController : ControllerBase
     {
         try
         {
-            bool recipeExists = await _recipeService.IdExist(recipeId);
+            bool recipeExists = await _recipeRepo.IdExist(recipeId);
 
             if (recipeExists == false)
             {
                 _logger.LogInformationGet(nameof(Recipe), recipeId);
                 return NotFound("Recipe not found.");
             }
-            DbResult<PreparationStep> dbResult = await _preparationStepService.Add(recipeId, createPreparationStepRequest);
+
+            PreparationStep preparationStep = new()
+            {
+                Title = createPreparationStepRequest.Title,
+                Step = createPreparationStepRequest.Step,
+                StepNumber = (int)createPreparationStepRequest.StepNumber,
+                RecipeId = recipeId,
+                ModifiedOn = DateTime.UtcNow
+            };
+
+            DbResult<PreparationStep> dbResult = await _preparationStepRepo.Add(preparationStep);
 
             if (dbResult.Status == Status.Error)
             {
@@ -111,7 +118,7 @@ public class PreparationStepsController : ControllerBase
                 return this.InternalErrorCustom();
             }
 
-            PreparationStepDto response = _mapper.Map<PreparationStepDto>(dbResult.Entity);
+            PreparationStepDto response = dbResult.Entity.MapToPreparationStepDto();
 
             return CreatedAtAction(
                 nameof(GetPreparationStep),
@@ -128,7 +135,7 @@ public class PreparationStepsController : ControllerBase
             return this.InternalErrorCustom();
         }
     }
-    [HttpPut("{preparationstepid:int}")]
+    [HttpPut("{preparationStepId:int}")]
     public async Task<ActionResult> UpdatePreparationStep(
         [FromRoute] int recipeId,
         [FromRoute] int preparationStepId,
@@ -136,15 +143,25 @@ public class PreparationStepsController : ControllerBase
     {
         try
         {
-            bool recipeExists = await _recipeService.IdExist(recipeId);
+            bool recipeExists = await _recipeRepo.IdExist(recipeId);
 
             if (recipeExists == false)
             {
                 _logger.LogInformationGet(nameof(Recipe), recipeId);
                 return NotFound("Recipe not found.");
             }
-             
-            Status updateResult = await _preparationStepService.Update(recipeId, preparationStepId, updatePreparationStepRequest);
+
+            PreparationStep preparationStep = new()
+            {
+                Id = preparationStepId,
+                Title = updatePreparationStepRequest.Title,
+                Step = updatePreparationStepRequest.Step,
+                StepNumber = (int)updatePreparationStepRequest.StepNumber,
+                RecipeId = recipeId,
+                ModifiedOn = DateTime.UtcNow
+            };
+
+            Status updateResult = await _preparationStepRepo.Update(preparationStep);
 
             if (updateResult == Status.NotFound)
             {
@@ -163,14 +180,14 @@ public class PreparationStepsController : ControllerBase
             return this.InternalErrorCustom();
         }
     }
-    [HttpDelete("{preparationstepid:int}")]
+    [HttpDelete("{preparationStepId:int}")]
     public async Task<ActionResult> DeletePreparationStep(
         [FromRoute] int recipeId,
         [FromRoute] int preparationStepId)
     {
         try
         {
-            bool recipeExists = await _recipeService.IdExist(recipeId);
+            bool recipeExists = await _recipeRepo.IdExist(recipeId);
 
             if (recipeExists == false)
             {
@@ -178,7 +195,7 @@ public class PreparationStepsController : ControllerBase
                 return NotFound("Recipe not found.");
             }
 
-            Status deleteResult = await _preparationStepService.Delete(preparationStepId);
+            Status deleteResult = await _preparationStepRepo.Delete(preparationStepId);
 
             if (deleteResult == Status.NotFound)
             {

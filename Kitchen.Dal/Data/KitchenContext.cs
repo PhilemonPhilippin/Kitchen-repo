@@ -1,4 +1,6 @@
-﻿namespace Kitchen.Dal.Data;
+﻿using Kitchen.Entities.Entities;
+
+namespace Kitchen.Dal.Data;
 
 public class KitchenContext : DbContext
 {

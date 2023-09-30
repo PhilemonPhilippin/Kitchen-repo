@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Kitchen.Entities.Entities;
+using Microsoft.Extensions.Logging;
 
 namespace Kitchen.Dal.Repositories;
 

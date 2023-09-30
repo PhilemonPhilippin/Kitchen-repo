@@ -31,11 +31,6 @@ public static class ServicesDependencyInjection
         services.AddTransient<IIngredientRepository, IngredientRepository>();
         services.AddTransient<IRecipeIngredientRepo, RecipeIngredientRepo>();
         services.AddTransient<IPreparationStepRepository, PreparationStepRepository>();
-        services.AddTransient<IRecipeService, RecipeService>();
-        services.AddTransient<IPreparationStepService, PreparationStepService>();
-        services.AddTransient<IRecipeCategoryService, RecipeCategoryService>();
-        services.AddTransient<IIngredientService, IngredientService>();
-        services.AddTransient<IRecipeIngredientService, RecipeIngredientService>();
 
         // Choose main DataBase all the time, except when updating Test DataBase is required. If so, choose second.
         // Use this main connection string for the DataBase Kitchen.
@@ -51,8 +46,6 @@ public static class ServicesDependencyInjection
 
 
         services.AddHealthChecks();
-
-        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
         return services;
     }

@@ -1,5 +1,4 @@
-﻿namespace Kitchen.Models;
-
+﻿namespace Kitchen.Entities.Models;
 public class PaginationMetadata
 {
     public int PageNumber { get; init; }
