@@ -11,16 +11,13 @@ namespace Kitchen.Api.Controllers;
 public class IngredientsController : ControllerBase
 {
     private readonly ILogger<IngredientsController> _logger;
-    //private readonly IMapper _mapper;
     private readonly IIngredientRepository _ingredientRepo;
     private const int _maxPageSize = 40;
 
     public IngredientsController(ILogger<IngredientsController> logger, 
-        //IMapper mapper, 
         IIngredientRepository ingredientRepo)
     {
         _logger = logger;
-        //_mapper = mapper;
         _ingredientRepo = ingredientRepo;
     }
 
