@@ -1,4 +1,5 @@
 ﻿using Kitchen.Api.Mappers.Customs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
@@ -87,6 +88,7 @@ public class IngredientsController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpGet("{id:int}")]
     public async Task<ActionResult<IngredientDto>> GetIngredientById([FromRoute] int id)
     {

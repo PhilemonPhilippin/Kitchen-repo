@@ -1,20 +1,33 @@
 ﻿
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 namespace Kitchen.Api.Tools;
 
 public static class ServicesDependencyInjection
 {
-    public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration, string AllowKitchenNG)
+    public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddCors(options =>
         {
-            options.AddPolicy(name: AllowKitchenNG,
+            options.AddPolicy("AllowSpecificOrigin",
                 policy =>
                 {
                     policy.WithOrigins("http://localhost:4200")
-                    .AllowAnyHeader()
                     .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
                     .WithExposedHeaders("X-Pagination");
                 });
+        });
+
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(options =>
+        {
+            options.Authority = "https://philauth.eu.auth0.com/";
+            options.Audience = "https://localhost:7049/api";
         });
 
         services.AddControllers(options =>
