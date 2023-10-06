@@ -5,6 +5,7 @@ using System.Text.Json;
 
 namespace Kitchen.Api.Controllers;
 
+[Authorize]
 [Route("api/ingredients")]
 [ApiController]
 public class IngredientsController : ControllerBase
