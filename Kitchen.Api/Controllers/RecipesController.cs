@@ -170,6 +170,12 @@ public class RecipesController : ControllerBase
 
             Status updateResult = await _recipeRepo.Update(recipe);
 
+            if (updateResult == Status.NotFound)
+            {
+                _logger.LogInformationUpdate(nameof(Recipe), id);
+                return NotFound();
+            }
+
             if (updateResult == Status.Error)
                 return this.InternalErrorCustom();
 

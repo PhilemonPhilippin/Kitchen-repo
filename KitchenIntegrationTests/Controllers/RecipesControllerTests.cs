@@ -1,5 +1,5 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Headers;
 
 namespace KitchenIntegrationTests.Controllers;
 
@@ -10,6 +10,8 @@ public class RecipesControllerTests : IClassFixture<WebApplicationFactoryKitchen
     {
         factory.ClientOptions.BaseAddress = new Uri("https://localhost:7049/api/recipes/");
         _httpClient = factory.CreateClient();
+        string accessToken = Environment.GetEnvironmentVariable("KitchenAccessToken", EnvironmentVariableTarget.User) ?? "Environment variable for KitchenAccessToken not found.";
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
     }
 
     #region Get
