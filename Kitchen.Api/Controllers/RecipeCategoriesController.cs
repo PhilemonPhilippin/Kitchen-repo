@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Kitchen.Api.Controllers;
 
+[Authorize]
 [Route("api/recipecategories")]
 [ApiController]
 public class RecipeCategoriesController : ControllerBase
