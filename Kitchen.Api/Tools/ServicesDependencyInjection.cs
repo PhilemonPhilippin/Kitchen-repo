@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Kitchen.Api.Tools;
 

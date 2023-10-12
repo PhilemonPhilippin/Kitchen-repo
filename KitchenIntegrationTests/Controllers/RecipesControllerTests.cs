@@ -3,15 +3,20 @@ using System.Net.Http.Headers;
 
 namespace KitchenIntegrationTests.Controllers;
 
-public class RecipesControllerTests : IClassFixture<WebApplicationFactoryKitchenTest<Program>>
+public class RecipesControllerTests : IClassFixture<WebApplicationFactoryKitchenTest<Program>>, IAsyncLifetime
 {
     private readonly HttpClient _httpClient;
+    private AuthAccessToken _authAccessToken;
     public RecipesControllerTests(WebApplicationFactoryKitchenTest<Program> factory)
     {
-        factory.ClientOptions.BaseAddress = new Uri("https://localhost:7049/api/recipes/");
+         factory.ClientOptions.BaseAddress = new Uri("https://localhost:7049/api/recipes/");
         _httpClient = factory.CreateClient();
-        string accessToken = Environment.GetEnvironmentVariable("KitchenAccessToken", EnvironmentVariableTarget.User) ?? "Environment variable for KitchenAccessToken not found.";
-        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+    }
+
+    public async Task InitializeAsync()
+    {
+        _authAccessToken = await GetAccessToken();
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authAccessToken.AccessToken);
     }
 
     #region Get
@@ -424,5 +429,27 @@ public class RecipesControllerTests : IClassFixture<WebApplicationFactoryKitchen
     {
         var recipes = await _httpClient.GetFromJsonAsync<IEnumerable<ExpectedRecipeDto>>("?pageNumber=1&pageSize=20&title=Some%20recipe");
         return recipes?.OrderByDescending(r => r.Id);
+    }
+
+    public Task DisposeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public async Task<AuthAccessToken> GetAccessToken()
+    {
+        var authClient = new HttpClient();
+        HttpRequestMessage request = new(HttpMethod.Post, "https://philauth.eu.auth0.com/oauth/token");
+        string client_secret = Environment.GetEnvironmentVariable("KitchenClientSecret", EnvironmentVariableTarget.User) ?? "Environment variable for client_secret not found.";
+        var body = $"{{\"client_id\":\"vMrTW3K4v8zL2dOxUBiafcwj1o4kkywx\",\"client_secret\":\"{client_secret}\",\"audience\":\"https://localhost:7049/api\",\"grant_type\":\"client_credentials\"}}";
+        request.Content = new StringContent(body, System.Text.Encoding.UTF8, "application/json");
+        using var response = await authClient.SendAsync(request);
+        if (response.IsSuccessStatusCode == false)
+            return new AuthAccessToken();
+        else
+        {
+            var content = await response.Content.ReadFromJsonAsync<AuthAccessToken>();
+            return content ?? new AuthAccessToken();
+        }
     }
 }
