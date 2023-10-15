@@ -80,9 +80,7 @@ public class RecipeIngredientsController : ControllerBase
             {
                 RecipeId = recipeId,
                 IngredientId = (int)createRecipeIngredientRequest.IngredientId,
-                IngredientQuantity = createRecipeIngredientRequest.IngredientQuantity,
-                CreatedOn = DateTime.UtcNow,
-                ModifiedOn = DateTime.UtcNow
+                IngredientQuantity = createRecipeIngredientRequest.IngredientQuantity
             };
 
             DbResult<bool> dbResult = await _recipeIngredientRepo.RecipeIngredientExist(recipeIngredient);

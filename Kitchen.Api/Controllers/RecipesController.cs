@@ -111,8 +111,7 @@ public class RecipesController : ControllerBase
             {
                 Title = createRecipeRequest.Title,
                 Description = createRecipeRequest.Description,
-                RecipeCategoryId = (int)createRecipeRequest.RecipeCategoryId,
-                ModifiedOn = DateTime.UtcNow
+                RecipeCategoryId = (int)createRecipeRequest.RecipeCategoryId
             };
 
             bool categoryExist = await _recipeCategoryRepo.IdExist((int)createRecipeRequest.RecipeCategoryId);

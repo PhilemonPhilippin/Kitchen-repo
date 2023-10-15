@@ -122,8 +122,7 @@ public class IngredientsController : ControllerBase
             Ingredient ingredient = new()
             {
                 Name = createIngredientRequest.Name,
-                Description = createIngredientRequest.Description,
-                ModifiedOn = DateTime.UtcNow
+                Description = createIngredientRequest.Description
             };
 
             DbResult<Ingredient> dbResult = await _ingredientRepo.Add(ingredient);

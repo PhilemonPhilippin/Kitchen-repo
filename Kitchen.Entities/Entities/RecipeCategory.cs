@@ -12,6 +12,6 @@ public class RecipeCategory
     [MaxLength(500)]
     public string? Description { get; set; }
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
-    public DateTime ModifiedOn { get; set; }
+    public DateTime ModifiedOn { get; set; } = DateTime.UtcNow;
     public Guid UniqueId { get; set; } = Guid.NewGuid();
 }

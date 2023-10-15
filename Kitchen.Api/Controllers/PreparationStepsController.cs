@@ -106,8 +106,7 @@ public class PreparationStepsController : ControllerBase
                 Title = createPreparationStepRequest.Title,
                 Step = createPreparationStepRequest.Step,
                 StepNumber = (int)createPreparationStepRequest.StepNumber,
-                RecipeId = recipeId,
-                ModifiedOn = DateTime.UtcNow
+                RecipeId = recipeId
             };
 
             DbResult<PreparationStep> dbResult = await _preparationStepRepo.Add(preparationStep);

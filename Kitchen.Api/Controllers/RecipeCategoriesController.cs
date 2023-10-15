@@ -73,8 +73,7 @@ public class RecipeCategoriesController : ControllerBase
             RecipeCategory recipeCategory = new()
             {
                 Title = createRecipeCategoryRequest.Title,
-                Description = createRecipeCategoryRequest.Description,
-                ModifiedOn = DateTime.UtcNow
+                Description = createRecipeCategoryRequest.Description
             };
 
             DbResult<RecipeCategory> dbResult = await _recipeCategoryRepo.Add(recipeCategory);

@@ -16,7 +16,7 @@ public class PreparationStep
     [MaxLength(500)]
     public string Step { get; set; } = string.Empty;
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
-    public DateTime ModifiedOn { get; set; }
+    public DateTime ModifiedOn { get; set; } = DateTime.UtcNow;
     public Guid UniqueId { get; set; } = Guid.NewGuid();
 
     [ForeignKey("RecipeId")]
