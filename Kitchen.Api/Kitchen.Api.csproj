@@ -23,4 +23,8 @@
     <ProjectReference Include="..\Kitchen.Dal\Kitchen.Dal.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Images\" />
+  </ItemGroup>
+
 </Project>

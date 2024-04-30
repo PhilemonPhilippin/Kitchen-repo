@@ -9,6 +9,7 @@ public static class RecipeMapper
             Id = recipe.Id,
             Title = recipe.Title,
             Description = recipe.Description,
+            Image = recipe.Image,
             RecipeCategory = new RecipeCategoryDto
             {
                 Id = recipe.RecipeCategory.Id,

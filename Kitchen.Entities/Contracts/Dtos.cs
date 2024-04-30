@@ -58,6 +58,8 @@ public record RecipeDto
     [DataMember]
     public string? Description { get; init; }
     [DataMember]
+    public string? Image { get; init; }
+    [DataMember]
     public required RecipeCategoryDto RecipeCategory { get; init; }
 }
 

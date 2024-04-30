@@ -11,6 +11,8 @@ public class Recipe
     public string Title { get; set; } = string.Empty;
     [MaxLength(500)]
     public string? Description { get; set; }
+    [MaxLength(500)]
+    public string? Image { get; set; }
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
     public DateTime ModifiedOn { get; set; } = DateTime.UtcNow;
     public Guid UniqueId { get; set; } = Guid.NewGuid();
