@@ -107,6 +107,7 @@ public class RecipesController : ControllerBase
     {
         try
         {
+            // TODO: Map the image here too
             Recipe recipe = new()
             {
                 Title = createRecipeRequest.Title,
@@ -150,6 +151,7 @@ public class RecipesController : ControllerBase
     {
         try
         {
+            // TODO: Map the image here too
             Recipe recipe = new()
             {
                 Id = id,

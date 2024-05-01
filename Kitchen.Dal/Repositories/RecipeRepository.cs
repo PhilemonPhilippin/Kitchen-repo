@@ -85,7 +85,7 @@ public class RecipeRepository : GenericRepo<Recipe>, IRecipeRepository
 
             var entityToUpdate = dbResult.Entity;
 
-            //TODO: map the image change
+            // TODO: Map the image here too
             entityToUpdate.Title = entity.Title;
             entityToUpdate.Description = entity.Description;
             entityToUpdate.RecipeCategoryId = entity.RecipeCategoryId;
